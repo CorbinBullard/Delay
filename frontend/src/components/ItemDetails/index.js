@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { fetchSingleItemThunk } from "../../store/item";
+import { deleteItemThunk, fetchSingleItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
 
@@ -25,9 +25,10 @@ const ItemDetails = () => {
         return acc += curr.stars
     }, 0) / item.ProductReviews?.length;
 
-
+    // This may get moved
     const handleDelete = () => {
-        
+        dispatch(deleteItemThunk(item.id))
+        history.push('/');
     }
 
     console.log("STARS : ", avgStarRating)
