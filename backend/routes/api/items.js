@@ -46,4 +46,23 @@ router.post('/', requireAuth, async (req, res) => {
     res.status(201).json(newItem);
 })
 
+// Update an Item
+router.put('/:itemId', requireAuth, async (req, res) => {
+    const item = await Item.findByPk(req.params.itemId);
+
+    if (!item) return res.status(404).json({message: 'Item could not be found'});
+
+    const {user} = req;
+    if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
+
+    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+
+    await item.update({
+        name, brand, price, description, instrumentType, year, condition, previewImage
+    })
+    
+    return res.json(item)
+
+})
+
 module.exports = router;

@@ -19,6 +19,7 @@ const ItemCard = ({ item }) => {
                 <h3>{item.price}</h3>
                 <p>{item.condition}</p>
             </div>
+            
         </div>
     )
 }

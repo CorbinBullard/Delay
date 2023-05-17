@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { fetchSingleItemThunk } from "../../store/item";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
 
 const ItemDetails = () => {
     const { itemId } = useParams();
+    const history = useHistory();
     const item = useSelector(state => state.items.currentItem);
     const user = useSelector(state => state.session.user)
 
@@ -16,11 +17,6 @@ const ItemDetails = () => {
     }, [dispatch, itemId])
 
 
-
-
-    // Object.values(item.ProductReviews).forEach((item) => {
-    //     console.log(item.stars)
-    // })
     console.log("ITEM : ", item)
 
     if (!item) return null
@@ -30,6 +26,8 @@ const ItemDetails = () => {
     }, 0) / item.ProductReviews?.length;
 
     console.log("STARS : ", avgStarRating)
+
+    console.log(user.id, item.id)
 
     return (
         <div id="item-details-container">
@@ -41,6 +39,20 @@ const ItemDetails = () => {
                 <p>{item.price}</p>
                 <p>{item.description}</p>
             </div>
+
+            {/* // MOVE THIS LATER */}
+            {user.id === item.ownerId &&
+                <>
+                    <button
+                        onClick={() => history.push(`/items/${item.id}/edit`)}
+                    >UPDATE</button>
+                    <button
+                        onClick={() => {
+                            
+                        }}
+                    >DELETE</button>
+                </>
+            }
         </div>
     )
 }

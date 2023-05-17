@@ -2,14 +2,18 @@ import { object } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postNewItemThunk } from "../../store/item";
-import { useHistory } from "react-router";
+import { postNewItemThunk, updateNewItemThunk } from "../../store/item";
+import { useHistory, useParams } from "react-router";
 
 
-const CreateNewListing = ({ item }) => {
-    const user = useSelector(state => state.session.user)
+const ListingForm = ({ isUpdating }) => {
+    const params = useParams();
+
+    const item = useSelector(state => state.items.allItems[params.itemId])
+    const itemId = item?.id
     const dispatch = useDispatch();
     const history = useHistory();
+
 
     const [name, setName] = useState(item ? item.name : "");
     const [brand, setBrand] = useState(item ? item.brand : "");
@@ -22,6 +26,8 @@ const CreateNewListing = ({ item }) => {
 
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
+
+
 
     useEffect(() => {
         const errorsObj = {};
@@ -50,7 +56,6 @@ const CreateNewListing = ({ item }) => {
 
     const handleSubmit = async e => {
         e.preventDefault();
-        // console.log("Submitted", user)
         if (Object.values(errors).length) {
             setSubmittedWithErrors(true)
             return alert("Cannot Submit")
@@ -65,8 +70,13 @@ const CreateNewListing = ({ item }) => {
             condition,
             previewImage
         }
-        const item = await dispatch(postNewItemThunk(newItem))
-        history.push(`/items/${item.id}`);
+        if (!isUpdating) {
+            const item = await dispatch(postNewItemThunk(newItem))
+            return history.push(`/items/${item.id}`);
+        } else {
+            const item = await dispatch(updateNewItemThunk(itemId, newItem))
+            return history.push(`/items/${item.id}`);
+        }
     }
 
     const instrumentTypeOptions = [
@@ -85,7 +95,8 @@ const CreateNewListing = ({ item }) => {
         { value: 'good', label: 'Good' },
         { value: 'poor', label: 'Poor' }
     ]
-    console.log("Instrument Type : ", instrumentType)
+
+    console.log("Is Updating", isUpdating)
 
     return (
         <>
@@ -184,7 +195,7 @@ const CreateNewListing = ({ item }) => {
                         <p className="errors">{errors.previewImage}</p>
                     }
                 </div>
-                <button>Create Listing</button>
+                <button>{isUpdating ? "Update Listing" : "Create Listing"}</button>
             </form>
         </>
     )
@@ -192,4 +203,4 @@ const CreateNewListing = ({ item }) => {
 
 
 }
-export default CreateNewListing;
+export default ListingForm;

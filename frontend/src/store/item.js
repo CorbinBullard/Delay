@@ -66,6 +66,22 @@ export const postNewItemThunk = item => async dispatch => {
     }
 }
 
+// UPDATE NEW ITEM
+export const updateNewItemThunk = (itemId, _item) => async dispatch => {
+    const res = await csrfFetch(`/api/items/${itemId}`, {
+        method: 'PUT',
+        body: JSON.stringify({..._item})
+    })
+    if (res.ok) {
+        const item = await res.json();
+        dispatch(createNewItemAction(item));
+        return item;
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
+
 const initialState = { allItems: {}, currentItem: {} };
 
 const itemReducer = (state = initialState, action) => {

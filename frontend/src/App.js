@@ -5,7 +5,8 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from "./components/HomePage";
 import ItemDetails from "./components/ItemDetails";
-import CreateNewListing from "./components/CreateNewListing";
+import CreateNewListing from "./components/ListingForm";
+import ListingForm from "./components/ListingForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,9 +24,15 @@ function App() {
           <Route exact path='/'>
             <HomePage />
           </Route>
-          <Route path={"/items/new"}>
-            <CreateNewListing />
+
+          <Route path={"/items/:itemId/edit"}>
+            <ListingForm isUpdating={true} />
           </Route>
+
+          <Route path={"/items/new"}>
+            <ListingForm isUpdating={false} />
+          </Route>
+
           <Route path={"/items/:itemId"}>
             <ItemDetails />
           </Route>
