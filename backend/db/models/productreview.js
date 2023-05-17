@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE'
     },
     stars: DataTypes.INTEGER,
-    review: DataTypes.STRING
+    review: DataTypes.STRING(2000)
   }, {
     sequelize,
     modelName: 'ProductReview',

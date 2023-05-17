@@ -16,19 +16,19 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model: 'Users'}
+        references: { model: 'Users' }
       },
       itemId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {model: 'Items'}
+        references: { model: 'Items' }
       },
       stars: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
       review: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(2000),
         allowNull: false
       },
       createdAt: {
