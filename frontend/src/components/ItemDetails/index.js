@@ -48,7 +48,7 @@ const ItemDetails = () => {
                     >UPDATE</button>
                     <button
                         onClick={() => {
-                            
+
                         }}
                     >DELETE</button>
                 </>
