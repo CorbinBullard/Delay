@@ -9,9 +9,7 @@ router.get('/', async (req, res) => {
         include: [{model: ProductReview}]
     })
 
-    res.json(data)
-
-
+    res.json(data);
 })
 
 
