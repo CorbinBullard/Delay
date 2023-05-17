@@ -21,7 +21,7 @@ module.exports = {
         userId: 2,
         itemId: 1,
         stars: 4,
-        review: `This a no nonsense guitar. Based on the classic design but with essential modern appointments. Classic looks and modern playability in mind. It really is a bare essentials guitar that is great to get right into and play. The Alnico V pickups have a bit of heft for being single coils. The "C shaped satin finished neck" makes moving up/down the neck effortless. There's also the 9.5 Radius fret board and Medium Jumbo Frets, The 6-saddle String-thru with bent steel saddles is better over vintage saddles for string height, widths, and intonation. And the Three Blade pickup switch. There is beauty in its simplicity.`
+        review: `This a no nonsense guitar. Based on the classic design but with essential modern appointments. Classic looks and modern playability in mind. `
 
       },
       {
