@@ -46,11 +46,11 @@ const ItemDetails = () => {
                     <button
                         onClick={() => history.push(`/items/${item.id}/edit`)}
                     >UPDATE</button>
-                    <button
+                    {/* <button
                         onClick={() => {
 
                         }}
-                    >DELETE</button>
+                    >DELETE</button> */}
                 </>
             }
         </div>
