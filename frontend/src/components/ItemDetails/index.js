@@ -25,6 +25,11 @@ const ItemDetails = () => {
         return acc += curr.stars
     }, 0) / item.ProductReviews?.length;
 
+
+    const handleDelete = () => {
+        
+    }
+
     console.log("STARS : ", avgStarRating)
 
     console.log(user.id, item.id)
@@ -46,11 +51,9 @@ const ItemDetails = () => {
                     <button
                         onClick={() => history.push(`/items/${item.id}/edit`)}
                     >UPDATE</button>
-                    {/* <button
-                        onClick={() => {
-
-                        }}
-                    >DELETE</button> */}
+                    <button
+                        onClick={handleDelete}
+                    >DELETE</button>
                 </>
             }
         </div>

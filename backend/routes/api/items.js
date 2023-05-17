@@ -60,9 +60,21 @@ router.put('/:itemId', requireAuth, async (req, res) => {
     await item.update({
         name, brand, price, description, instrumentType, year, condition, previewImage
     })
-    
+
     return res.json(item)
 
+})
+
+// Delete an Item
+router.delete('/:itemId', requireAuth, async (req, res) => {
+    const item = await Item.findByPk(req.params.itemId);
+    if (!item) return res.status(404).json({ message: 'Item could not be found' });
+
+    const { user } = req;
+    if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
+
+    await item.destroy();
+    res.json({ message: "Successfully deleted" });
 })
 
 module.exports = router;
