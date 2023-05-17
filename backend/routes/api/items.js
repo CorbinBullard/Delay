@@ -1,5 +1,6 @@
 const express = require('express');
-const { User, Item, ItemImage, ProductReview } = require('../../db/models')
+const { User, Item, ItemImage, ProductReview } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
@@ -23,6 +24,26 @@ router.get('/:itemId', async (req, res) => {
 
 })
 
+// Create Item Listing
 
+
+router.post('/', requireAuth, async (req, res) => {
+    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+    const { user } = req;
+    console.log("USER: ", req.body)
+    const newItem = await Item.create({
+        ownerId: user.id,
+        name,
+        brand,
+        price,
+        description,
+        instrumentType,
+        year,
+        condition,
+        previewImage
+    });
+
+    res.status(201).json(newItem);
+})
 
 module.exports = router;

@@ -1,7 +1,8 @@
 import { csrfFetch } from "./csrf";
 import { deepCopy } from "./deepCopy";
 const LOAD_ITEMS = 'items/loadItems';
-const LOAD_SINGLE_ITEM = '/items/loadSingleItem';
+const LOAD_SINGLE_ITEM = 'items/loadSingleItem';
+const CREATE_ITEM = 'items/CreateNewItem'
 
 // Load ALL ITEMS
 const loadItemsAction = (items) => {
@@ -43,6 +44,27 @@ export const fetchSingleItemThunk = (itemId) => async dispatch => {
     }
 }
 
+// CREATE NEW ITEM
+const createNewItemAction = item => {
+    return {
+        type: CREATE_ITEM,
+        item
+    }
+}
+export const postNewItemThunk = item => async dispatch => {
+    const res = await csrfFetch('/api/items', {
+        method: 'POST',
+        body: JSON.stringify({ ...item })
+    })
+    if (res.ok) {
+        const item = await res.json();
+        dispatch(createNewItemAction(item));
+        return item;
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
 
 const initialState = { allItems: {}, currentItem: {} };
 
@@ -59,6 +81,10 @@ const itemReducer = (state = initialState, action) => {
             newState = deepCopy(state);
             newState.currentItem = action.item;
             return newState;
+        case CREATE_ITEM:
+            newState = deepCopy(state);
+            newState.allItems[action.item.id] = action.item;
+            newState.currentItem = action.item;
         default:
             return state;
     }
