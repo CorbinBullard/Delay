@@ -27,9 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     brand: DataTypes.STRING,
     price: DataTypes.DECIMAL,
     description: DataTypes.STRING,
-    instrumentType: DataTypes.STRING,
+    instrumentType: DataTypes.ENUM(['guitar', 'bass', 'drum', 'keyboard', 'other']),
     year: DataTypes.INTEGER,
-    condition: DataTypes.STRING,
+    condition: DataTypes.ENUM(['new', 'excellent', 'good', 'poor']),
     sold: DataTypes.BOOLEAN,
     previewImage: DataTypes.STRING
   }, {

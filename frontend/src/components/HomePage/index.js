@@ -1,4 +1,5 @@
 import { fetchAllItemsThunk } from '../../store/item';
+import ItemCard from '../ItemCard';
 const { useState, useEffect } = require('react');
 const { useDispatch, useSelector } = require('react-redux')
 const HomePage = () => {
@@ -18,10 +19,9 @@ const HomePage = () => {
     if (!items.length) return null
 
     return (
-        // <h2>items</h2>
         <>
            {items.map((item) => (
-            <div key={item.id}>{item.name}</div>
+            <ItemCard item={item} />
            ))}
         </>
     )

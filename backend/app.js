@@ -43,16 +43,6 @@ app.use(
 app.use(routes);
 
 
-
-
-
-
-
-
-
-
-
-
 // ======================== ERROR HANDLER ======================== //
 
 app.use((_req, _res, next) => {
