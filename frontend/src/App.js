@@ -7,13 +7,13 @@ import HomePage from "./components/HomePage";
 import ItemDetails from "./components/ItemDetails";
 import CreateNewListing from "./components/ListingForm";
 import ListingForm from "./components/ListingForm";
+import ManageListings from "./components/ManageListings";
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    
   }, [dispatch]);
 
   return (
@@ -23,6 +23,9 @@ function App() {
         <Switch>
           <Route exact path='/'>
             <HomePage />
+          </Route>
+          <Route path={'/managelistings'}>
+            <ManageListings />
           </Route>
 
           <Route path={"/items/:itemId/edit"}>

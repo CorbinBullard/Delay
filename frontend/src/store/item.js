@@ -172,6 +172,22 @@ export const deleteReviewThunk = reviewId => async dispatch => {
     }
 }
 
+// get Current User's items
+
+export const fetchCurrentUserItemsThunk = () => async dispatch => {
+    const res = await csrfFetch(`/api/users/my-listings`);
+
+    if (res.ok) {
+        const items = await res.json()
+        dispatch(loadItemsAction(items))
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
+
+
+
 const initialState = { allItems: {}, currentItem: {} };
 
 const itemReducer = (state = initialState, action) => {
@@ -179,6 +195,7 @@ const itemReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_ITEMS:
             newState = deepCopy(state);
+            newState.allItems = {};
             newState.currentItem = {};
             action.items.forEach(item => {
                 newState.allItems[item.id] = item;

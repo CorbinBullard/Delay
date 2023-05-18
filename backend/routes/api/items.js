@@ -21,7 +21,6 @@ router.get('/:itemId', async (req, res) => {
     });
 
     res.json(data);
-
 })
 
 // Create Item Listing
@@ -30,7 +29,7 @@ router.get('/:itemId', async (req, res) => {
 router.post('/', requireAuth, async (req, res) => {
     const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
     const { user } = req;
-    
+
     const newItem = await Item.create({
         ownerId: user.id,
         name,

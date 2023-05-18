@@ -1,7 +1,8 @@
 import { fetchAllItemsThunk } from '../../store/item';
 import ItemCard from '../ItemCard';
 const { useState, useEffect } = require('react');
-const { useDispatch, useSelector } = require('react-redux')
+const { useDispatch, useSelector } = require('react-redux');
+
 const HomePage = () => {
 
 

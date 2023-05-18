@@ -4,11 +4,18 @@ import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
+import { NavLink } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function ProfileButton({ user }) {
+    const location = useLocation()
     const dispatch = useDispatch();
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
+
+    const isEditting = location.pathname.split('/')[location.pathname.split('/').length - 1] === 'edit';
+
+    console.log(isEditting)
 
     const openMenu = () => {
 
@@ -42,6 +49,7 @@ function ProfileButton({ user }) {
     };
 
 
+
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
@@ -58,6 +66,9 @@ function ProfileButton({ user }) {
                         <li>
                             <button onClick={logout}>Log Out</button>
                         </li>
+                        {!isEditting && <li>
+                            <NavLink to={'/items/new'}>Create a New Listing</NavLink>
+                        </li>}
                     </>
                 ) : (
                     <>
