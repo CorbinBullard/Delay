@@ -1,0 +1,6 @@
+#home-page-container {
+    display: flex;
+    gap: 40px;
+    margin: 30px;
+    flex-wrap: wrap;
+}

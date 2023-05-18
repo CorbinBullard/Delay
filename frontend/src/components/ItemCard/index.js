@@ -15,11 +15,12 @@ const ItemCard = ({ item }) => {
             className="item-card-container">
             <img className="item-card-image" src={item.previewImage} />
             <div className="item-card-info">
-                <p>{item.name}</p>
-                <h3>{item.price}</h3>
-                <p>{item.condition}</p>
+                <p className="item-card-name">{item.name}</p>
+                <p className="item-card-price">${item.price}</p>
+                <p className="item-card-condition">{item.condition}</p>
+                <p className="item-card-shipping"><i className="fas fa-truck"> - Free Shipping</i></p>
             </div>
-            
+
         </div>
     )
 }

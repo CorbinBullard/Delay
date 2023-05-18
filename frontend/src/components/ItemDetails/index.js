@@ -28,31 +28,37 @@ const ItemDetails = () => {
 
 
     return (
-        <div id="item-details-container">
-            <img id="item-details-image" src={item.previewImage} />
-            <div id="item-details-info-container">
-                <p>{item.User?.firstName} {item.User?.lastName}</p>
-                <p>{avgStarRating} - stars</p>
-                <p>{item.condition}</p>
-                <p>{item.price}</p>
-                <p>{item.description}</p>
-            </div>
+        <div id="item-details-page-container-wrapper">
+            <div id="item-details-page-container">
+                <div id="item-details-container">
+                    <img id="item-details-image" src={item.previewImage} />
+                    <div id="item-details-info-container">
+                        <h3>{item.User?.firstName} {item.User?.lastName}</h3>
+                        <h2>{item.name}</h2>
+                        <p>{avgStarRating} - stars</p>
+                        <p>{item.condition}</p>
+                        <p>{item.price}</p>
+                        <p>{item.description}</p>
+                        {user && user.id === item.ownerId &&
+                            <div id="item-details-owner-btns">
+                                <button
+                                    className="item-details-owner-btn"
+                                    onClick={() => history.push(`/items/${item.id}/edit`)}
+                                >UPDATE</button>
+                                <OpenModalButton
+                                    className="item-details-owner-btn"
+                                    buttonText={"DELETE"}
+                                    modalComponent={<DeleteItemModal itemId={item.id} />}
+                                />
+                            </div>
+                        }
+                    </div>
 
-            {/* // MOVE THIS LATER */}
-            {user && user.id === item.ownerId &&
-                <>
-                    <button
-                        onClick={() => history.push(`/items/${item.id}/edit`)}
-                    >UPDATE</button>
-                    <OpenModalButton
-                    buttonText={"DELETE"}
-                    modalComponent={<DeleteItemModal itemId={item.id} />}
-                    />
-                </>
-            }
-            <div id="item-reviews-container">
-                <ItemReviews reviews={item.ProductReviews} item={item} />
+                </div>
+                <div id="item-reviews-container">
+                    <ItemReviews reviews={item.ProductReviews} item={item} />
 
+                </div>
             </div>
         </div>
     )

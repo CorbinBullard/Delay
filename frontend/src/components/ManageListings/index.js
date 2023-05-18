@@ -16,11 +16,11 @@ const ManageListings = () => {
     if (!items.length) return null
 
     return (
-        <>
+        <div id='home-page-container'>
             {items.map((item) => (
                 <ItemCard key={item.id} item={item} />
             ))}
-        </>
+        </div>
     )
 }
 export default ManageListings;
