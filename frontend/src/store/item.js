@@ -108,7 +108,8 @@ const itemReducer = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case LOAD_ITEMS:
-            newState = deepCopy(state)
+            newState = deepCopy(state);
+            newState.currentItem = {};
             action.items.forEach(item => {
                 newState.allItems[item.id] = item;
             });

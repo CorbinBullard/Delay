@@ -57,6 +57,10 @@ const ItemDetails = () => {
                     >DELETE</button>
                 </>
             }
+            <div id="item-reviews-container">
+                
+
+            </div>
         </div>
     )
 }
