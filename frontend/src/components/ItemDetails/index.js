@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { deleteItemThunk, fetchSingleItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
+import ItemReviews from "../ItemReviews";
 
 const ItemDetails = () => {
     const { itemId } = useParams();
@@ -16,9 +17,6 @@ const ItemDetails = () => {
         dispatch(fetchSingleItemThunk(itemId))
     }, [dispatch, itemId])
 
-
-    console.log("ITEM : ", item)
-
     if (!item) return null
 
     const avgStarRating = item.ProductReviews?.reduce((acc, curr) => {
@@ -31,9 +29,6 @@ const ItemDetails = () => {
         history.push('/');
     }
 
-    console.log("STARS : ", avgStarRating)
-
-    console.log(user.id, item.id)
 
     return (
         <div id="item-details-container">
@@ -47,7 +42,7 @@ const ItemDetails = () => {
             </div>
 
             {/* // MOVE THIS LATER */}
-            {user.id === item.ownerId &&
+            {user && user.id === item.ownerId &&
                 <>
                     <button
                         onClick={() => history.push(`/items/${item.id}/edit`)}
@@ -58,7 +53,7 @@ const ItemDetails = () => {
                 </>
             }
             <div id="item-reviews-container">
-                
+                <ItemReviews reviews={item.ProductReviews} item={item} />
 
             </div>
         </div>

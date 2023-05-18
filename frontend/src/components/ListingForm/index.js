@@ -28,6 +28,8 @@ const ListingForm = ({ isUpdating }) => {
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
 
 
+    const currentYear = new Date().getFullYear()
+
 
     useEffect(() => {
         const errorsObj = {};
@@ -36,7 +38,10 @@ const ListingForm = ({ isUpdating }) => {
         if (!instrumentType) errorsObj.instrumentType = "Select a type for your Item";
         if (!brand) errorsObj.brand = "Item brand is required";
         if (!price) errorsObj.price = "Price is required";
+        if (price && isNaN(+price)) errorsObj.price = "Price must be a number";
         if (!year) errorsObj.year = "Item Year is required";
+        if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year"
+        if (year && isNaN(+year)) errorsObj.year = "Year must be a number";
         if (!previewImage) errorsObj.previewImage = "A preview Image of your Item is required";
         if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg"
 
@@ -96,7 +101,7 @@ const ListingForm = ({ isUpdating }) => {
         { value: 'poor', label: 'Poor' }
     ]
 
-    console.log("Is Updating", isUpdating)
+    
 
     return (
         <>

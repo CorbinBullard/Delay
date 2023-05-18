@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 // Get single Item
 router.get('/:itemId', async (req, res) => {
     const data = await Item.findByPk(req.params.itemId, {
-        include: [{ model: ProductReview }, { model: ItemImage }, { model: User }]
+        include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
     });
 
     res.json(data);
@@ -30,7 +30,7 @@ router.get('/:itemId', async (req, res) => {
 router.post('/', requireAuth, async (req, res) => {
     const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
     const { user } = req;
-    console.log("USER: ", req.body)
+    
     const newItem = await Item.create({
         ownerId: user.id,
         name,
@@ -50,9 +50,9 @@ router.post('/', requireAuth, async (req, res) => {
 router.put('/:itemId', requireAuth, async (req, res) => {
     const item = await Item.findByPk(req.params.itemId);
 
-    if (!item) return res.status(404).json({message: 'Item could not be found'});
+    if (!item) return res.status(404).json({ message: 'Item could not be found' });
 
-    const {user} = req;
+    const { user } = req;
     if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
 
     const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
@@ -63,7 +63,7 @@ router.put('/:itemId', requireAuth, async (req, res) => {
 
     return res.json(item)
 
-})
+});
 
 // Delete an Item
 router.delete('/:itemId', requireAuth, async (req, res) => {
@@ -75,6 +75,32 @@ router.delete('/:itemId', requireAuth, async (req, res) => {
 
     await item.destroy();
     res.json({ message: "Successfully deleted" });
+});
+
+// =============================== REVIEWS =============================== //
+
+// Create a Review From Item ID
+
+router.post('/:itemId/reviews', requireAuth, async (req, res) => {
+    const { stars, review } = req.body;
+    const { user } = req;
+
+    const item = await Item.findByPk(req.params.itemId);
+    if (!item) return res.status(404).json({ message: "Item could not be found" });
+
+    const userReviews = await item.getProductReviews({ where: { userId: user.id } })
+    if (userReviews.length) return res.status(403).json({ message: "User already has a review for this item" });
+
+    const newReview = await item.createProductReview({
+        review,
+        stars,
+        userId: user.id
+    })
+    const currReview = await ProductReview.findByPk(newReview.id, {
+        include: [{ model: User }]
+    });
+    res.status(201).json(currReview);
 })
+
 
 module.exports = router;

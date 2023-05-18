@@ -4,6 +4,10 @@ const LOAD_ITEMS = 'items/loadItems';
 const LOAD_SINGLE_ITEM = 'items/loadSingleItem';
 const CREATE_ITEM = 'items/CreateNewItem'
 const REMOVE_ITEM = 'items/RemoveItem'
+const CREATE_REVIEW = 'reviews/CreateNewReview'
+const UPDATE_REVIEW = 'reviews/UpdateReview'
+
+
 // Load ALL ITEMS
 const loadItemsAction = (items) => {
     return {
@@ -101,6 +105,48 @@ export const deleteItemThunk = itemId => async dispatch => {
     }
 
 }
+// Create New Review for current Item
+
+const createNewReviewAction = review => {
+    return {
+        type: CREATE_REVIEW,
+        review
+    }
+}
+
+export const postNewReviewThunk = (itemId, review) => async dispatch => {
+    const res = await csrfFetch(`/api/items/${itemId}/reviews`, {
+        method: 'POST',
+        body: JSON.stringify({ ...review })
+    });
+    if (res.ok) {
+        const review = await res.json();
+        dispatch(createNewReviewAction(review))
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
+// Update Review for current Item
+
+const updateReviewAction = review => {
+    return {
+        type: UPDATE_REVIEW,
+        review
+    }
+}
+
+export const updateReviewThunk = (reviewId, review) => async dispatch => {
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'PUT',
+        body: JSON.stringify({ ...review })
+    })
+    if (res.ok) {
+        const review = await res.json();
+        dispatch(updateReviewAction(review))
+    }
+}
+
 
 const initialState = { allItems: {}, currentItem: {} };
 
@@ -127,7 +173,24 @@ const itemReducer = (state = initialState, action) => {
             newState = deepCopy(state);
             delete newState.allItems[action.itemId];
             newState.currentItem = {}
-            return newState
+            return newState;
+        case CREATE_REVIEW:
+            newState = deepCopy(state);
+            newState.currentItem.ProductReviews.push(action.review);
+            return newState;
+        case UPDATE_REVIEW:
+            newState = deepCopy(state);
+            newState.currentItem.ProductReviews = state.currentItem.ProductReviews.map(review => {
+                console.log("REVIEW ID, ACTION ID : ", review.id, action.review.id)
+                if (review.id === action.review.id) {
+                    console.log("TRUE")
+                    return action.review
+                } else {
+                    console.log("FALSE")
+                    return review
+                }
+            });
+            return newState;
         default:
             return state;
     }
