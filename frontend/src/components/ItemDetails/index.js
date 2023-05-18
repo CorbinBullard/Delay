@@ -4,6 +4,8 @@ import { deleteItemThunk, fetchSingleItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
 import ItemReviews from "../ItemReviews";
+import OpenModalButton from "../OpenModalButton";
+import DeleteItemModal from "./DeleteItemModal";
 
 const ItemDetails = () => {
     const { itemId } = useParams();
@@ -23,11 +25,6 @@ const ItemDetails = () => {
         return acc += curr.stars
     }, 0) / item.ProductReviews?.length).toFixed(2)
 
-    // This may get moved
-    const handleDelete = () => {
-        dispatch(deleteItemThunk(item.id))
-        history.push('/');
-    }
 
 
     return (
@@ -47,9 +44,10 @@ const ItemDetails = () => {
                     <button
                         onClick={() => history.push(`/items/${item.id}/edit`)}
                     >UPDATE</button>
-                    <button
-                        onClick={handleDelete}
-                    >DELETE</button>
+                    <OpenModalButton
+                    buttonText={"DELETE"}
+                    modalComponent={<DeleteItemModal itemId={item.id} />}
+                    />
                 </>
             }
             <div id="item-reviews-container">

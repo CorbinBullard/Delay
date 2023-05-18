@@ -39,6 +39,8 @@ const ListingForm = ({ isUpdating }) => {
         if (!brand) errorsObj.brand = "Item brand is required";
         if (!price) errorsObj.price = "Price is required";
         if (price && isNaN(+price)) errorsObj.price = "Price must be a number";
+        if (!description) errorsObj.description = "Item description is required";
+        if (description && description.length < 10) errorsObj.description = "Item description must be at least 10 Characters"
         if (!year) errorsObj.year = "Item Year is required";
         if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year"
         if (year && isNaN(+year)) errorsObj.year = "Year must be a number";
@@ -101,7 +103,7 @@ const ListingForm = ({ isUpdating }) => {
         { value: 'poor', label: 'Poor' }
     ]
 
-    
+
 
     return (
         <>

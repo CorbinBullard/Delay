@@ -145,15 +145,32 @@ export const updateReviewThunk = (reviewId, review) => async dispatch => {
     if (res.ok) {
         const review = await res.json();
         dispatch(updateReviewAction(review))
+    } else {
+        const errors = res.errors;
+        return errors;
     }
 }
 
 // Delete Review
 
 const removeReviewAction = reviewId => {
-
+    return {
+        type: DELETE_REVIEW,
+        reviewId
+    }
 }
 
+export const deleteReviewThunk = reviewId => async dispatch => {
+    const res = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE'
+    });
+    if (res.ok) {
+        dispatch(removeReviewAction(reviewId))
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
 
 const initialState = { allItems: {}, currentItem: {} };
 
@@ -197,6 +214,10 @@ const itemReducer = (state = initialState, action) => {
                     return review
                 }
             });
+            return newState;
+        case DELETE_REVIEW:
+            newState = deepCopy(state);
+            newState.currentItem.ProductReviews = state.currentItem.ProductReviews.filter(review => review.id !== action.reviewId)
             return newState;
         default:
             return state;

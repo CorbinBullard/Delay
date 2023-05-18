@@ -1,14 +1,17 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { deleteReviewThunk } from "../../store/item";
+import { deleteItemThunk } from "../../store/item";
+import { useHistory } from "react-router";
 
-const DeleteReviewModal = ({ reviewId }) => {
+const DeleteItemModal = ({ itemId }) => {
+    const history = useHistory()
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
     const handleDelete = () => {
-        dispatch(deleteReviewThunk(reviewId))
-        closeModal();
+        dispatch(deleteItemThunk(itemId))
+        history.push('/');
+        closeModal()
     }
 
 
@@ -23,4 +26,4 @@ const DeleteReviewModal = ({ reviewId }) => {
         </>
     )
 }
-export default DeleteReviewModal;
+export default DeleteItemModal;
