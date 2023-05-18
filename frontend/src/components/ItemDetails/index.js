@@ -19,9 +19,9 @@ const ItemDetails = () => {
 
     if (!item) return null
 
-    const avgStarRating = item.ProductReviews?.reduce((acc, curr) => {
+    const avgStarRating = (item.ProductReviews?.reduce((acc, curr) => {
         return acc += curr.stars
-    }, 0) / item.ProductReviews?.length;
+    }, 0) / item.ProductReviews?.length).toFixed(2)
 
     // This may get moved
     const handleDelete = () => {

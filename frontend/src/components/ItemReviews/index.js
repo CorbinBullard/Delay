@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from "./CreateReviewModal";
+import DeleteReviewModal from "./DeleteReviewModal";
 
 const ItemReviews = ({ item, reviews }) => {
 
@@ -37,10 +38,16 @@ const ItemReviews = ({ item, reviews }) => {
                     <p>{review.stars}</p>
                     <p>{review.review}</p>
                     {user && user.id === review.userId &&
-                        <OpenModalButton
-                            buttonText={"Update"}
-                            modalComponent={<CreateReviewModal itemId={review.itemId} isUpdating={true} review={review} />}
-                        />
+                        <>
+                            <OpenModalButton
+                                buttonText={"Update"}
+                                modalComponent={<CreateReviewModal itemId={review.itemId} isUpdating={true} review={review} />}
+                            />
+                            <OpenModalButton
+                                buttonText={"Delete"}
+                                modalComponent={<DeleteReviewModal reviewId={review.id} />}
+                            />
+                        </>
                     }
                 </div>
             ))}

@@ -2,10 +2,11 @@ import { csrfFetch } from "./csrf";
 import { deepCopy } from "./deepCopy";
 const LOAD_ITEMS = 'items/loadItems';
 const LOAD_SINGLE_ITEM = 'items/loadSingleItem';
-const CREATE_ITEM = 'items/CreateNewItem'
-const REMOVE_ITEM = 'items/RemoveItem'
-const CREATE_REVIEW = 'reviews/CreateNewReview'
-const UPDATE_REVIEW = 'reviews/UpdateReview'
+const CREATE_ITEM = 'items/CreateNewItem';
+const REMOVE_ITEM = 'items/RemoveItem';
+const CREATE_REVIEW = 'reviews/CreateNewReview';
+const UPDATE_REVIEW = 'reviews/UpdateReview';
+const DELETE_REVIEW = 'reviews/DeleteReview';
 
 
 // Load ALL ITEMS
@@ -145,6 +146,12 @@ export const updateReviewThunk = (reviewId, review) => async dispatch => {
         const review = await res.json();
         dispatch(updateReviewAction(review))
     }
+}
+
+// Delete Review
+
+const removeReviewAction = reviewId => {
+
 }
 
 
