@@ -9,26 +9,28 @@ function Navigation({ isLoaded }) {
     const sessionUser = useSelector(state => state.session.user);
 
     return (
-        <>
+        <div id='navigation-page-container'>
             <ul>
-                <li>
-                    <NavLink exact to="/">Home</NavLink>
+                <li >
+                    <NavLink id='navigation-home-button' exact to="/"><i className="fab fa-dyalog"></i>elay</NavLink>
                 </li>
                 {isLoaded && (
-                    <>
-                        <li>
-                            <ProfileButton user={sessionUser} />
-                        </li>
-                    </>
+
+                    <li id='navigation-profile-store'>
+                        {sessionUser && <button
+                            id='navigation-my-store-button'
+                            onClick={() => history.push('/managelistings')}
+                        >
+                            My Store
+                        </button>}
+                        <ProfileButton user={sessionUser} />
+                    </li>
+
                 )}
             </ul>
-            <button
-            onClick={() => history.push('/managelistings')}
-            >
-                My Store
-            </button>
 
-        </>
+
+        </div>
     );
 }
 

@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import "./ItemReviews.css"
 import OpenModalButton from "../OpenModalButton";
 import CreateReviewModal from "./CreateReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
@@ -25,33 +26,36 @@ const ItemReviews = ({ item, reviews }) => {
 
 
     return (
-        <>
+        <div id="review-page-container">
             {user && !reviewUserIds.includes(user.id) && item.ownerId !== user.id &&
                 <OpenModalButton
                     buttonText={"Add Review"}
                     modalComponent={<CreateReviewModal itemId={item.id} isUpdating={false} />}
                 />}
             <h1>Product Reviews</h1>
-            {orderedReveiws?.map(review => (
-                <div key={review.id} className="review-container">
-                    <p>{review.User.firstName} {review.User.lastName}</p>
-                    <p>{review.stars}</p>
-                    <p>{review.review}</p>
-                    {user && user.id === review.userId &&
-                        <>
-                            <OpenModalButton
-                                buttonText={"Update"}
-                                modalComponent={<CreateReviewModal itemId={review.itemId} isUpdating={true} review={review} />}
-                            />
-                            <OpenModalButton
-                                buttonText={"Delete"}
-                                modalComponent={<DeleteReviewModal reviewId={review.id} />}
-                            />
-                        </>
-                    }
-                </div>
-            ))}
-        </>
+            <div id="all-reviews-container">
+
+                {orderedReveiws?.map(review => (
+                    <div key={review.id} className="review-container">
+                        <p>{review.User.firstName} {review.User.lastName}</p>
+                        <p>{review.stars}</p>
+                        <p>{review.review}</p>
+                        {user && user.id === review.userId &&
+                            <>
+                                <OpenModalButton
+                                    buttonText={"Update"}
+                                    modalComponent={<CreateReviewModal itemId={review.itemId} isUpdating={true} review={review} />}
+                                />
+                                <OpenModalButton
+                                    buttonText={"Delete"}
+                                    modalComponent={<DeleteReviewModal reviewId={review.id} />}
+                                />
+                            </>
+                        }
+                    </div>
+                ))}
+            </div>
+        </div>
     )
 
 }

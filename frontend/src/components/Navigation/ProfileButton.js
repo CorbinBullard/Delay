@@ -54,7 +54,7 @@ function ProfileButton({ user }) {
 
     return (
         <>
-            <button onClick={openMenu}>
+            <button id='navigation-profile-button' onClick={openMenu}>
                 <i className="fas fa-user-circle" />
             </button>
             <ul className={ulClassName} ref={ulRef}>
@@ -63,12 +63,14 @@ function ProfileButton({ user }) {
                         <li>{user.username}</li>
                         <li>{user.firstName} {user.lastName}</li>
                         <li>{user.email}</li>
-                        <li>
-                            <button onClick={logout}>Log Out</button>
-                        </li>
                         {!isEditting && <li>
-                            <NavLink to={'/items/new'}>Create a New Listing</NavLink>
+                            <NavLink id='navigation-create-new-listing' to={'/items/new'}>Create a New Listing</NavLink>
                         </li>}
+                        <li>
+                            <button
+                            id="navigation-logout-button"
+                            onClick={logout}>Log Out</button>
+                        </li>
                     </>
                 ) : (
                     <>

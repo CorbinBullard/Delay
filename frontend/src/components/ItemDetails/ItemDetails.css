@@ -1,31 +1,37 @@
 #item-details-page-container-wrapper {
-display: flex;
-justify-content: center;
+    display: flex;
+    justify-content: center;
 }
+
 #item-details-page-container {
     width: 70%;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
 }
+
 #item-details-container {
     border: 1px solid green;
     display: flex;
     padding: 15px;
 }
+
 #item-details-image {
     height: 400px;
 }
+
 #item-details-info-container {
     margin-left: 20px;
     /* position: sticky; */
 }
+
 #item-details-owner-btns {
     display: flex;
     margin-top: 40px;
     gap: 15px;
     /* margin: 5px 10px; */
 }
+
 .item-details-owner-btn {
     /* margin: 5px 10px; */
 }

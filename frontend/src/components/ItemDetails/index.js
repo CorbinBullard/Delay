@@ -37,7 +37,7 @@ const ItemDetails = () => {
                         <h2>{item.name}</h2>
                         <p>{avgStarRating} - stars</p>
                         <p>{item.condition}</p>
-                        <p>{item.price}</p>
+                        <p>${item.price}</p>
                         <p>{item.description}</p>
                         {user && user.id === item.ownerId &&
                             <div id="item-details-owner-btns">
@@ -56,7 +56,7 @@ const ItemDetails = () => {
 
                 </div>
                 <div id="item-reviews-container">
-                    <ItemReviews reviews={item.ProductReviews} item={item} />
+                    <ItemReviews reviews={item.ProductReviews} item={item} stars={avgStarRating} />
 
                 </div>
             </div>
