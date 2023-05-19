@@ -16,14 +16,18 @@ const DeleteItemModal = ({ itemId }) => {
 
 
     return (
-        <>
+        <div id="confirm-delete-container">
             <h2>Confirm Delete?</h2>
-            <button
-                onClick={handleDelete}
-            >Delete</button>
-            <button
-                onClick={closeModal}>Cancel</button>
-        </>
+            <div id="confirm-delete-buttons">
+                <button
+                    id="confirm-delete-delete"
+                    onClick={handleDelete}
+                >Delete</button>
+                <button
+                    id="confirm-delete-cancel"
+                    onClick={closeModal}>Cancel</button>
+            </div>
+        </div>
     )
 }
 export default DeleteItemModal;

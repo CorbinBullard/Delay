@@ -21,10 +21,12 @@ const HomePage = () => {
     if (!items.length) return null
 
     return (
-        <div id='home-page-container'>
-           {items.map((item) => (
-               <ItemCard key={item.id} item={item} />
-           ))}
+        <div id="home-page-container">
+            <div id='home-page-all-items'>
+                {items.map((item) => (
+                    <ItemCard key={item.id} item={item} />
+                ))}
+            </div>
         </div>
     )
 }

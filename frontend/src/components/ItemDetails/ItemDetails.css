@@ -5,13 +5,13 @@
 
 #item-details-page-container {
     width: 70%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     display: flex;
     flex-direction: column;
 }
 
 #item-details-container {
-    border: 1px solid green;
+    /* border: 1px solid green; */
     display: flex;
     padding: 15px;
 }
@@ -32,6 +32,41 @@
     /* margin: 5px 10px; */
 }
 
+#item-details-owner-btns button {
+
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(20, 108, 148);
+    color: rgb(246, 241, 241);
+
+}
+
 .item-details-owner-btn {
     /* margin: 5px 10px; */
+}
+
+/* CONFIRM DELETE */
+#confirm-delete-buttons {
+    display: flex;
+    gap: 10px;
+}
+#confirm-delete-container button {
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: rgb(246, 241, 241);
+}
+
+#confirm-delete-delete {
+    background-color: rgb(255, 122, 122);
+}
+#confirm-delete-cancel {
+    background-color: rgb(20, 108, 148);
 }

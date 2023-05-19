@@ -8,3 +8,6 @@ body {
     font-size: small;
     color: red;
 }
+textarea {
+    resize: none;
+}

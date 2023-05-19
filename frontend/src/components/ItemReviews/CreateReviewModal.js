@@ -6,9 +6,9 @@ import { useModal } from "../../context/Modal";
 const CreateReviewModal = ({ itemId, isUpdating, review }) => {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
-    const [stars, setStars] = useState(isUpdating? review.stars : 5);
-    const [activeRating, setActiveRating] = useState(isUpdating? review.stars : 5)
-    const [_review, setReview] = useState(isUpdating? review.review : "");
+    const [stars, setStars] = useState(isUpdating ? review.stars : 5);
+    const [activeRating, setActiveRating] = useState(isUpdating ? review.stars : 5)
+    const [_review, setReview] = useState(isUpdating ? review.review : "");
 
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
@@ -35,7 +35,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
             dispatch(postNewReviewThunk(itemId, { stars, review: _review }))
             closeModal()
         } else {
-            dispatch(updateReviewThunk(review.id, {stars, review: _review}))
+            dispatch(updateReviewThunk(review.id, { stars, review: _review }))
             closeModal()
         }
 
@@ -43,11 +43,12 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
 
     return (
         <form
+            id="create-review-form"
             onSubmit={handleSubmit}>
-            <div className="review-feild">
+            <div id="review-feild-stars">
                 <div id="star-input-container">
                     <div
-                    // `${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`
+                        // `${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`
                         className={activeRating >= 1 ? "fas fa-star" : "far fa-star"}
                         onMouseEnter={() => setActiveRating(1)}
                         onMouseLeave={() => setActiveRating(stars)}
@@ -84,7 +85,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
                     </div>
                 </div>
             </div>
-            <div className="review-feild">
+            <div id="review-field-review">
                 <label>Review</label>
                 <textarea
                     type="text"

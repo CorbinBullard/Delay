@@ -1,5 +1,11 @@
 #home-page-container {
     display: flex;
+    justify-content: center;
+}
+#home-page-all-items {
+    width: 78%;
+
+    display: flex;
     gap: 40px;
     margin: 30px;
     flex-wrap: wrap;

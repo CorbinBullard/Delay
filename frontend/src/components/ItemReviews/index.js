@@ -27,12 +27,14 @@ const ItemReviews = ({ item, reviews }) => {
 
     return (
         <div id="review-page-container">
-            {user && !reviewUserIds.includes(user.id) && item.ownerId !== user.id &&
-                <OpenModalButton
-                    buttonText={"Add Review"}
-                    modalComponent={<CreateReviewModal itemId={item.id} isUpdating={false} />}
-                />}
             <h1>Product Reviews</h1>
+            <div id="add-review-button-container">
+                {user && !reviewUserIds.includes(user.id) && item.ownerId !== user.id &&
+                    <OpenModalButton
+                        buttonText={"Add Review"}
+                        modalComponent={<CreateReviewModal itemId={item.id} isUpdating={false} />}
+                    />}
+            </div>
             <div id="all-reviews-container">
 
                 {orderedReveiws?.map(review => (
