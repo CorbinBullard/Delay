@@ -37,7 +37,7 @@ const ItemDetails = () => {
                         <h2>{item.name}</h2>
                         <p><i className="star fas fa-star"></i> {avgStarRating} - ({item.ProductReviews?.length})</p>
                         <p>{item.condition}</p>
-                        <p>${item.price}</p>
+                        <h3>${item.price}</h3>
                         <p>{item.description}</p>
                         {user && user.id === item.ownerId &&
                             <div id="item-details-owner-btns">

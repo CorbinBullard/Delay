@@ -17,7 +17,9 @@
 }
 
 #item-details-image {
-    height: 400px;
+    height: 500px;
+    width: 500px;
+    object-fit: cover;
 }
 
 #item-details-info-container {
