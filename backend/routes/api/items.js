@@ -101,5 +101,25 @@ router.post('/:itemId/reviews', requireAuth, async (req, res) => {
     res.status(201).json(currReview);
 })
 
+// =============================== ITEM IMAGES =============================== //
+
+
+router.post('/:itemId/images', requireAuth, async (req, res) => {
+    const { url } = req.body;
+    const item = await Item.findByPk(req.params.itemId);
+    console.log("URL -----------------------------------------------------------------------------------------------------> : ", url);
+    if (!item) return res.status(404).json({ message: "Item could not be found" });
+    const { user } = req;
+
+    if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
+
+    const newImage = await item.createItemImage({
+        itemId: item.id,
+        url
+    })
+    console.log(newImage)
+
+    res.status(201).json(newImage)
+})
 
 module.exports = router;

@@ -7,7 +7,7 @@ const REMOVE_ITEM = 'items/RemoveItem';
 const CREATE_REVIEW = 'reviews/CreateNewReview';
 const UPDATE_REVIEW = 'reviews/UpdateReview';
 const DELETE_REVIEW = 'reviews/DeleteReview';
-
+const CREATE_ITEM_IMAGE = 'images/CreateItemImage';
 
 // Load ALL ITEMS
 const loadItemsAction = (items) => {
@@ -186,6 +186,28 @@ export const fetchCurrentUserItemsThunk = () => async dispatch => {
     }
 }
 
+// Create New Image for Item
+
+const createNewImageAction = image => {
+    return {
+        type: CREATE_ITEM_IMAGE,
+        image
+    }
+}
+
+export const postNewImageThunk = (itemId, image) => async dispatch => {
+    const res = await csrfFetch(`/api/items/${itemId}/images`, {
+        method: 'POST',
+        body: JSON.stringify({url: image})
+    })
+    if (res.ok) {
+        const image = res.json();
+        dispatch(createNewImageAction(image))
+    } else {
+        const errors = res.errors;
+        return errors;
+    }
+}
 
 
 const initialState = { allItems: {}, currentItem: {} };
@@ -235,6 +257,10 @@ const itemReducer = (state = initialState, action) => {
         case DELETE_REVIEW:
             newState = deepCopy(state);
             newState.currentItem.ProductReviews = state.currentItem.ProductReviews.filter(review => review.id !== action.reviewId)
+            return newState;
+        case CREATE_ITEM_IMAGE:
+            newState = deepCopy(state);
+            newState.currentItem.ItemImages.push(action.image);
             return newState;
         default:
             return state;

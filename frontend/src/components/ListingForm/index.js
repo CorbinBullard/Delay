@@ -3,7 +3,7 @@ import { object } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postNewItemThunk, updateNewItemThunk } from "../../store/item";
+import { postNewImageThunk, postNewItemThunk, updateNewItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 
 
@@ -25,6 +25,9 @@ const ListingForm = ({ isUpdating }) => {
     const [condition, setCondition] = useState(item ? item.condition : "");
     const [previewImage, setpreviewImage] = useState(item ? item.previewImage : "");
 
+    const [image1, setImage1] = useState("");
+    const [image2, setImage2] = useState("");
+
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
 
@@ -43,14 +46,18 @@ const ListingForm = ({ isUpdating }) => {
         if (!description) errorsObj.description = "Item description is required";
         if (description && description.length < 10) errorsObj.description = "Item description must be at least 10 Characters"
         if (!year) errorsObj.year = "Item Year is required";
-        if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year"
+        if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year";
         if (year && isNaN(+year)) errorsObj.year = "Year must be a number";
         if (!previewImage) errorsObj.previewImage = "A preview Image of your Item is required";
-        if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg"
+        if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
+
+        // NON PREVIEW IMAGES
+        // if (image1 && !isValidUrl(image1)) errorsObj.image1 = "Image URL must end in .png, .jpg or .jpeg";
+        // if (image2 && !isValidUrl(image2)) errorsObj.image2 = "Image URL must end in .png, .jpg or .jpeg";
 
         setErrors(errorsObj)
 
-    }, [name, brand, price, description, year, previewImage, condition, instrumentType])
+    }, [name, brand, price, description, year, previewImage, condition, instrumentType, image1, image2])
 
 
     const isValidUrl = (url) => {
@@ -80,9 +87,24 @@ const ListingForm = ({ isUpdating }) => {
         }
         if (!isUpdating) {
             const item = await dispatch(postNewItemThunk(newItem))
+            console.log("NEW ITEM", item)
+            if (image1) {
+                await dispatch(postNewImageThunk(item.id, image1))
+            }
+            if (image2) {
+                await dispatch(postNewImageThunk(item.id, image2))
+            }
             return history.push(`/items/${item.id}`);
         } else {
+
             const item = await dispatch(updateNewItemThunk(itemId, newItem))
+            console.log("NEW ITEM", item, itemId)
+            if (image1) {
+                await dispatch(postNewImageThunk(itemId, image1))
+            }
+            if (image2) {
+                await dispatch(postNewImageThunk(itemId, image2))
+            }
             return history.push(`/items/${item.id}`);
         }
     }
@@ -204,6 +226,33 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.previewImage}</p>
                     }
                 </div>
+                {/* NON PREVIEW IMAGES!!!!!!!!!!!! */}
+                {/* {
+                    <>
+                        <div className="input-component">
+                            <label>Image 1 (Optional)</label>
+                            <input
+                                type="text"
+                                value={image1}
+                                onChange={e => setImage1(e.target.value)}
+                            ></input>
+                            {submittedWithErrors && errors.image1 &&
+                                <p className="errors">{errors.image1}</p>
+                            }
+                        </div>
+                        <div className="input-component">
+                            <label>Image 2 (Optional)</label>
+                            <input
+                                type="text"
+                                value={image2}
+                                onChange={e => setImage2(e.target.value)}
+                            ></input>
+                            {submittedWithErrors && errors.image2 &&
+                                <p className="errors">{errors.image2}</p>
+                            }
+                        </div>
+                    </>
+                } */}
                 <button
                     id="list-form-submit-button">
                     {isUpdating ? "Update Listing" : "Create Listing"}

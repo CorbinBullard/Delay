@@ -3,3 +3,8 @@ body {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: rgb(246, 241, 241);
 }
+.errors {
+    margin: 0px 0;
+    font-size: small;
+    color: red;
+}
