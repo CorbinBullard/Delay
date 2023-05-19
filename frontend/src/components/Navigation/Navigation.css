@@ -27,6 +27,25 @@
     border: none;
     font-size: xx-large;
     margin-right: 20px;
+    cursor: pointer;
+}
+#logged-out-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#logged-out-container li {
+    font-weight: bold;
+    border: 1px solid black;
+    padding: 8px 15px;
+    text-align: center;
+    /* width: 100%; */
+    /* height: 35px; */
+    border-radius: 15px;
+    font-weight: bold;
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    cursor: pointer;
 }
 
 .profile-dropdown {
@@ -55,6 +74,7 @@
     font-weight: bold;
     background-color: rgb(25, 167, 206);
     color: rgb(246, 241, 241);
+    cursor: pointer;
 }
 
 #navigation-create-new-listing {
@@ -70,6 +90,7 @@
     font-weight: bold;
     background-color: rgb(25, 167, 206);
     color: rgb(246, 241, 241);
+    cursor: pointer;
 }
 
 .hidden {

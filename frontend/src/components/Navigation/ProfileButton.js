@@ -68,23 +68,25 @@ function ProfileButton({ user }) {
                         </li>}
                         <li>
                             <button
-                            id="navigation-logout-button"
-                            onClick={logout}>Log Out</button>
+                                id="navigation-logout-button"
+                                onClick={logout}>Log Out</button>
                         </li>
                     </>
                 ) : (
-                    <>
+                    <div id="logged-out-container">
                         <OpenModalMenuItem
+
                             itemText="Log In"
                             onItemClick={closeMenu}
                             modalComponent={<LoginFormModal />}
                         />
                         <OpenModalMenuItem
+
                             itemText="Sign Up"
                             onItemClick={closeMenu}
                             modalComponent={<SignupFormModal />}
                         />
-                    </>
+                    </div>
                 )}
             </ul>
         </>

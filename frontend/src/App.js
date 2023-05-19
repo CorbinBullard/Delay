@@ -8,6 +8,7 @@ import ItemDetails from "./components/ItemDetails";
 import CreateNewListing from "./components/ListingForm";
 import ListingForm from "./components/ListingForm";
 import ManageListings from "./components/ManageListings";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
             <ItemDetails />
           </Route>
         </Switch>}
+        <Footer />
     </>
   );
 }

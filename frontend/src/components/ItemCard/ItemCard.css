@@ -1,16 +1,20 @@
 .item-card-container {
     width: 200px;
-    height: 400px
+    height: 400px;
+    cursor: pointer;
 }
-.item-card-container:hover > img {
-box-shadow: 2px 2px 8px rgb(118, 118, 118);
+
+.item-card-container:hover>img {
+    box-shadow: 2px 2px 8px rgb(118, 118, 118);
 }
+
 .item-card-image {
     height: 50%;
     width: 100%;
     border: 1px solid rgb(100, 100, 100, 0.3);
     object-fit: cover;
 }
+
 .item-card-info {
     margin-left: 4px;
 }
@@ -21,14 +25,17 @@ box-shadow: 2px 2px 8px rgb(118, 118, 118);
 .item-card-name {
     margin: 5px 0;
 }
+
 .item-card-price {
     font-weight: bolder;
     font-size: larger;
     margin: 0;
 }
+
 .item-card-condition {
     margin: 5px 0;
 }
+
 .item-card-shipping {
     margin: 5px 0;
     color: rgb(117, 117, 117, 0.7);
