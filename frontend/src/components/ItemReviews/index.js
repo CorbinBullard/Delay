@@ -38,10 +38,19 @@ const ItemReviews = ({ item, reviews }) => {
                 {orderedReveiws?.map(review => (
                     <div key={review.id} className="review-container">
                         <p>{review.User.firstName} {review.User.lastName}</p>
-                        <p>{review.stars}</p>
-                        <p>{review.review}</p>
-                        {user && user.id === review.userId &&
+                        <p>{
                             <>
+                                <i className={`${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`} />
+                                <i className={`${review.stars >= 2 ? "fas fa-star" : "far fa-star"}`} />
+                                <i className={`${review.stars >= 3 ? "fas fa-star" : "far fa-star"}`} />
+                                <i className={`${review.stars >= 4 ? "fas fa-star" : "far fa-star"}`} />
+                                <i className={`${review.stars >= 5 ? "fas fa-star" : "far fa-star"}`} />
+                            </>
+                        }
+
+                        </p>
+                        {user && user.id === review.userId &&
+                            <div id="review-update-delete-buttons">
                                 <OpenModalButton
                                     buttonText={"Update"}
                                     modalComponent={<CreateReviewModal itemId={review.itemId} isUpdating={true} review={review} />}
@@ -50,8 +59,9 @@ const ItemReviews = ({ item, reviews }) => {
                                     buttonText={"Delete"}
                                     modalComponent={<DeleteReviewModal reviewId={review.id} />}
                                 />
-                            </>
+                            </div>
                         }
+                        <p>{review.review}</p>
                     </div>
                 ))}
             </div>

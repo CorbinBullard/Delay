@@ -1,0 +1,33 @@
+#login-page-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-page-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-page-container form input {
+    height: 25px;
+}
+
+#login-submit-button {
+    margin-top: 15px;
+    height: 35px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    cursor: pointer;
+}
+
+#login-demo-user-button {
+    margin-top: 15px;
+    height: 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(175, 211, 226);
+    color: rgb(20, 108, 148);
+    cursor: pointer;
+}

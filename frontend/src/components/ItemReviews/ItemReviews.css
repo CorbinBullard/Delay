@@ -1,14 +1,32 @@
 #review-page-container {
     margin-left: 40px;
 }
+
 #all-reviews-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
+
 .review-container {
     border: 1px rgb(116, 116, 116, 0.5) solid;
-    border-radius: 15px;
+    border-radius: 10px;
     padding-left: 15px;
     max-width: 800px;
+}
+
+#review-update-delete-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+#review-update-delete-buttons button {
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100px;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(20, 108, 148);
+    color: rgb(246, 241, 241);
 }

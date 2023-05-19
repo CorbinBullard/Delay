@@ -2,18 +2,19 @@
     /* border: 1px solid black; */
     width: 100%;
     background-color: rgb(175, 211, 226);
-    border-radius: 15px;
-    height: 10vh;
-    /* position: sticky; */
-
+    border-radius: 10px;
+    height: 8vh;
+    display: flex;
 }
 
 #navigation-page-container>ul {
+    width: 100%;
+    align-self: center;
+    margin: 0;
     list-style-type: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 25px;
 }
 
 #navigation-home-button {
@@ -31,21 +32,20 @@
 }
 #logged-out-container {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    margin-right: 20px;
 }
 #logged-out-container li {
     font-weight: bold;
     border: 1px solid black;
     padding: 8px 15px;
     text-align: center;
-    /* width: 100%; */
-    /* height: 35px; */
-    border-radius: 15px;
+    border-radius: 10px;
     font-weight: bold;
     background-color: rgb(25, 167, 206);
     color: rgb(246, 241, 241);
     cursor: pointer;
+
 }
 
 .profile-dropdown {
@@ -59,7 +59,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
     background-color: rgb(175, 211, 226);
 }
 
@@ -70,7 +70,7 @@
 
 #navigation-my-store-button {
     width: 120px;
-    border-radius: 15px;
+    border-radius: 10px;
     font-weight: bold;
     background-color: rgb(25, 167, 206);
     color: rgb(246, 241, 241);
@@ -86,7 +86,7 @@
 #navigation-logout-button {
     width: 100%;
     height: 35px;
-    border-radius: 15px;
+    border-radius: 10px;
     font-weight: bold;
     background-color: rgb(25, 167, 206);
     color: rgb(246, 241, 241);

@@ -7,6 +7,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
     const [stars, setStars] = useState(isUpdating? review.stars : 5);
+    const [activeRating, setActiveRating] = useState(isUpdating? review.stars : 5)
     const [_review, setReview] = useState(isUpdating? review.review : "");
 
     const [errors, setErrors] = useState({});
@@ -44,13 +45,44 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
         <form
             onSubmit={handleSubmit}>
             <div className="review-feild">
-                <label>Stars</label>
-                <input
-                    type="number"
-                    value={stars}
-                    onChange={e => setStars(e.target.value)}
-                />
-
+                <div id="star-input-container">
+                    <div
+                    // `${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`
+                        className={activeRating >= 1 ? "fas fa-star" : "far fa-star"}
+                        onMouseEnter={() => setActiveRating(1)}
+                        onMouseLeave={() => setActiveRating(stars)}
+                        onClick={() => setStars(1)}
+                    >
+                    </div>
+                    <div
+                        className={activeRating >= 2 ? "fas fa-star" : "far fa-star"}
+                        onMouseEnter={() => setActiveRating(2)}
+                        onMouseLeave={() => setActiveRating(stars)}
+                        onClick={() => setStars(2)}
+                    >
+                    </div>
+                    <div
+                        className={activeRating >= 3 ? "fas fa-star" : "far fa-star"}
+                        onMouseEnter={() => setActiveRating(3)}
+                        onMouseLeave={() => setActiveRating(stars)}
+                        onClick={() => setStars(3)}
+                    >
+                    </div>
+                    <div
+                        className={activeRating >= 4 ? "fas fa-star" : "far fa-star"}
+                        onMouseEnter={() => setActiveRating(4)}
+                        onMouseLeave={() => setActiveRating(stars)}
+                        onClick={() => setStars(4)}
+                    >
+                    </div>
+                    <div
+                        className={activeRating >= 5 ? "fas fa-star" : "far fa-star"}
+                        onMouseEnter={() => setActiveRating(5)}
+                        onMouseLeave={() => setActiveRating(stars)}
+                        onClick={() => setStars(5)}
+                    >
+                    </div>
+                </div>
             </div>
             <div className="review-feild">
                 <label>Review</label>

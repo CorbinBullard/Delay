@@ -53,42 +53,45 @@ function ProfileButton({ user }) {
     const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
-        <>
-            <button id='navigation-profile-button' onClick={openMenu}>
-                <i className="fas fa-user-circle" />
-            </button>
-            <ul className={ulClassName} ref={ulRef}>
-                {user ? (
-                    <>
-                        <li>{user.username}</li>
-                        <li>{user.firstName} {user.lastName}</li>
-                        <li>{user.email}</li>
-                        {!isEditting && <li>
-                            <NavLink id='navigation-create-new-listing' to={'/items/new'}>Create a New Listing</NavLink>
-                        </li>}
-                        <li>
-                            <button
-                                id="navigation-logout-button"
-                                onClick={logout}>Log Out</button>
-                        </li>
-                    </>
-                ) : (
-                    <div id="logged-out-container">
-                        <OpenModalMenuItem
+        <> {user ?
+            (<>
+                <button id='navigation-profile-button' onClick={openMenu}>
+                    <i className="fas fa-user-circle" />
+                </button>
+                <ul className={ulClassName} ref={ulRef}>
+                    {(
+                        <>
+                            <li>{user.username}</li>
+                            <li>{user.firstName} {user.lastName}</li>
+                            <li>{user.email}</li>
+                            {!isEditting && <li>
+                                <NavLink id='navigation-create-new-listing' to={'/items/new'}>Create a New Listing</NavLink>
+                            </li>}
+                            <li>
+                                <button
+                                    id="navigation-logout-button"
+                                    onClick={logout}>Log Out</button>
+                            </li>
+                        </>
+                    )}
+                </ul>
+            </>) : (
+                <div id="logged-out-container">
+                    <OpenModalMenuItem
 
-                            itemText="Log In"
-                            onItemClick={closeMenu}
-                            modalComponent={<LoginFormModal />}
-                        />
-                        <OpenModalMenuItem
+                        itemText="Log In"
+                        onItemClick={closeMenu}
+                        modalComponent={<LoginFormModal />}
+                    />
+                    <OpenModalMenuItem
 
-                            itemText="Sign Up"
-                            onItemClick={closeMenu}
-                            modalComponent={<SignupFormModal />}
-                        />
-                    </div>
-                )}
-            </ul>
+                        itemText="Sign Up"
+                        onItemClick={closeMenu}
+                        modalComponent={<SignupFormModal />}
+                    />
+                </div>
+            )
+        }
         </>
     );
 }

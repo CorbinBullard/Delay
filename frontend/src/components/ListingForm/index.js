@@ -97,7 +97,7 @@ const ListingForm = ({ isUpdating }) => {
     ]
 
     const conditionOptions = [
-        { value: "", label: 'Select an Instrument Type' },
+        { value: "", label: 'Select a condition' },
         { value: 'new', label: 'New' },
         { value: 'excellent', label: 'Excellent' },
         { value: 'good', label: 'Good' },

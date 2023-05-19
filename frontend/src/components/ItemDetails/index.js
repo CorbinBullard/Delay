@@ -35,7 +35,7 @@ const ItemDetails = () => {
                     <div id="item-details-info-container">
                         <h3>{item.User?.firstName} {item.User?.lastName}</h3>
                         <h2>{item.name}</h2>
-                        <p>{avgStarRating} - stars</p>
+                        <p><i className="fas fa-star"></i> {avgStarRating} - ({item.ProductReviews?.length})</p>
                         <p>{item.condition}</p>
                         <p>${item.price}</p>
                         <p>{item.description}</p>
