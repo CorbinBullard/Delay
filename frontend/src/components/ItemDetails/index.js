@@ -21,9 +21,9 @@ const ItemDetails = () => {
 
     if (!item) return null
 
-    const avgStarRating = (item.ProductReviews?.reduce((acc, curr) => {
+    const avgStarRating = item.ProductReviews?.length ? (item.ProductReviews?.reduce((acc, curr) => {
         return acc += curr.stars
-    }, 0) / item.ProductReviews?.length).toFixed(2)
+    }, 0) / item.ProductReviews?.length).toFixed(2) : "No Reviews"
 
 
 
@@ -35,7 +35,7 @@ const ItemDetails = () => {
                     <div id="item-details-info-container">
                         <h3>{item.User?.firstName} {item.User?.lastName}</h3>
                         <h2>{item.name}</h2>
-                        <p><i className="fas fa-star"></i> {avgStarRating} - ({item.ProductReviews?.length})</p>
+                        <p><i className="star fas fa-star"></i> {avgStarRating} - ({item.ProductReviews?.length})</p>
                         <p>{item.condition}</p>
                         <p>${item.price}</p>
                         <p>{item.description}</p>

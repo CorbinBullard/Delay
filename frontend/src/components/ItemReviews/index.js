@@ -42,11 +42,11 @@ const ItemReviews = ({ item, reviews }) => {
                         <p>{review.User.firstName} {review.User.lastName}</p>
                         <p>{
                             <>
-                                <i className={`${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`} />
-                                <i className={`${review.stars >= 2 ? "fas fa-star" : "far fa-star"}`} />
-                                <i className={`${review.stars >= 3 ? "fas fa-star" : "far fa-star"}`} />
-                                <i className={`${review.stars >= 4 ? "fas fa-star" : "far fa-star"}`} />
-                                <i className={`${review.stars >= 5 ? "fas fa-star" : "far fa-star"}`} />
+                                <i className={`${review.stars >= 1 ? "star fas fa-star" : "star far fa-star"}`} />
+                                <i className={`${review.stars >= 2 ? "star fas fa-star" : "star far fa-star"}`} />
+                                <i className={`${review.stars >= 3 ? "star fas fa-star" : "star far fa-star"}`} />
+                                <i className={`${review.stars >= 4 ? "star fas fa-star" : "star far fa-star"}`} />
+                                <i className={`${review.stars >= 5 ? "star fas fa-star" : "star far fa-star"}`} />
                             </>
                         }
 
