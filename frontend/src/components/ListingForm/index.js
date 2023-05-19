@@ -1,3 +1,4 @@
+import "./ListingForm.css"
 import { object } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -106,11 +107,12 @@ const ListingForm = ({ isUpdating }) => {
 
 
     return (
-        <>
+        <div id="listing-form-page-container">
             <h2>Tell us about your Instrument</h2>
             <form
+                id="listing-form-form"
                 onSubmit={handleSubmit}>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Name and Model</label>
                     <input
                         type="text"
@@ -121,7 +123,7 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.name}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Brand</label>
                     <input
                         type="text"
@@ -132,7 +134,7 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.brand}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Price</label>
                     <input
                         type="text"
@@ -143,18 +145,18 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.price}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Description</label>
-                    <input
+                    <textarea
                         type="text"
                         value={description}
                         onChange={e => setDescription(e.target.value)}
-                    ></input>
+                    ></textarea>
                     {submittedWithErrors && errors.description &&
                         <p className="errors">{errors.description}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Instrument Type</label>
                     <select
                         value={instrumentType}
@@ -167,7 +169,7 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.instrumentType}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Year</label>
                     <input
                         type="text"
@@ -178,7 +180,7 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.year}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Condition</label>
                     <select
                         value={condition}
@@ -191,7 +193,7 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.condition}</p>
                     }
                 </div>
-                <div className="input Component">
+                <div className="input-component">
                     <label>Preview Image</label>
                     <input
                         type="text"
@@ -202,9 +204,12 @@ const ListingForm = ({ isUpdating }) => {
                         <p className="errors">{errors.previewImage}</p>
                     }
                 </div>
-                <button>{isUpdating ? "Update Listing" : "Create Listing"}</button>
+                <button
+                    id="list-form-submit-button">
+                    {isUpdating ? "Update Listing" : "Create Listing"}
+                </button>
             </form>
-        </>
+        </div>
     )
 
 

@@ -6,6 +6,7 @@
     margin-top: 30px;
     border-radius: 15px;
     display: flex;
+    bottom: 5px;
 }
 #footer-github-link {
     color: rgb(246, 241, 241);

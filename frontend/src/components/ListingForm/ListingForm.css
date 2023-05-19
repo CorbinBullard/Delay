@@ -1,0 +1,42 @@
+#listing-form-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#listing-form-form {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 15px;
+}
+
+.input-component {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-weight: bold;
+}
+
+.input-component input {
+    height: 25px;
+}
+
+.input-component select {
+    height: 25px;
+}
+
+.input-component textarea {
+    height: 150px;
+    resize: none;
+}
+
+#list-form-submit-button {
+    margin: 20px 0;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    cursor: pointer;
+}
