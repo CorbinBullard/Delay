@@ -201,7 +201,7 @@ export const postNewImageThunk = (itemId, image) => async dispatch => {
         body: JSON.stringify({url: image})
     })
     if (res.ok) {
-        const image = res.json();
+        const image = await res.json();
         dispatch(createNewImageAction(image))
     } else {
         const errors = res.errors;

@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     itemId: {
       type: DataTypes.INTEGER,
       references: { model: 'Image' },
-      allowNull: false
+      allowNull: false,
+      onDelete: 'CASCADE'
     },
     url: {
       type: DataTypes.STRING,

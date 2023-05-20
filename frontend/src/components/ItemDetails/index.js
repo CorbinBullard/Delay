@@ -12,7 +12,7 @@ const ItemDetails = () => {
     const history = useHistory();
     const item = useSelector(state => state.items.currentItem);
     const user = useSelector(state => state.session.user)
-
+    const itemImages = item?.ItemImages;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const ItemDetails = () => {
         return acc += curr.stars
     }, 0) / item.ProductReviews?.length).toFixed(2) : "No Reviews"
 
-
+    // console.log(itemImages);
 
     return (
         <div id="item-details-page-container-wrapper">

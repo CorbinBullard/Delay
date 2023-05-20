@@ -41,8 +41,11 @@ router.post('/', requireAuth, async (req, res) => {
         condition,
         previewImage
     });
+    const data = await Item.findByPk(newItem.id, {
+        include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
+    });
 
-    res.status(201).json(newItem);
+    res.status(201).json(data);
 })
 
 // Update an Item
@@ -56,11 +59,14 @@ router.put('/:itemId', requireAuth, async (req, res) => {
 
     const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
 
-    await item.update({
+    const newItem = await item.update({
         name, brand, price, description, instrumentType, year, condition, previewImage
     })
-
-    return res.json(item)
+    const data = await Item.findByPk(newItem.id, {
+        include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
+    });
+    // console.log("NEW ITEM ======================================================================================================================> : ", newItem.toJSON())
+    return res.json(data)
 
 });
 
@@ -117,7 +123,7 @@ router.post('/:itemId/images', requireAuth, async (req, res) => {
         itemId: item.id,
         url
     })
-    console.log(newImage)
+    console.log("NEW IMAGE : -------------------------------------------------------------------------------------------------------> : ", newImage)
 
     res.status(201).json(newImage)
 })

@@ -52,8 +52,8 @@ const ListingForm = ({ isUpdating }) => {
         if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
 
         // NON PREVIEW IMAGES
-        // if (image1 && !isValidUrl(image1)) errorsObj.image1 = "Image URL must end in .png, .jpg or .jpeg";
-        // if (image2 && !isValidUrl(image2)) errorsObj.image2 = "Image URL must end in .png, .jpg or .jpeg";
+        if (image1 && !isValidUrl(image1)) errorsObj.image1 = "Image URL must end in .png, .jpg or .jpeg";
+        if (image2 && !isValidUrl(image2)) errorsObj.image2 = "Image URL must end in .png, .jpg or .jpeg";
 
         setErrors(errorsObj)
 
@@ -87,25 +87,25 @@ const ListingForm = ({ isUpdating }) => {
         }
         if (!isUpdating) {
             const item = await dispatch(postNewItemThunk(newItem))
-            console.log("NEW ITEM", item)
-            if (image1) {
-                await dispatch(postNewImageThunk(item.id, image1))
-            }
-            if (image2) {
-                await dispatch(postNewImageThunk(item.id, image2))
-            }
+            postImages(item.id)
+
+
+
             return history.push(`/items/${item.id}`);
         } else {
 
             const item = await dispatch(updateNewItemThunk(itemId, newItem))
-            console.log("NEW ITEM", item, itemId)
-            if (image1) {
-                await dispatch(postNewImageThunk(itemId, image1))
-            }
-            if (image2) {
-                await dispatch(postNewImageThunk(itemId, image2))
-            }
-            return history.push(`/items/${item.id}`);
+                .then((item) => postImages(item.id))
+
+            return history.push(`/items/${itemId}`);
+        }
+    }
+    async function postImages(itemId) {
+        if (image1) {
+            await dispatch(postNewImageThunk(itemId, image1))
+        }
+        if (image2) {
+            await dispatch(postNewImageThunk(itemId, image2))
         }
     }
 
@@ -227,7 +227,7 @@ const ListingForm = ({ isUpdating }) => {
                     }
                 </div>
                 {/* NON PREVIEW IMAGES!!!!!!!!!!!! */}
-                {/* {
+                {
                     <>
                         <div className="input-component">
                             <label>Image 1 (Optional)</label>
@@ -252,7 +252,7 @@ const ListingForm = ({ isUpdating }) => {
                             }
                         </div>
                     </>
-                } */}
+                }
                 <button
                     id="list-form-submit-button">
                     {isUpdating ? "Update Listing" : "Create Listing"}
