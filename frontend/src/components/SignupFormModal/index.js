@@ -24,6 +24,7 @@ function SignupFormPage() {
         const errorsObj = {};
         if (!username) errorsObj.username = "Username is required";
         if (!email) errorsObj.email = "Email is required";
+        if (email && !email.includes('@')) errorsObj.email = "Must be a valid email";
         if (!firstName) errorsObj.firstName = "First name is required";
         if (firstName && (firstName.length < 3 || firstName.length > 26)) errorsObj.firstName = "First name must be between 3 and 26 characters";
         if (!lastName) errorsObj.lastName = "Last name is required";

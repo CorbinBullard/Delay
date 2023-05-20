@@ -2,7 +2,6 @@ import "./Footer.css"
 const Footer = () => {
 
 
-
     return (
         <div id="footer-page-container">
             <div id="footer-github-link">
