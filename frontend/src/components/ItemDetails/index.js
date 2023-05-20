@@ -55,6 +55,10 @@ const ItemDetails = () => {
                                     onClick={() => changeImage(-1)}>
                                     <i class="fas fa-chevron-right fa-rotate-180"></i>
                                 </button>
+                                {itemImages.map((item, index) => (
+                                    <i className={imageIndex === index ? "fas fa-circle" : "far fa-circle"}></i>
+                                    // <i class="far fa-circle"></i>
+                                ))}
                                 <button
                                     className="item-image-change-button"
                                     id="item-image-button-next"
