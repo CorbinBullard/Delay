@@ -56,7 +56,10 @@ const ItemDetails = () => {
                                     <i class="fas fa-chevron-right fa-rotate-180"></i>
                                 </button>
                                 {itemImages.map((item, index) => (
-                                    <i className={imageIndex === index ? "fas fa-circle" : "far fa-circle"}></i>
+                                    <i
+                                        className={imageIndex === index ? "fas fa-circle" : "far fa-circle"}
+                                        onClick={() => setImageIndex(index)}
+                                    ></i>
                                     // <i class="far fa-circle"></i>
                                 ))}
                                 <button
