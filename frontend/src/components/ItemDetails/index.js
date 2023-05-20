@@ -45,19 +45,24 @@ const ItemDetails = () => {
             <div id="item-details-page-container">
                 <div id="item-details-container">
                     <div id="item-details-image-container">
-                        {itemImages.length > 1 &&
-                            <>
-                                <button
-                                    onClick={() => changeImage(-1)}>
-                                    PREV
-                                </button>
-                                <button
-                                    onClick={() => changeImage(1)}>
-                                    NEXT
-                                </button>
-                            </>
-                        }
                         <img id="item-details-image" src={itemImages[imageIndex]} />
+
+                        {itemImages.length > 1 &&
+                            <div id="item-image-change-buttons-container">
+                                <button
+                                    className="item-image-change-button"
+                                    id="item-image-button-previous"
+                                    onClick={() => changeImage(-1)}>
+                                    <i class="fas fa-chevron-right fa-rotate-180"></i>
+                                </button>
+                                <button
+                                    className="item-image-change-button"
+                                    id="item-image-button-next"
+                                    onClick={() => changeImage(1)}>
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        }
                     </div>
                     <div id="item-details-info-container">
                         <h3>{item.User?.firstName} {item.User?.lastName}</h3>

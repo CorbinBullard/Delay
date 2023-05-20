@@ -21,6 +21,31 @@
     width: 500px;
     object-fit: cover;
 }
+#item-image-change-buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+.item-image-change-button {
+    height: 50px;
+    width: 50px;
+    border: none;
+    background: none;
+    font-size: xx-large;
+    cursor: pointer;
+}
+
+/* #item-image-button-previous {
+    position: absolute;
+
+    top: 320px;
+}
+
+#item-image-button-next {
+    position: absolute;
+    right: 500px;
+    top: 320px;
+} */
+
 
 #item-details-info-container {
     margin-left: 20px;
@@ -56,6 +81,7 @@
     display: flex;
     gap: 10px;
 }
+
 #confirm-delete-container button {
     border-radius: 8px;
     cursor: pointer;
@@ -69,6 +95,7 @@
 #confirm-delete-delete {
     background-color: rgb(255, 122, 122);
 }
+
 #confirm-delete-cancel {
     background-color: rgb(20, 108, 148);
 }
