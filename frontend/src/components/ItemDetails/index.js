@@ -95,7 +95,10 @@ const ItemDetails = () => {
 
                 </div>
                 <div id="item-reviews-container">
-                    <ItemReviews reviews={item.ProductReviews} item={item} stars={avgStarRating} />
+                    {item.ProductReviews?.length ?
+                        <ItemReviews reviews={item.ProductReviews} item={item} stars={avgStarRating} />
+                        :
+                        <h3 id="item-reviews-no-reviews-title">This item has no reviews</h3>}
 
                 </div>
             </div>
