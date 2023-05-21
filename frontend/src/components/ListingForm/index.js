@@ -3,36 +3,43 @@ import { object } from "prop-types";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { postNewImageThunk, postNewItemThunk, updateNewItemThunk } from "../../store/item";
+import { deleteImageThunk, postNewImageThunk, postNewItemThunk, updateNewItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
+import { fetchSingleItemThunk } from "../../store/item";
 
 
 const ListingForm = ({ isUpdating }) => {
     const params = useParams();
 
-    const item = useSelector(state => state.items.allItems[params.itemId])
+    const item = useSelector(state => state.items.currentItem)
     const itemId = item?.id
     const dispatch = useDispatch();
     const history = useHistory();
 
 
-    const [name, setName] = useState(item ? item.name : "");
-    const [brand, setBrand] = useState(item ? item.brand : "");
-    const [price, setPrice] = useState(item ? item.price : "");
-    const [description, setDescription] = useState(item ? item.description : "");
-    const [instrumentType, setInstrumentType] = useState(item ? item.instrumentType : "");
-    const [year, setYear] = useState(item ? item.year : "");
-    const [condition, setCondition] = useState(item ? item.condition : "");
-    const [previewImage, setpreviewImage] = useState(item ? item.previewImage : "");
+    const [name, setName] = useState(isUpdating ? item.name : "");
+    const [brand, setBrand] = useState(isUpdating ? item.brand : "");
+    const [price, setPrice] = useState(isUpdating ? item.price : "");
+    const [description, setDescription] = useState(isUpdating ? item.description : "");
+    const [instrumentType, setInstrumentType] = useState(isUpdating ? item.instrumentType : "");
+    const [year, setYear] = useState(isUpdating ? item.year : "");
+    const [condition, setCondition] = useState(isUpdating ? item.condition : "");
+    const [previewImage, setpreviewImage] = useState(isUpdating ? item.previewImage : "");
 
-    const [image1, setImage1] = useState("");
-    const [image2, setImage2] = useState("");
+    // NON PREVIEW IMAGES vv
+    const [imageArr, setImageArr] = useState(isUpdating ? item.ItemImages : []);
+    const [newActiveImage, setNewActiveImage] = useState("");
+    // NON PREVIEW IMAGES ^^
 
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
 
 
+
     const currentYear = new Date().getFullYear()
+
+
+
 
 
     useEffect(() => {
@@ -52,12 +59,12 @@ const ListingForm = ({ isUpdating }) => {
         if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
 
         // NON PREVIEW IMAGES
-        if (image1 && !isValidUrl(image1)) errorsObj.image1 = "Image URL must end in .png, .jpg or .jpeg";
-        if (image2 && !isValidUrl(image2)) errorsObj.image2 = "Image URL must end in .png, .jpg or .jpeg";
+        if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
+
 
         setErrors(errorsObj)
 
-    }, [name, brand, price, description, year, previewImage, condition, instrumentType, image1, image2])
+    }, [name, brand, price, description, year, previewImage, condition, instrumentType, imageArr, newActiveImage])
 
 
     const isValidUrl = (url) => {
@@ -89,23 +96,19 @@ const ListingForm = ({ isUpdating }) => {
             const item = await dispatch(postNewItemThunk(newItem))
             postImages(item.id)
 
-
-
             return history.push(`/items/${item.id}`);
         } else {
 
             const item = await dispatch(updateNewItemThunk(itemId, newItem))
-                .then((item) => postImages(item.id))
 
             return history.push(`/items/${itemId}`);
         }
     }
     async function postImages(itemId) {
-        if (image1) {
-            await dispatch(postNewImageThunk(itemId, image1))
-        }
-        if (image2) {
-            await dispatch(postNewImageThunk(itemId, image2))
+        if (imageArr.length) {
+            for (let i = 0; i < imageArr.length; i++) {
+                await dispatch(postNewImageThunk(itemId, imageArr[i]))
+            }
         }
     }
 
@@ -125,8 +128,32 @@ const ListingForm = ({ isUpdating }) => {
         { value: 'good', label: 'Good' },
         { value: 'poor', label: 'Poor' }
     ]
+    // NON PREVIEW IMAGES
 
+    const addImage = async() => {
+        if (imageArr.length >= 5) return alert("Item cannot have more than 5 images");
+        if (isValidUrl(newActiveImage)) {
+            if (isUpdating) {
+                await dispatch(postNewImageThunk(itemId, newActiveImage))
+                .then(() => setImageArr([...imageArr, newActiveImage]))
+                setNewActiveImage("");
+            } else {
+                setImageArr([...imageArr, newActiveImage]);
+                setNewActiveImage("");
+            }
+        }
+    }
+    const removeImage = imageId => {
+        if (isUpdating) {
+            dispatch(deleteImageThunk(imageId))
+            setImageArr(imageArr.filter(image => image.id !== imageId))
+        }
+    }
 
+    if (isUpdating && !item) {
+        return null;
+    }
+    // console.log(item)
 
     return (
         <div id="listing-form-page-container">
@@ -230,30 +257,30 @@ const ListingForm = ({ isUpdating }) => {
                 {
                     <>
                         <div className="input-component">
-                            <label>Image 1 (Optional)</label>
+                            <label>Add Image (Optional)</label>
                             <input
                                 type="text"
-                                value={image1}
-                                onChange={e => setImage1(e.target.value)}
+                                value={newActiveImage}
+                                onChange={e => setNewActiveImage(e.target.value)}
                             ></input>
-                            {submittedWithErrors && errors.image1 &&
-                                <p className="errors">{errors.image1}</p>
+                            <button
+                                type="button"
+                                onClick={addImage}>Add Image</button>
+                            {newActiveImage && errors.newActiveImage &&
+                                <p className="errors">{errors.newActiveImage}</p>
                             }
                         </div>
-                        <div className="input-component">
-                            <label>Image 2 (Optional)</label>
-                            <input
-                                type="text"
-                                value={image2}
-                                onChange={e => setImage2(e.target.value)}
-                            ></input>
-                            {submittedWithErrors && errors.image2 &&
-                                <p className="errors">{errors.image2}</p>
-                            }
-                        </div>
+                        {imageArr?.map(image => (
+                            <div className="item-listing-add-remove-image-container">
+                                <p>{image.url}, {image.id}</p>
+                                <button type="button"
+                                    onClick={() => removeImage(image.id)}>Remove</button>
+                            </div>
+                        ))}
                     </>
                 }
                 <button
+                    type="submit"
                     id="list-form-submit-button">
                     {isUpdating ? "Update Listing" : "Create Listing"}
                 </button>

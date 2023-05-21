@@ -123,9 +123,9 @@ router.post('/:itemId/images', requireAuth, async (req, res) => {
         itemId: item.id,
         url
     })
-    console.log("NEW IMAGE : -------------------------------------------------------------------------------------------------------> : ", newImage)
 
     res.status(201).json(newImage)
 })
+
 
 module.exports = router;
