@@ -63,7 +63,7 @@ const ItemReviews = ({ item, reviews }) => {
                                 />
                             </div>
                         }
-                        <p>{review.review}</p>
+                        <p className="review-review">{review.review}</p>
                     </div>
                 ))}
             </div>

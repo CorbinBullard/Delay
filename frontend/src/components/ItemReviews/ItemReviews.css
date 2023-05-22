@@ -89,3 +89,7 @@
     background-color: rgb(20, 108, 148);
     color: rgb(246, 241, 241);
 }
+
+.review-review {
+    word-wrap: break-word;
+}
