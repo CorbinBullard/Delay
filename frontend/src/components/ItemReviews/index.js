@@ -27,7 +27,7 @@ const ItemReviews = ({ item, reviews }) => {
 
     return (
         <div id="review-page-container">
-            <h1>Product Reviews</h1>
+            <h2 id="item-reviews-no-reviews-title">{reviews?.length ? "Product reviews" : "This item has no reviews"}</h2>
             <div id="add-review-button-container">
                 {user && !reviewUserIds.includes(user.id) && item.ownerId !== user.id &&
                     <OpenModalButton

@@ -1,6 +1,6 @@
 #review-page-container {
     margin-left: 20px;
-    
+
 }
 
 #all-reviews-container {
@@ -45,8 +45,16 @@
 }
 
 /* CREATE REVIEW MODAL */
+.create-review-label {
+    color: rgb(20, 108, 148);
+    align-self: center;
+    font-weight: bold;
+    margin: 5px 0;
+}
 
 #create-review-form {
+    /* width: 500px;
+    height: 300px; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +73,9 @@
 }
 
 #review-field-review textarea {
-    height: 100px;
+    height: 200px;
+    width: 400px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #create-review-form button {

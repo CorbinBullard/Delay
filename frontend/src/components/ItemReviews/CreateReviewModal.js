@@ -6,8 +6,8 @@ import { useModal } from "../../context/Modal";
 const CreateReviewModal = ({ itemId, isUpdating, review }) => {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
-    const [stars, setStars] = useState(isUpdating ? review.stars : 5);
-    const [activeRating, setActiveRating] = useState(isUpdating ? review.stars : 5)
+    const [stars, setStars] = useState(isUpdating ? review.stars : 1);
+    const [activeRating, setActiveRating] = useState(isUpdating ? review.stars : 1)
     const [_review, setReview] = useState(isUpdating ? review.review : "");
 
     const [errors, setErrors] = useState({});
@@ -45,6 +45,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
         <form
             id="create-review-form"
             onSubmit={handleSubmit}>
+            <label className="create-review-label">Your Rating</label>
             <div id="review-feild-stars">
                 <div id="star-input-container">
                     <div
@@ -86,7 +87,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
                 </div>
             </div>
             <div id="review-field-review">
-                <label>Review</label>
+                <label className="create-review-label">Review</label>
                 <textarea
                     type="text"
                     value={_review}
