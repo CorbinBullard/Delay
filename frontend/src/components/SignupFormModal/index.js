@@ -18,13 +18,15 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false)
+    const [uniquenessErrors, setUniquenessErrors] = useState(false)
 
 
     useEffect(() => {
         const errorsObj = {};
         if (!username) errorsObj.username = "Username is required";
+        if (username && username.length < 4) errorsObj.username = "Username must be at least 4 characters"
         if (!email) errorsObj.email = "Email is required";
-        if (email && !email.includes('@')) errorsObj.email = "Must be a valid email";
+        if (email && (!email.includes('@') || !email.includes('.'))) errorsObj.email = "Must be a valid email";
         if (!firstName) errorsObj.firstName = "First name is required";
         if (firstName && (firstName.length < 3 || firstName.length > 26)) errorsObj.firstName = "First name must be between 3 and 26 characters";
         if (!lastName) errorsObj.lastName = "Last name is required";
@@ -40,8 +42,44 @@ function SignupFormPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // if (password === confirmPassword) {
-        //     setErrors({});
+        if (password === confirmPassword) {
+            setErrors({});
+            return dispatch(
+                sessionActions.signup({
+                    email,
+                    username,
+                    firstName,
+                    lastName,
+                    password,
+                })
+
+            ).catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) {
+                    console.log(data.errors)
+                    setErrors(data.errors);
+                    console.log(errors)
+                }
+            })
+                .then(() => {
+                    console.log("NEW ERRORS !!!!!!!!!", errors);
+                    if (Object.values(errors)) {
+                        setUniquenessErrors(true);
+                        setSubmittedWithErrors(true);
+                        return
+                    }
+                    closeModal();
+                })
+        }
+        return setErrors({
+            confirmPassword: "Confirm Password field must be the same as the Password field"
+        });
+
+        // if (Object.values(errors).length) {
+        //     setSubmittedWithErrors(true);
+        //     return
+        // }
+
         // return dispatch(
         //     sessionActions.signup({
         //         email,
@@ -49,44 +87,20 @@ function SignupFormPage() {
         //         firstName,
         //         lastName,
         //         password,
-        //     })
-
-        //     ).catch(async (res) => {
+        //     })).catch(async (res) => {
         //         const data = await res.json();
         //         if (data && data.errors) {
         //             setErrors(data.errors);
+        //             console.log("DATA ERRORS OBJ : ", data.errors)
+        //             return
         //         }
         //     })
         //     .then(closeModal)
-        // }
-        // return setErrors({
-        //     confirmPassword: "Confirm Password field must be the same as the Password field"
-        // });
-
-        if (Object.values(errors).length) {
-            setSubmittedWithErrors(true);
-            return alert("Cannot Submit")
-        }
-
-        return dispatch(
-            sessionActions.signup({
-                email,
-                username,
-                firstName,
-                lastName,
-                password,
-            })).catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    setErrors(data.errors);
-                }
-            })
-            .then(closeModal)
     }
     // return setErrors({
     //     confirmPassword: "Confirm Password field must be the same as the Password field"
     // });
-    console.log(errors)
+    console.log("ERRORS PAGE : ", errors)
 
     return (
         <div id="signup-page-container">

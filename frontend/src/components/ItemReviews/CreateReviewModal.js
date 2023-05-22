@@ -28,7 +28,7 @@ const CreateReviewModal = ({ itemId, isUpdating, review }) => {
         e.preventDefault();
         if (Object.values(errors).length) {
             setSubmittedWithErrors(true)
-            return alert("Cannot Submit");
+            return 
         }
 
         if (!isUpdating) {

@@ -98,7 +98,7 @@ const ListingForm = ({ isUpdating }) => {
         e.preventDefault();
         if (Object.values(errors).length) {
             setSubmittedWithErrors(true)
-            return alert("Cannot Submit")
+            return
         }
         const newItem = {
             name,
