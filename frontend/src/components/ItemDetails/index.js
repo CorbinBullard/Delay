@@ -103,11 +103,12 @@ const ItemDetails = () => {
                         {user && user.id !== item.ownerId &&
                             (!Object.values(cart).map(item => item.itemId).includes(item.id) ?
                                 <button
+                                    className="add-to-cart"
                                     onClick={addToCart}>Add to cart</button>
                                 :
                                 <button
-                                    // onClick={() => console.log()}
-                                onClick={() => removeFromCart(Object.values(cart).find(cart => cart.itemId === item.id).id)}
+                                    className="add-to-cart"
+                                    onClick={() => removeFromCart(Object.values(cart).find(cart => cart.itemId === item.id).id)}
                                 >Remove from cart</button>
                             )
                         }
