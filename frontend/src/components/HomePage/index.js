@@ -12,7 +12,7 @@ const HomePage = () => {
         dispatch(fetchAllItemsThunk());
     }, [dispatch])
 
-    const items = Object.values(useSelector(state => state.items.allItems))
+    const items = Object.values(useSelector(state => state.items.allItems));
     // const loadItems = async () => {
     //     const _items = await
     //     setItems(Object.values(_items))

@@ -28,7 +28,6 @@ const ItemDetails = () => {
     }, 0) / item.ProductReviews?.length).toFixed(2) : "No Reviews"
 
     const itemImages = [item?.previewImage].concat(item?.ItemImages?.map(image => image.url))
-    console.log(itemImages);
 
 
     const changeImage = action => {
@@ -39,7 +38,6 @@ const ItemDetails = () => {
         else setImageIndex(currIndex);
     }
 
-    console.log(imageIndex);
     return (
         <div id="item-details-page-container-wrapper">
             <div id="item-details-page-container">

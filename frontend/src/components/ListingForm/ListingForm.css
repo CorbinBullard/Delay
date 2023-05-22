@@ -31,6 +31,48 @@
     resize: none;
 }
 
+#item-listing-add-image-input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#item-listing-add-image-input-container input {
+    width: 72%;
+}
+
+#item-listing-add-image-button {
+    border-radius: 8px;
+    cursor: pointer;
+    /* padding: 3px 8px; */
+    font-weight: bold;
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+}
+
+.item-listing-add-remove-image-container {
+    display: flex;
+}
+/* .item-listing-remove-image-image {
+    height: 100px;
+    width: 100px;
+} */
+
+.item-listing-add-remove-image-container p {
+    margin: 0;
+    overflow: hidden;
+    font-size: x-small;
+}
+
+.item-listing-add-remove-image-container button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 20px;
+    width: 20px;
+}
+
 #list-form-submit-button {
     margin: 20px 0;
     height: 30px;

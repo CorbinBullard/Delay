@@ -43,7 +43,8 @@ export const fetchSingleItemThunk = (itemId) => async dispatch => {
 
     if (res.ok) {
         const item = await res.json();
-        dispatch(loadSingleItemAction(item))
+        dispatch(loadSingleItemAction(item));
+        return item;
     } else {
         const errors = res.errors;
         return errors;
@@ -204,6 +205,7 @@ export const postNewImageThunk = (itemId, image) => async dispatch => {
     if (res.ok) {
         const image = await res.json();
         dispatch(createNewImageAction(image))
+        return image;
     } else {
         const errors = res.errors;
         return errors;
@@ -284,7 +286,8 @@ const itemReducer = (state = initialState, action) => {
             return newState;
         case DELETE_ITEM_IMAGE:
             newState = deepCopy(state);
-            newState.currentItem.ItemImages = state.currentItem.ItemImages.filter(image => image.id !== action.imageId)
+            newState.currentItem.ItemImages = state.currentItem.ItemImages.filter(image => image.id !== action.imageId);
+            return newState;
         default:
             return state;
     }

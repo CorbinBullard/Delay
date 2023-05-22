@@ -11,11 +11,11 @@ import { fetchSingleItemThunk } from "../../store/item";
 const ListingForm = ({ isUpdating }) => {
     const params = useParams();
 
-    const item = useSelector(state => state.items.currentItem)
-    const itemId = item?.id
     const dispatch = useDispatch();
     const history = useHistory();
 
+    const item = useSelector(state => state.items.currentItem)
+    const itemId = item?.id
 
     const [name, setName] = useState(isUpdating ? item.name : "");
     const [brand, setBrand] = useState(isUpdating ? item.brand : "");
@@ -38,8 +38,26 @@ const ListingForm = ({ isUpdating }) => {
 
     const currentYear = new Date().getFullYear()
 
+    // This will repopulate fields on refresh
+    useEffect(() => {
+        if (isUpdating) fetchAndSet();
+    }, [dispatch]);
 
+    async function fetchAndSet() {
+        const item = await dispatch(fetchSingleItemThunk(params.itemId));
+        console.log(item);
+        setName(item.name);
+        setBrand(item.brand);
+        setPrice(item.price);
+        setDescription(item.description);
+        setInstrumentType(item.instrumentType);
+        setYear(item.year);
+        setCondition(item.condition);
+        setpreviewImage(item.previewImage);
+        setImageArr(item.ItemImages);
+    }
 
+    console.log("IS UPDATING : ", isUpdating)
 
 
     useEffect(() => {
@@ -95,12 +113,9 @@ const ListingForm = ({ isUpdating }) => {
         if (!isUpdating) {
             const item = await dispatch(postNewItemThunk(newItem))
             postImages(item.id)
-
             return history.push(`/items/${item.id}`);
         } else {
-
             const item = await dispatch(updateNewItemThunk(itemId, newItem))
-
             return history.push(`/items/${itemId}`);
         }
     }
@@ -130,14 +145,16 @@ const ListingForm = ({ isUpdating }) => {
     ]
     // NON PREVIEW IMAGES
 
-    const addImage = async() => {
-        if (imageArr.length >= 5) return alert("Item cannot have more than 5 images");
+    const addImage = async () => {
+        if (imageArr?.length >= 5) return alert("Item cannot have more than 5 images");
         if (isValidUrl(newActiveImage)) {
             if (isUpdating) {
-                await dispatch(postNewImageThunk(itemId, newActiveImage))
-                .then(() => setImageArr([...imageArr, newActiveImage]))
+                const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
+                setImageArr([...imageArr, image])
+
                 setNewActiveImage("");
             } else {
+                console.log("NEW IMAGE --------------> : ", newActiveImage)
                 setImageArr([...imageArr, newActiveImage]);
                 setNewActiveImage("");
             }
@@ -147,6 +164,8 @@ const ListingForm = ({ isUpdating }) => {
         if (isUpdating) {
             dispatch(deleteImageThunk(imageId))
             setImageArr(imageArr.filter(image => image.id !== imageId))
+        } else {
+            setImageArr(imageArr.filter(image => image.id !== imageId));
         }
     }
 
@@ -258,23 +277,30 @@ const ListingForm = ({ isUpdating }) => {
                     <>
                         <div className="input-component">
                             <label>Add Image (Optional)</label>
-                            <input
-                                type="text"
-                                value={newActiveImage}
-                                onChange={e => setNewActiveImage(e.target.value)}
-                            ></input>
-                            <button
-                                type="button"
-                                onClick={addImage}>Add Image</button>
+                            <div id="item-listing-add-image-input-container">
+                                <input
+                                    type="text"
+                                    value={newActiveImage}
+                                    onChange={e => setNewActiveImage(e.target.value)}
+                                ></input>
+                                <button
+                                    id="item-listing-add-image-button"
+                                    type="button"
+                                    onClick={addImage}>Add Image</button>
+                            </div>
                             {newActiveImage && errors.newActiveImage &&
                                 <p className="errors">{errors.newActiveImage}</p>
                             }
                         </div>
                         {imageArr?.map(image => (
                             <div className="item-listing-add-remove-image-container">
-                                <p>{image.url}, {image.id}</p>
+                                <p>{isUpdating ? image.url : image}</p>
+                                {/* <img src={isUpdating ? image.url : image}
+                                className="item-listing-remove-image-image"/> */}
                                 <button type="button"
-                                    onClick={() => removeImage(image.id)}>Remove</button>
+                                    onClick={() => removeImage(image.id)}>
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
                         ))}
                     </>
