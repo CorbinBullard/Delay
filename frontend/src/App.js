@@ -9,12 +9,18 @@ import CreateNewListing from "./components/ListingForm";
 import ListingForm from "./components/ListingForm";
 import ManageListings from "./components/ManageListings";
 import Footer from "./components/Footer";
+import Cart from "./components/Cart";
+import { fetchCartItemsThunk } from "./store/cart";
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+
+    if (user) dispatch(fetchCartItemsThunk())
+
   }, [dispatch]);
 
   return (
@@ -27,6 +33,9 @@ function App() {
           </Route>
           <Route path={'/managelistings'}>
             <ManageListings />
+          </Route>
+          <Route exact path={'/cart'}>
+            <Cart />
           </Route>
 
           <Route path={"/items/:itemId/edit"}>
@@ -41,7 +50,7 @@ function App() {
             <ItemDetails />
           </Route>
         </Switch>}
-        <Footer />
+      <Footer />
     </>
   );
 }

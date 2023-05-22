@@ -6,12 +6,14 @@ import "./ItemDetails.css"
 import ItemReviews from "../ItemReviews";
 import OpenModalButton from "../OpenModalButton";
 import DeleteItemModal from "./DeleteItemModal";
+import { fetchCartItemsThunk, postItemToCart } from "../../store/cart";
 
 const ItemDetails = () => {
     const { itemId } = useParams();
     const history = useHistory();
     const item = useSelector(state => state.items.currentItem);
     const user = useSelector(state => state.session.user);
+    const cart = useSelector(state => state.cart)
 
     const [imageIndex, setImageIndex] = useState(0)
 
@@ -19,6 +21,7 @@ const ItemDetails = () => {
 
     useEffect(() => {
         dispatch(fetchSingleItemThunk(itemId))
+        // if (user) dispatch(fetchCartItemsThunk())
     }, [dispatch, itemId])
 
     if (!item) return null
@@ -36,6 +39,11 @@ const ItemDetails = () => {
         if (currIndex > itemImages.length - 1) setImageIndex(0);
         else if (currIndex < 0) setImageIndex(itemImages.length - 1);
         else setImageIndex(currIndex);
+    }
+
+    // CART
+    const addToCart = async () => {
+        dispatch(postItemToCart(item.id))
     }
 
     return (
@@ -88,6 +96,12 @@ const ItemDetails = () => {
                                     modalComponent={<DeleteItemModal itemId={item.id} />}
                                 />
                             </div>
+                        }
+                        {user && user.id !== item.ownerId &&
+                            (!Object.values(cart).map(item => item.itemId).includes(item.id) ?
+                                <button
+                                    onClick={addToCart}>Add to cart</button> :
+                                <p>This item is already in your cart</p>)
                         }
                     </div>
 

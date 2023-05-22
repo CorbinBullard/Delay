@@ -7,6 +7,7 @@ import './Navigation.css';
 function Navigation({ isLoaded }) {
     const history = useHistory();
     const sessionUser = useSelector(state => state.session.user);
+    const cartLength = Object.values(useSelector(state => state.cart)).length;
 
     return (
         <div id='navigation-page-container'>
@@ -17,12 +18,21 @@ function Navigation({ isLoaded }) {
                 {isLoaded && (
 
                     <li id='navigation-profile-store'>
-                        {sessionUser && <button
-                            id='navigation-my-store-button'
-                            onClick={() => history.push('/managelistings')}
-                        >
-                            My Store
-                        </button>}
+                        {sessionUser &&
+                            <>
+                                <button
+                                id='navigation-my-cart-button'
+                                onClick={() => history.push('/cart')}>
+                                    <i class="fas fa-shopping-cart">{cartLength}</i>
+                                </button>
+                                <button
+                                    id='navigation-my-store-button'
+                                    onClick={() => history.push('/managelistings')}
+                                >
+                                    My Store
+                                </button>
+                            </>
+                        }
                         <ProfileButton user={sessionUser} />
                     </li>
 

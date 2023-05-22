@@ -1,16 +1,18 @@
 import "./HomePage.css"
 import { fetchAllItemsThunk } from '../../store/item';
 import ItemCard from '../ItemCard';
+import { fetchCartItemsThunk } from "../../store/cart";
 const { useState, useEffect } = require('react');
 const { useDispatch, useSelector } = require('react-redux');
 
 const HomePage = () => {
-
+    const user = useSelector(state => state.session.user)
 
     const dispatch = useDispatch()
     useEffect(() => {
         dispatch(fetchAllItemsThunk());
-    }, [dispatch])
+        if (user) dispatch(fetchCartItemsThunk());
+    }, [dispatch, user])
 
     const items = Object.values(useSelector(state => state.items.allItems));
     // const loadItems = async () => {

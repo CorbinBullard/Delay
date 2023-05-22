@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Item, ItemImage, ProductReview } = require('../../db/models');
+const { User, Item, ItemImage, ProductReview, Cart } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -65,9 +65,8 @@ router.put('/:itemId', requireAuth, async (req, res) => {
     const data = await Item.findByPk(newItem.id, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
     });
-    // console.log("NEW ITEM ======================================================================================================================> : ", newItem.toJSON())
-    return res.json(data)
-
+    
+    return res.json(data);
 });
 
 // Delete an Item
@@ -113,7 +112,6 @@ router.post('/:itemId/reviews', requireAuth, async (req, res) => {
 router.post('/:itemId/images', requireAuth, async (req, res) => {
     const { url } = req.body;
     const item = await Item.findByPk(req.params.itemId);
-    console.log("URL -----------------------------------------------------------------------------------------------------> : ", url);
     if (!item) return res.status(404).json({ message: "Item could not be found" });
     const { user } = req;
 
@@ -125,6 +123,28 @@ router.post('/:itemId/images', requireAuth, async (req, res) => {
     })
 
     res.status(201).json(newImage)
+})
+
+// =============================== CART =============================== //
+
+//Add Item to cart
+router.post('/:itemId/add-to-cart', requireAuth, async (req, res) => {
+
+    const item = await Item.findByPk(req.params.itemId);
+    if (!item) return res.status(404).json({ message: "Item could not be found" });
+    const { user } = req;
+    if (!user) return res.status(403).json({ message: 'No Logged In User' });
+
+    const cartItem = await Cart.create({
+        itemId: item.id,
+        userId: user.id
+    })
+    const newCartItem = await Cart.findByPk(cartItem.id, {
+        include: [{ model: Item }]
+    })
+
+    res.status(201).json(newCartItem);
+
 })
 
 
