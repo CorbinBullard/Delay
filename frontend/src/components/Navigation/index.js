@@ -21,9 +21,12 @@ function Navigation({ isLoaded }) {
                         {sessionUser &&
                             <>
                                 <button
-                                id='navigation-my-cart-button'
-                                onClick={() => history.push('/cart')}>
-                                    <i class="fas fa-shopping-cart">{cartLength}</i>
+                                    id='navigation-my-cart-button'
+                                    onClick={() => history.push('/cart')}>
+                                    <i class="fas fa-shopping-cart">{cartLength ? cartLength : ""}</i>
+                                    {/* {cartLength > 0 &&
+                                        <p id='cart-length'>{cartLength}</p>
+                                    } */}
                                 </button>
                                 <button
                                     id='navigation-my-store-button'

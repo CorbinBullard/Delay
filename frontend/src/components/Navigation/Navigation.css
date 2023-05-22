@@ -23,6 +23,7 @@
     font-weight: 900;
 }
 
+
 #navigation-profile-button {
     background: none;
     border: none;
@@ -96,3 +97,25 @@
 .hidden {
     display: none;
 }
+
+/* CART */
+#navigation-my-cart-button {
+    border: none;
+    background: none;
+    font-size: xx-large;
+    color: rgb(20, 108, 148);
+    cursor: pointer;
+}
+/* #cart-length {
+    text-align: center;
+    font-size: medium;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(20, 108, 148);
+    background-color: rgb(20, 108, 148);
+    border-radius: 50px;
+    color:rgb(246, 241, 241);
+    position: absolute;
+    top: -0px;
+    right: 230px;
+} */

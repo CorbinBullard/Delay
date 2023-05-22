@@ -6,7 +6,7 @@ import "./ItemDetails.css"
 import ItemReviews from "../ItemReviews";
 import OpenModalButton from "../OpenModalButton";
 import DeleteItemModal from "./DeleteItemModal";
-import { fetchCartItemsThunk, postItemToCart } from "../../store/cart";
+import { deleteCartItemThunk, fetchCartItemsThunk, postItemToCart } from "../../store/cart";
 
 const ItemDetails = () => {
     const { itemId } = useParams();
@@ -44,6 +44,9 @@ const ItemDetails = () => {
     // CART
     const addToCart = async () => {
         dispatch(postItemToCart(item.id))
+    }
+    const removeFromCart = async (cartItemId) => {
+        dispatch(deleteCartItemThunk(cartItemId));
     }
 
     return (
@@ -100,8 +103,13 @@ const ItemDetails = () => {
                         {user && user.id !== item.ownerId &&
                             (!Object.values(cart).map(item => item.itemId).includes(item.id) ?
                                 <button
-                                    onClick={addToCart}>Add to cart</button> :
-                                <p>This item is already in your cart</p>)
+                                    onClick={addToCart}>Add to cart</button>
+                                :
+                                <button
+                                    // onClick={() => console.log()}
+                                onClick={() => removeFromCart(Object.values(cart).find(cart => cart.itemId === item.id).id)}
+                                >Remove from cart</button>
+                            )
                         }
                     </div>
 
