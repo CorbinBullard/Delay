@@ -165,7 +165,13 @@ const ListingForm = ({ isUpdating }) => {
             dispatch(deleteImageThunk(imageId))
             setImageArr(imageArr.filter(image => image.id !== imageId))
         } else {
-            setImageArr(imageArr.filter(image => image.id !== imageId));
+            console.log("IMAGE INDEX : ", imageId)
+            const newImageArr = [];
+            imageArr.forEach((image, index) => {
+                if (index !== imageId) newImageArr.push(image);
+            });
+            setImageArr(newImageArr)
+            // setImageArr(imageArr.filter(image => image.id !== imageId));
         }
     }
 
@@ -292,13 +298,16 @@ const ListingForm = ({ isUpdating }) => {
                                 <p className="errors">{errors.newActiveImage}</p>
                             }
                         </div>
-                        {imageArr?.map(image => (
+                        {imageArr?.map((image, index) => (
                             <div className="item-listing-add-remove-image-container">
                                 <p>{isUpdating ? image.url : image}</p>
                                 {/* <img src={isUpdating ? image.url : image}
                                 className="item-listing-remove-image-image"/> */}
                                 <button type="button"
-                                    onClick={() => removeImage(image.id)}>
+                                    onClick={() => {
+                                        if (isUpdating) removeImage(image.id)
+                                        else removeImage(index)
+                                    }}>
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
