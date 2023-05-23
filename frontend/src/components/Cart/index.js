@@ -29,7 +29,6 @@ const Cart = () => {
         <div id="cart-empty-page-container">
             <h1>Your Cart is Empty</h1>
             <img src="https://media.sweetwater.com/api/i/f-webp__ha-9ced74217ac8a73c__hmac-0476eb5d2ab94209b4b48c78cc2c64555b5fdf9f/cart/case.png" />
-
         </div>
     )
     const total = items?.reduce((acc, curr) => acc += curr.Item.price, 0);
