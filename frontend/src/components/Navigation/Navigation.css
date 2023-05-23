@@ -106,16 +106,20 @@
     color: rgb(20, 108, 148);
     cursor: pointer;
 }
-/* #cart-length {
+/* .fa-shopping-cart {
+    font-size: xx-large;
+} */
+#cart-length {
     text-align: center;
-    font-size: medium;
-    width: 20px;
-    height: 20px;
-    border: 1px solid rgb(20, 108, 148);
-    background-color: rgb(20, 108, 148);
+
+    font-size: 22px;
+    /* width: 25px; */
+    /* height: 25px; */
+    /* border: 2px solid rgb(0, 0, 0); */
+    /* background-color: rgb(25, 167, 206); */
     border-radius: 50px;
     color:rgb(246, 241, 241);
     position: absolute;
-    top: -0px;
-    right: 230px;
-} */
+    top: 7px;
+    right: 245px;
+}

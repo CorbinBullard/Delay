@@ -18,7 +18,7 @@ function SignupFormPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errors, setErrors] = useState({});
     const [submittedWithErrors, setSubmittedWithErrors] = useState(false)
-    const [uniquenessErrors, setUniquenessErrors] = useState(false)
+    const [dbErrors, setDbErrors] = useState({});
 
 
     useEffect(() => {
@@ -33,73 +33,79 @@ function SignupFormPage() {
         if (lastName && (lastName.length < 3 || firstName.length > 26)) errorsObj.lastName = "Last name must be between 3 and 26 characters";
         if (!password) errorsObj.password = "Password is required";
         if (password && password.length < 6) errorsObj.password = "Password must be 6 characters or more"
-        if (password && password !== confirmPassword) errorsObj.confirmPassword = "passwords do not match";
+        if (password && password !== confirmPassword) errorsObj.confirmPassword = "Passwords do not match";
         setErrors(errorsObj);
-    }, [email, username, firstName, lastName, password, confirmPassword])
+    }, [email, username, firstName, lastName, password, confirmPassword]);
+
+    useEffect(() => {
+
+    }, [dbErrors])
 
 
     if (sessionUser) return <Redirect to="/" />;
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password === confirmPassword) {
-            setErrors({});
-            return dispatch(
-                sessionActions.signup({
-                    email,
-                    username,
-                    firstName,
-                    lastName,
-                    password,
-                })
 
-            ).catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) {
-                    console.log(data.errors)
-                    setErrors(data.errors);
-                    console.log(errors)
-                }
-            })
-                .then(() => {
-                    console.log("NEW ERRORS !!!!!!!!!", errors);
-                    if (Object.values(errors)) {
-                        setUniquenessErrors(true);
-                        setSubmittedWithErrors(true);
-                        return
-                    }
-                    closeModal();
-                })
+        if (Object.values(errors).length) {
+            setSubmittedWithErrors(true);
+            return
         }
-        return setErrors({
-            confirmPassword: "Confirm Password field must be the same as the Password field"
-        });
 
-        // if (Object.values(errors).length) {
-        //     setSubmittedWithErrors(true);
-        //     return
-        // }
+        const newUser = await dispatch(sessionActions.signup({
+            email,
+            username,
+            firstName,
+            lastName,
+            password,
+        })).catch(async (errors) => {
+            const res = await errors.json();
+            console.log(res);
+            if (res.errors.email) setDbErrors({ email: 'Email is already being used' });
+            if (res.errors.username) setDbErrors({ username: 'Username is already being used' });
+            return
+        })
 
-        // return dispatch(
-        //     sessionActions.signup({
-        //         email,
-        //         username,
-        //         firstName,
-        //         lastName,
-        //         password,
-        //     })).catch(async (res) => {
+        if (newUser) closeModal()
+
+
+        // e.preventDefault();
+        // if (password === confirmPassword) {
+        //     setErrors({});
+        //     return dispatch(
+        //         sessionActions.signup({
+        //             email,
+        //             username,
+        //             firstName,
+        //             lastName,
+        //             password,
+        //         })
+
+        //     ).catch(async (res) => {
         //         const data = await res.json();
         //         if (data && data.errors) {
+        //             console.log(data.errors)
         //             setErrors(data.errors);
-        //             console.log("DATA ERRORS OBJ : ", data.errors)
-        //             return
+        //             console.log(errors)
         //         }
         //     })
-        //     .then(closeModal)
+        //         .then(() => {
+        //             console.log("NEW ERRORS !!!!!!!!!", errors);
+        //             if (Object.values(errors)) {
+        //                 setUniquenessErrors(true);
+        //                 setSubmittedWithErrors(true);
+        //                 return
+        //             }
+        //             closeModal();
+        //         })
+        // }
+        // return setErrors({
+        //     confirmPassword: "Confirm Password field must be the same as the Password field"
+        // });
+
+
     }
-    // return setErrors({
-    //     confirmPassword: "Confirm Password field must be the same as the Password field"
-    // });
+
     console.log("ERRORS PAGE : ", errors)
 
     return (
@@ -116,6 +122,7 @@ function SignupFormPage() {
                     required
                 />
                 {submittedWithErrors && errors.email && <p className="errors">{errors.email}</p>}
+                {dbErrors && dbErrors.email && <p className="errors">{dbErrors.email}</p>}
                 <label>
                     Username
                 </label>
@@ -126,6 +133,7 @@ function SignupFormPage() {
                     required
                 />
                 {submittedWithErrors && errors.username && <p className="errors">{errors.username}</p>}
+                {dbErrors && dbErrors.username && <p className="errors">{dbErrors.username}</p>}
                 <label>
                     First Name
                 </label>

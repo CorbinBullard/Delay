@@ -21,7 +21,7 @@ const ItemDetails = () => {
 
     useEffect(() => {
         dispatch(fetchSingleItemThunk(itemId))
-        // if (user) dispatch(fetchCartItemsThunk())
+        if (user) dispatch(fetchCartItemsThunk())
     }, [dispatch, itemId])
 
     if (!item) return null
