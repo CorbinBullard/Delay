@@ -18,7 +18,6 @@ function ProfileButton({ user }) {
     console.log(isEditting)
 
     const openMenu = () => {
-
         if (showMenu) return;
         setShowMenu(true);
     };

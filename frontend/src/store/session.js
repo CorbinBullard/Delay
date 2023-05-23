@@ -1,3 +1,4 @@
+import { resetCart } from "./cart";
 import { csrfFetch } from "./csrf";
 
 const SET_USER = "session/setUser";
@@ -64,6 +65,7 @@ export const logout = () => async (dispatch) => {
         method: 'DELETE',
     });
     dispatch(removeUser());
+    dispatch(resetCart())
     return response;
 };
 

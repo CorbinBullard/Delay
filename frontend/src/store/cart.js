@@ -4,7 +4,7 @@ import { deepCopy } from "./deepCopy";
 const LOAD_CART = 'cart/LoadCart';
 const ADD_ITEM_TO_CART = 'cart/AddItem';
 const REMOVE_ITEM_FROM_CART = 'cart/RemoveItem'
-
+const RESET_CART = 'cart/reset'
 
 const loadCartAction = cart => {
     return {
@@ -64,6 +64,13 @@ export const deleteCartItemThunk = cartId => async dispatch => {
     }
 }
 
+// remove cart from store if user logs out!
+export const resetCart = () => {
+    return {
+        type: RESET_CART
+    }
+}
+
 const initialState = {}
 
 const cartReducer = (state = initialState, action) => {
@@ -85,6 +92,9 @@ const cartReducer = (state = initialState, action) => {
             newState = deepCopy(state);
             delete newState[action.cartId];
             return newState;
+        }
+        case RESET_CART: {
+            return {}
         }
         default:
             return state;

@@ -10,7 +10,7 @@ import ListingForm from "./components/ListingForm";
 import ManageListings from "./components/ManageListings";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
-import { fetchCartItemsThunk } from "./store/cart";
+import { fetchCartItemsThunk, resetCart } from "./store/cart";
 
 function App() {
   const dispatch = useDispatch();
@@ -19,7 +19,8 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
 
-    if (user) dispatch(fetchCartItemsThunk())
+    if (user) dispatch(fetchCartItemsThunk());
+    else dispatch(resetCart());
 
   }, [dispatch]);
 

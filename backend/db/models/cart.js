@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Cart.belongsTo(models.User, { foreignKey: 'userId' })
-      Cart.belongsTo(models.Item, { foreignKey: 'itemId' })
+      Cart.belongsTo(models.Item, { foreignKey: 'itemId', onDelete: 'CASCADE' })
 
     }
   }
@@ -23,7 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     itemId: {
       type: DataTypes.INTEGER,
-      references: { model: 'Item' }
+      references: { model: 'Item' },
+      onDelete: 'CASCADE'
     }
   }, {
     sequelize,
