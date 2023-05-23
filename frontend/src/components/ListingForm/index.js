@@ -1,5 +1,5 @@
 import "./ListingForm.css"
-import { object } from "prop-types";
+import { Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import { fetchSingleItemThunk } from "../../store/item";
 
 const ListingForm = ({ isUpdating }) => {
     const params = useParams();
-
+    const user = useSelector(state => state.session.user);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -41,7 +41,7 @@ const ListingForm = ({ isUpdating }) => {
     // This will repopulate fields on refresh
     useEffect(() => {
         if (isUpdating) fetchAndSet();
-    }, [dispatch]);
+    }, [dispatch, user]);
 
     async function fetchAndSet() {
         const item = await dispatch(fetchSingleItemThunk(params.itemId));
@@ -58,7 +58,6 @@ const ListingForm = ({ isUpdating }) => {
     }
 
     console.log("IS UPDATING : ", isUpdating)
-
 
     useEffect(() => {
         const errorsObj = {};
@@ -178,6 +177,7 @@ const ListingForm = ({ isUpdating }) => {
     if (isUpdating && !item) {
         return null;
     }
+    if (!user) return <Redirect to="/" />
     // console.log(item)
 
     return (
