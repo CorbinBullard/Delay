@@ -77,7 +77,7 @@ module.exports = {
         brand: 'Roland',
         price: 8599.99,
         description: "The Roland VAD706 (V-Drums Acoustic Design) hybrid drum set blends the look and response of a traditional acoustic kit with the pioneering electronics of the modern V-Drums lineup. Real wood shells with lacquered maple finish plies and Roland’s legendary multi-ply mesh heads supply a quiet and custom response at every turn. From the crack of a cranked snare to the wooly give of a classic kick drum, the VAD706 lets you feel, sense, and approach the drums in a whole new light. Across the kit, Roland’s slim, rubberized, multi-zone V-Cymbals serve up the expression you need to craft compelling musical ideas for styles ranging from jazz to metal. The VAD706 comes outfitted with Roland’s trailblazing TD-50X module and a full-sized digital snare, a ride, and hi-hat pads. Together with its massive 22-inch wood bass drum and fusion-sized 10/12/14-inch tom ensemble, the VAD706 captures subtleties in your performances that would be missed using a traditional stage kit, all while looking the part for conventional club, stadium, studio, and sanctuary use. Kitted up with a robust set of included Roland stands, the V-Drums VAD706 hybrid drum set sports an irresistible look that'll make your performances stand out in fresh new ways.",
-        instrumentType: 'keyboard',
+        instrumentType: 'drum',
         year: 2019,
         condition: 'new',
         previewImage: 'https://media.sweetwater.com/api/i/q-82__f-webp__ha-b4132468f20fe452__hmac-799ae84d15c4845e87cc46459680da4a8fd95e51/images/items/750/VAD706GESet-large.jpg'
@@ -93,6 +93,64 @@ module.exports = {
         condition: 'new',
         previewImage: 'https://media.sweetwater.com/api/i/q-82__f-webp__ha-62e4111aedf20af4__hmac-bfcf57cc33454081015e33b0b7a35a0bf4705b79/images/guitars/814ceV/1212092112/1212092112-angle-large.jpg'
       },
+      {
+        ownerId: 3,
+        name: 'Vox AC15C1 1x12" 15-watt Tube Combo Amp',
+        brand: 'Vox',
+        price: 799.99,
+        description: "This Vox AC15 Custom delivers the classic chime and complex grind that has made the brand famous. This 15-watt combo amp was one of the first to define the British sound and continues to be used on stages and in studios around the world. The AC15 Custom's 15-watt design offers manageable volume in the live environment while still being able to get above the band. And the 25-watt Celestion Greenback speaker mellows high frequencies. If you want a Vox with a look that's both vintage and rare, grab this AC15 Custom.",
+        instrumentType: 'other',
+        year: 2023,
+        condition: 'new',
+        previewImage: 'https://media.sweetwater.com/api/i/q-82__f-webp__ha-40c1dc163abe55f8__hmac-9b20894a48ba673ecb76f382333458bd6e3ba427/images/items/750/AC15C1-large.jpg'
+      },
+      {
+        ownerId: 3,
+        name: 'PRS SE McCarty 594 Electric Guitar - Black Gold Burst',
+        brand: 'PRS',
+        price: 949.99,
+        description: "The PRS SE McCarty 594 electric guitar marks the model’s debut within the SE series, bringing the tonal might and effortless playability of one of Paul’s most iconic models to the masses! Just like its Core line siblings, this 6-string boasts an elegant tonewood pairing of mahogany and maple — a time-tested combo that imparts both warmth and definition to your every note. Next, a pair of low-wind 58/15 LT “S” pickups take the old-school magic of ’50s-style humbuckers straight into the 21st century with an extra helping of clarity and articulation. Looking for a rock-solid gigging guitar? A PRS 2-piece bridge and PRS-designed tuners bookend the SE McCarty 594 with enhanced sustain and exceptional tuning stability. The rosewood-topped-mahogany neck rounds out this guitar’s feature set with a slightly chunky Pattern Vintage profile that’s sure to please thumb-over-neck players and fans of vintage-style neck carves.",
+        instrumentType: 'guitar',
+        year: 2020,
+        condition: 'new',
+        previewImage: 'https://media.sweetwater.com/api/i/q-82__f-webp__ha-df780baee0821ff1__hmac-1759028bcb6de12a5b057744c2d4afba0d6325ec/images/guitars/SEMC594BGS/CTIF008744/CTIF008744-body-large.jpg'
+      },
+      {
+        ownerId: 3,
+        name: 'Shure SM7B Cardioid Dynamic Vocal Microphone',
+        brand: 'Shure',
+        price: 399.99,
+        description: "The PRS SE McCarty 594 electric guitar marks the model’s debut within the SE series, bringing the tonal might and effortless playability of one of Paul’s most iconic models to the masses! Just like its Core line siblings, this 6-string boasts an elegant tonewood pairing of mahogany and maple — a time-tested combo that imparts both warmth and definition to your every note. Next, a pair of low-wind 58/15 LT “S” pickups take the old-school magic of ’50s-style humbuckers straight into the 21st century with an extra helping of clarity and articulation. Looking for a rock-solid gigging guitar? A PRS 2-piece bridge and PRS-designed tuners bookend the SE McCarty 594 with enhanced sustain and exceptional tuning stability. The rosewood-topped-mahogany neck rounds out this guitar’s feature set with a slightly chunky Pattern Vintage profile that’s sure to please thumb-over-neck players and fans of vintage-style neck carves.",
+        instrumentType: 'other',
+        year: 2021,
+        condition: 'new',
+        previewImage: `https://media.sweetwater.com/api/i/q-82__f-webp__ha-2b05a5c2984a30fd__hmac-c378e92d4610057e9c5624682641752fc04f63f3/images/items/750/SM7B-large.jpg`
+      },
+      {
+        ownerId: 3,
+        name: 'Tama Starclassic Performer MBS52RZS 5-piece Shell Pack - Crimson Red Waterfall, Limited Edition',
+        brand: 'Tama',
+        price: 1799.99,
+        description: "TAMA's Starclassic Maple/Birch drums take the basic design of their acclaimed Starclassic Maple series and put a cool twist on it. These drums feature the combination of a more mellow birch with the stiffness of maple. The results equal a supremely dynamic sound that features the characteristic warmth of birch shells enhanced by the hearty bite of maple plies. Beyond that, Starclassic Maple/Birch drums come complete with all of the outstanding hardware that sets the Starclassic series apart. This includes TAMA's die-cast hoops and Star-Cast mounting system — plus, each shell comes outfitted with quality Evans heads. To top it all off, this limited-edition Performer Starclassic features a unique hand-painted finish that's sure to turn some heads!",
+        instrumentType: 'drum',
+        year: 2023,
+        condition: 'new',
+        previewImage: `https://media.sweetwater.com/api/i/q-82__f-webp__ha-8ce9438217764109__hmac-e1df12541328d2c2683027934af41d0f94b5a622/images/items/750/MBS52RZBNSCRW-large.jpg`
+      },
+      {
+        ownerId: 3,
+        name: 'Fender American Vintage II 1954 Precision Bass - 2-tone Sunburst',
+        brand: 'Fender',
+        price: 2249.99,
+        description: "Vintage tone junkies and early Fender fans alike will revel in this bass that appears to be lifted right out of a time machine. Outfitted with early P Bass contours and complimented by a ’54 Single-Coil Precision Bass pickup, the American Vintage II 1954 Precision Bass delivers that decades’ worth of sought-after tone you know and love. You’ll find classic ’54-styled features on its ash body and comfortable maple neck and fingerboard that bring it all together for P Bass perfection. Sweetwater bassists agree: if you’re a die-hard fan of ’50s-era P Basses — but can’t get your hands on one of the originals — this direct descendent is for you.",
+        instrumentType: 'bass',
+        year: 2023,
+        condition: 'new',
+        previewImage: `https://media.sweetwater.com/api/i/q-82__f-webp__ha-a5701285b467f6da__hmac-a0a0864d1be4cea17c6a3cbb33531be391e24b6c/images/guitars/PBassAV254M2S/V0717/V0717-body-large.jpg`
+      }
+
+
+
     ], {});
   },
 
