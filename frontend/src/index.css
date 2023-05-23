@@ -1,13 +1,23 @@
 /* TODO Add site wide styles */
 body {
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: rgb(246, 241, 241);
 }
+
 .errors {
     margin: 0px 0;
     font-size: small;
     color: red;
 }
+
 textarea {
     resize: none;
+}
+
+#all-pages-container {
+    position: relative;
+    min-height: 100vh;
+}
+#all-pages-content-container {
+    padding-bottom: 3rem;
 }

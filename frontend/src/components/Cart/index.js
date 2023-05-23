@@ -25,7 +25,14 @@ const Cart = () => {
 
     if (!user) return <Redirect to={'/'} />
 
-    if (!items.length) return <h1>Your Cart is Empty</h1>;
+    if (!items.length) return (
+        <div id="cart-empty-page-container">
+            <h1>Your Cart is Empty</h1>
+            <img src="https://media.sweetwater.com/api/i/f-webp__ha-9ced74217ac8a73c__hmac-0476eb5d2ab94209b4b48c78cc2c64555b5fdf9f/cart/case.png"/>
+            
+        </div>
+    )
+
     return (
         <div id="cart-page-container">
             <h1>My Cart</h1>
@@ -35,11 +42,11 @@ const Cart = () => {
                 ))}
             </div>
             <div id="cart-page-checkout-container">
-                <p id="cart-checkout-total-Price">Total: ${items.reduce((acc, curr) => acc += curr.Item.price, 0)}</p>
+                <p id="cart-checkout-total-Price">Total: ${items.reduce((acc, curr) => acc += curr.Item.price, 0).toFixed(2)}</p>
                 <OpenModalButton
                     buttonText={"Proceed to Checkout"}
                     onButtonClick={checkOutCart}
-                    modalComponent={<CartCheckoutModal /> }
+                    modalComponent={<CartCheckoutModal />}
                 />
 
             </div>

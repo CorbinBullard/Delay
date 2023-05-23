@@ -89,3 +89,8 @@
         background-color: rgb(20, 108, 148);
         color: rgb(246, 241, 241);
 }
+#cart-empty-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

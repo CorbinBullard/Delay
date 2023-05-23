@@ -24,34 +24,39 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <div id="all-pages-container">
       <Navigation isLoaded={isLoaded} />
       {isLoaded &&
-        <Switch>
-          <Route exact path='/'>
-            <HomePage />
-          </Route>
-          <Route path={'/managelistings'}>
-            <ManageListings />
-          </Route>
-          <Route exact path={'/cart'}>
-            <Cart />
-          </Route>
+        <div id="all-pages-content-container">
+          <Switch>
+            <Route exact path='/'>
+              <HomePage />
+            </Route>
 
-          <Route path={"/items/:itemId/edit"}>
-            <ListingForm isUpdating={true} />
-          </Route>
+            <Route path={'/managelistings'}>
+              <ManageListings />
+            </Route>
 
-          <Route path={"/items/new"}>
-            <ListingForm isUpdating={false} />
-          </Route>
+            <Route exact path={'/cart'}>
+              <Cart />
+            </Route>
 
-          <Route path={"/items/:itemId"}>
-            <ItemDetails />
-          </Route>
-        </Switch>}
+            <Route path={"/items/:itemId/edit"}>
+              <ListingForm isUpdating={true} />
+            </Route>
+
+            <Route path={"/items/new"}>
+              <ListingForm isUpdating={false} />
+            </Route>
+
+            <Route path={"/items/:itemId"}>
+              <ItemDetails />
+            </Route>
+          </Switch>
+        </div>
+      }
       <Footer />
-    </>
+    </div>
   );
 }
 
