@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "boto3": "^0.0.1",
     "dotenv": "^16.0.3",
     "formik": "^2.2.9",
     "js-cookie": "^3.0.5",
