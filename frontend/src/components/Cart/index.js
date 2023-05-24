@@ -32,6 +32,7 @@ const Cart = () => {
         </div>
     )
     const total = items?.reduce((acc, curr) => acc += curr.Item.price, 0);
+    console.log("TOTAL ITEMS DATA TYPE : ", total, typeof total)
 
     return (
         <div id="cart-page-container">
