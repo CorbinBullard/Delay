@@ -69,7 +69,6 @@ const ItemDetails = () => {
                                         className={imageIndex === index ? "fas fa-circle" : "far fa-circle"}
                                         onClick={() => setImageIndex(index)}
                                     ></i>
-                                    // <i class="far fa-circle"></i>
                                 ))}
                                 <button
                                     className="item-image-change-button"
