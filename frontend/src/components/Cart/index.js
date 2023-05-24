@@ -31,7 +31,7 @@ const Cart = () => {
             <img src="https://media.sweetwater.com/api/i/f-webp__ha-9ced74217ac8a73c__hmac-0476eb5d2ab94209b4b48c78cc2c64555b5fdf9f/cart/case.png" />
         </div>
     )
-    const total = items?.reduce((acc, curr) => acc += curr.Item.price, 0);
+    const total = items?.reduce((acc, curr) => acc += Number(curr.Item.price), 0);
     console.log("TOTAL ITEMS DATA TYPE : ", total, typeof total)
 
     return (
