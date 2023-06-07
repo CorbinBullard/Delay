@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { deleteItemThunk, fetchSingleItemThunk } from "../../store/item";
+import { fetchSingleItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
 import ItemReviews from "../ItemReviews";
@@ -48,6 +48,7 @@ const ItemDetails = () => {
     const removeFromCart = async (cartItemId) => {
         dispatch(deleteCartItemThunk(cartItemId));
     }
+    console.log("ITEM IMAGES ----------------> ", itemImages)
 
     return (
         <div id="item-details-page-container-wrapper">

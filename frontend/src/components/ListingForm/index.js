@@ -1,4 +1,4 @@
-import "./ListingForm.css"
+import "./ListingForm.css";
 import { Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -76,7 +76,7 @@ const ListingForm = ({ isUpdating }) => {
         if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
 
         // NON PREVIEW IMAGES
-        if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
+        // if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
 
 
         setErrors(errorsObj)
@@ -118,6 +118,7 @@ const ListingForm = ({ isUpdating }) => {
             return history.push(`/items/${itemId}`);
         }
     }
+    
     async function postImages(itemId) {
         if (imageArr.length) {
             for (let i = 0; i < imageArr.length; i++) {
@@ -146,19 +147,19 @@ const ListingForm = ({ isUpdating }) => {
 
     const addImage = async () => {
         if (imageArr?.length >= 5) return alert("Item cannot have more than 5 images");
-        if (isValidUrl(newActiveImage)) {
+        if (newActiveImage) {
             if (isUpdating) {
                 const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
                 setImageArr([...imageArr, image])
 
                 setNewActiveImage("");
             } else {
-                console.log("NEW IMAGE --------------> : ", newActiveImage)
                 setImageArr([...imageArr, newActiveImage]);
                 setNewActiveImage("");
             }
         }
     }
+
     const removeImage = imageId => {
         if (isUpdating) {
             dispatch(deleteImageThunk(imageId))
@@ -179,6 +180,7 @@ const ListingForm = ({ isUpdating }) => {
     }
     if (!user) return <Redirect to="/" />
     // console.log(item)
+    console.log(newActiveImage)
 
     return (
         <div id="listing-form-page-container">
@@ -285,9 +287,9 @@ const ListingForm = ({ isUpdating }) => {
                             <label>Add Image (Optional)</label>
                             <div id="item-listing-add-image-input-container">
                                 <input
-                                    type="text"
-                                    value={newActiveImage}
-                                    onChange={e => setNewActiveImage(e.target.value)}
+                                    type="file"
+                                    accept=".jpg, .jpeg, .png"
+                                    onChange={e => setNewActiveImage(e.target.files[0])}
                                 ></input>
                                 <button
                                     id="item-listing-add-image-button"

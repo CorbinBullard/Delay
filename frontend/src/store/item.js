@@ -198,9 +198,14 @@ const createNewImageAction = image => {
 }
 
 export const postNewImageThunk = (itemId, image) => async dispatch => {
+
+    const formData = new FormData();
+
+    formData.append("image", image);
+
     const res = await csrfFetch(`/api/items/${itemId}/images`, {
         method: 'POST',
-        body: JSON.stringify({ url: image })
+        body: formData
     })
     if (res.ok) {
         const image = await res.json();
