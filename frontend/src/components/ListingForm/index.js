@@ -57,7 +57,7 @@ const ListingForm = ({ isUpdating }) => {
         setImageArr(item.ItemImages);
     }
 
-    console.log("IS UPDATING : ", isUpdating)
+
 
     useEffect(() => {
         const errorsObj = {};
@@ -67,6 +67,7 @@ const ListingForm = ({ isUpdating }) => {
         if (!brand) errorsObj.brand = "Item brand is required";
         if (!price) errorsObj.price = "Price is required";
         if (price && isNaN(+price)) errorsObj.price = "Price must be a number";
+        if (price && !isNaN(+price) && price < 0) errorsObj.price = "Price cannot be negative"
         if (!description) errorsObj.description = "Item description is required";
         if (description && description.length < 10) errorsObj.description = "Item description must be at least 10 Characters"
         if (!year) errorsObj.year = "Item Year is required";
@@ -107,7 +108,7 @@ const ListingForm = ({ isUpdating }) => {
             instrumentType,
             year,
             condition,
-            previewImage
+            previewImage // This will be the first image uploaded
         }
         if (!isUpdating) {
             const item = await dispatch(postNewItemThunk(newItem))
@@ -118,8 +119,8 @@ const ListingForm = ({ isUpdating }) => {
             return history.push(`/items/${itemId}`);
         }
     }
-    
-    async function postImages(itemId) {
+
+    async function postImages(itemId) {// Change this to upload first image as preview image
         if (imageArr.length) {
             for (let i = 0; i < imageArr.length; i++) {
                 await dispatch(postNewImageThunk(itemId, imageArr[i]))
@@ -154,6 +155,7 @@ const ListingForm = ({ isUpdating }) => {
 
                 setNewActiveImage("");
             } else {
+                console.log("Active Image : ", newActiveImage)
                 setImageArr([...imageArr, newActiveImage]);
                 setNewActiveImage("");
             }
@@ -179,7 +181,7 @@ const ListingForm = ({ isUpdating }) => {
         return null;
     }
     if (!user) return <Redirect to="/" />
-    // console.log(item)
+
     console.log(newActiveImage)
 
     return (
@@ -302,7 +304,7 @@ const ListingForm = ({ isUpdating }) => {
                         </div>
                         {imageArr?.map((image, index) => (
                             <div className="item-listing-add-remove-image-container">
-                                <p>{isUpdating ? image.url : image}</p>
+                                <p>{isUpdating ? image.url : image.name}</p>
                                 {/* <img src={isUpdating ? image.url : image}
                                 className="item-listing-remove-image-image"/> */}
                                 <button type="button"
@@ -324,8 +326,6 @@ const ListingForm = ({ isUpdating }) => {
             </form>
         </div>
     )
-
-
 
 }
 export default ListingForm;
