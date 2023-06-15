@@ -1,0 +1,30 @@
+#search-page-container {
+
+}
+
+#search-name-container {
+    background-color: white;
+    min-width: 500px;
+    display: flex;
+    border: 1px solid black;
+    padding: 7px 15px;
+    align-items: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#search-name-container input {
+    font-size: large;
+    border: none;
+    width: 100%;
+}
+
+#search-name-container input:focus {
+    outline: none;
+
+}
+
+#search-icon {
+    cursor: pointer;
+}

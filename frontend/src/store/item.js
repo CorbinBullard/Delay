@@ -19,8 +19,10 @@ const loadItemsAction = (items) => {
 }
 
 
-export const fetchAllItemsThunk = () => async dispatch => {
-    const res = await csrfFetch('/api/items');
+export const fetchAllItemsThunk = (name) => async dispatch => {
+    
+    const res = await csrfFetch(`/api/items${name ? '?name=' + name : ''}`);
+
 
     if (res.ok) {
         const items = await res.json();
