@@ -276,6 +276,7 @@ const ListingForm = ({ isUpdating }) => {
                     <label>Preview Image</label>
                     {!isUpdating ?
                         (<input
+                            className="file-input"
                             type="file"
                             // value={previewImage}
                             onChange={e => setpreviewImage(e.target.files[0])}
@@ -285,11 +286,15 @@ const ListingForm = ({ isUpdating }) => {
                             (<>
                                 <img src={previewImage} style={{ borderRadius: "10px" }} />
                                 <button onClick={() => {
+
                                     setChangePreview(true);
                                     setpreviewImage('')
-                                }}>Change Preview Image</button>
+                                }}
+                                id="remove-preview-btn"
+                                >Change Preview Image</button>
                             </>) :
                             (<input
+                                className="file-input"
                                 type="file"
                                 // value={previewImage}
                                 onChange={e => setpreviewImage(e.target.files[0])}
@@ -306,6 +311,7 @@ const ListingForm = ({ isUpdating }) => {
                             <label>Add Image (Optional)</label>
                             <div id="item-listing-add-image-input-container">
                                 <input
+                                    className="file-input"
                                     type="file"
                                     accept=".jpg, .jpeg, .png"
                                     onChange={e => setNewActiveImage(e.target.files[0])}

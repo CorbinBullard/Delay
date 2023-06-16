@@ -53,6 +53,7 @@
     display: flex;
     margin-top: 10px;
 }
+
 /* .item-listing-remove-image-image {
     height: 100px;
     width: 100px;
@@ -80,6 +81,25 @@
     border-radius: 8px;
     font-weight: bold;
     background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    cursor: pointer;
+}
+
+.file-input::-webkit-file-upload-button {
+    border-radius: 8px;
+    cursor: pointer;
+    /* padding: 3px 8px; */
+    font-weight: bold;
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+}
+
+#remove-preview-btn {
+    margin: 20px 0;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: rgb(255, 58, 58);
     color: rgb(246, 241, 241);
     cursor: pointer;
 }
