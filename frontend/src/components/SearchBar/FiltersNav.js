@@ -6,11 +6,13 @@ import { useModal } from "../../context/Modal";
 const FiltersNav = () => {
     const dispatch = useDispatch();
     const {
+        name,
         minPrice,
         maxPrice,
         brand,
         condition,
         year,
+        setName,
         instrumentType,
         setMinPrice,
         setMaxPrice,

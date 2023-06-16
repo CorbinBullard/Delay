@@ -28,7 +28,8 @@ const SearchBar = () => {
 
     const submitSearch = () => {
         // dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year));
-        setName(activeName)
+        setName(activeName);
+        setActiveName('')
     }
     return (
         <div id="search-page-container">
@@ -45,7 +46,7 @@ const SearchBar = () => {
             <OpenModalButton
                 buttonText={<i class="fas fa-sliders-h"></i>}
                 modalComponent={<FiltersNav />} />
-            
+
         </div>
     )
 }

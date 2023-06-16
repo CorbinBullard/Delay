@@ -55,6 +55,11 @@ const HomePage = () => {
     return (
         <div id="home-page-container">
             <div id="filters-container">
+                {name && (
+                    <div className="current-filter-container"
+                        onClick={() => setName('')}
+                    >{name} X</div>
+                )}
                 {minPrice && (
                     <div className="current-filter-container"
                         onClick={() => setMinPrice('')}
