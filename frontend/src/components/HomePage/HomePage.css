@@ -1,10 +1,13 @@
 #home-page-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+#filters-container {
+    margin-top: 15px;
 }
 #home-page-all-items {
     width: 78%;
-
     display: flex;
     gap: 40px;
     margin: 30px;

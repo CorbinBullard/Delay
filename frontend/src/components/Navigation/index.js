@@ -6,6 +6,7 @@ import './Navigation.css';
 import SearchBar from '../SearchBar';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchAllItemsThunk } from '../../store/item';
+import { useFilters } from '../../context/Filters';
 
 function Navigation({ isLoaded }) {
     const history = useHistory();
@@ -14,12 +15,27 @@ function Navigation({ isLoaded }) {
     const location = useLocation();
     const dispatch = useDispatch();
 
+    const {
+        name,
+        minPrice,
+        maxPrice,
+        brand,
+        condition,
+        year,
+        instrumentType
+    } = useFilters();
+
     return (
         <div id='navigation-page-container'>
             <ul>
                 <li >
                     <NavLink id='navigation-home-button' exact to="/"
-                    onClick={() => dispatch(fetchAllItemsThunk())}><i className="fab fa-dyalog"></i>elay</NavLink>
+                        onClick={() => dispatch(fetchAllItemsThunk(name, minPrice,
+                            maxPrice,
+                            brand,
+                            condition,
+                            year,
+                            instrumentType))}><i className="fab fa-dyalog"></i>elay</NavLink>
                 </li>
                 {isLoaded && (
                     <>

@@ -1,25 +1,37 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useRef, useState, useContext, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchAllItemsThunk } from "../store/item";
 
-const FiltersContext = React.createContext();
+export const FiltersContext = React.createContext();
 
 export function FiltersProvider({ children }) {
-    const [minPrice, setMinPrice] = useState(null);
-    const [maxPrice, setMaxPrice] = useState(null);
-    const [brand, setBrand] = useState(null);
-    const [condition, setCondition] = useState(null);
-    const [year, setYear] = useState(null);
+    const dispatch = useDispatch();
+    const [name, setName] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [brand, setBrand] = useState('');
+    const [condition, setCondition] = useState('');
+    const [year, setYear] = useState('');
+    const [instrumentType, setInstrumentType] = useState('');
 
-    values = {
+    useEffect(() => {
+        dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
+    }, [minPrice, maxPrice, brand, condition, year, name, instrumentType])
+    const values = {
+        instrumentType,
+        name,
         minPrice,
-        setMinPrice,
         maxPrice,
-        setMaxPrice,
         brand,
-        setBrand,
         condition,
-        setCondition,
         year,
-        setYear
+        setName,
+        setMinPrice,
+        setMaxPrice,
+        setBrand,
+        setCondition,
+        setYear,
+        setInstrumentType
     }
 
 
@@ -31,3 +43,4 @@ export function FiltersProvider({ children }) {
         </>
     )
 }
+export const useFilters = () => useContext(FiltersContext);

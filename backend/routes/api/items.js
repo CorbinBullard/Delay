@@ -9,8 +9,9 @@ const { Op } = require('sequelize');
 // Get all items
 router.get('/', async (req, res) => {
 
-    const { name } = req.query;
+    const { name, minPrice, maxPrice, brand, condition, instrumentType, year } = req.query;
     const where = {};
+    console.log("BRAND ------------------------------> : ", brand)
 
     if (name) {
         if (process.env.NODE_ENV === 'production') {
@@ -28,6 +29,26 @@ router.get('/', async (req, res) => {
             { condition: { [Op.substring]: name } }]
         }
     }
+
+    if (minPrice && maxPrice) where.price = { [Op.between]: [minPrice, maxPrice] }
+    else {
+        if (minPrice) where.price = { [Op.gte]: minPrice }
+        if (maxPrice) where.price = { [Op.lte]: maxPrice }
+    }
+
+    if (brand) {
+        if (process.env.NODE_ENV === 'production') {
+            where.brand = { [Op.iLike]: `%${brand}%` }
+
+        } else {
+            where.brand = { [Op.substring]: brand }
+        }
+    }
+
+    if (instrumentType) where.instrumentType = instrumentType;
+    if (condition) where.condition = condition
+    if (year) where.year = year;
+
 
     const data = await Item.findAll({
         where,

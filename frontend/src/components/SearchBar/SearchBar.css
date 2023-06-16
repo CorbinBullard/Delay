@@ -1,5 +1,20 @@
 #search-page-container {
+    display: flex;
+    gap: 10px;
+}
 
+#search-page-container button {
+    border-radius: 8px;
+    cursor: pointer;
+    /* padding: 3px 8px; */
+    /* font-weight: bold; */
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    font-size: larger;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 50px;
 }
 
 #search-name-container {
@@ -27,4 +42,37 @@
 
 #search-icon {
     cursor: pointer;
+}
+
+#filters-form {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#filters-container {
+    display: flex;
+    gap: 20px;
+}
+
+.current-filter-container {
+    font-size: small;
+    cursor: pointer;
+    font-style: italic;
+    padding: 5px 10px;
+    border-radius: 18px;
+}
+
+.current-filter-container:hover {
+    background-color: rgb(220, 220, 220);
+}
+
+#filters-form button {
+    border-radius: 8px;
+    cursor: pointer;
+    /* padding: 3px 8px; */
+    /* font-weight: bold; */
+    background-color: rgb(25, 167, 206);
+    color: rgb(246, 241, 241);
+    font-size: large;
 }
