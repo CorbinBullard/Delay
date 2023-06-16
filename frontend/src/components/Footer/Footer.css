@@ -12,12 +12,16 @@
     width: 100%;
     bottom: 0;
 }
-#footer-github-link {
+#footer-links {
+    display: flex;
+}
+.link {
     color: rgb(246, 241, 241);
     font-size: x-large;
     align-self: center;
     margin-left: 50px;
     cursor: pointer;
+
 }
 #footer-github-link a {
     color: white;
