@@ -1,7 +1,6 @@
 const express = require('express');
 const { User, Item, ItemImage, ProductReview } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-
 const router = express.Router();
 
 

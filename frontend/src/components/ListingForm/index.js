@@ -1,4 +1,4 @@
-import "./ListingForm.css"
+import "./ListingForm.css";
 import { Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -25,7 +25,8 @@ const ListingForm = ({ isUpdating }) => {
     const [year, setYear] = useState(isUpdating ? item.year : "");
     const [condition, setCondition] = useState(isUpdating ? item.condition : "");
     const [previewImage, setpreviewImage] = useState(isUpdating ? item.previewImage : "");
-
+    const [changePreview, setChangePreview] = useState(false)
+    const lastPreviewImage = useSelector(state => state.items.currentItem.previewImage);
     // NON PREVIEW IMAGES vv
     const [imageArr, setImageArr] = useState(isUpdating ? item.ItemImages : []);
     const [newActiveImage, setNewActiveImage] = useState("");
@@ -57,7 +58,7 @@ const ListingForm = ({ isUpdating }) => {
         setImageArr(item.ItemImages);
     }
 
-    console.log("IS UPDATING : ", isUpdating)
+
 
     useEffect(() => {
         const errorsObj = {};
@@ -67,16 +68,17 @@ const ListingForm = ({ isUpdating }) => {
         if (!brand) errorsObj.brand = "Item brand is required";
         if (!price) errorsObj.price = "Price is required";
         if (price && isNaN(+price)) errorsObj.price = "Price must be a number";
+        if (price && !isNaN(+price) && price < 0) errorsObj.price = "Price cannot be negative"
         if (!description) errorsObj.description = "Item description is required";
         if (description && description.length < 10) errorsObj.description = "Item description must be at least 10 Characters"
         if (!year) errorsObj.year = "Item Year is required";
         if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year";
         if (year && isNaN(+year)) errorsObj.year = "Year must be a number";
         if (!previewImage) errorsObj.previewImage = "A preview Image of your Item is required";
-        if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
+        // if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
 
         // NON PREVIEW IMAGES
-        if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
+        // if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
 
 
         setErrors(errorsObj)
@@ -107,18 +109,19 @@ const ListingForm = ({ isUpdating }) => {
             instrumentType,
             year,
             condition,
-            previewImage
+            previewImage // This will be the first image uploaded
         }
         if (!isUpdating) {
-            const item = await dispatch(postNewItemThunk(newItem))
-            postImages(item.id)
+            const item = await dispatch(postNewItemThunk(newItem));
+            postImages(item.id);
             return history.push(`/items/${item.id}`);
         } else {
-            const item = await dispatch(updateNewItemThunk(itemId, newItem))
+            const item = await dispatch(updateNewItemThunk(itemId, newItem));
             return history.push(`/items/${itemId}`);
         }
     }
-    async function postImages(itemId) {
+
+    async function postImages(itemId) {// Change this to upload first image as preview image
         if (imageArr.length) {
             for (let i = 0; i < imageArr.length; i++) {
                 await dispatch(postNewImageThunk(itemId, imageArr[i]))
@@ -146,25 +149,26 @@ const ListingForm = ({ isUpdating }) => {
 
     const addImage = async () => {
         if (imageArr?.length >= 5) return alert("Item cannot have more than 5 images");
-        if (isValidUrl(newActiveImage)) {
+        if (newActiveImage) {
             if (isUpdating) {
                 const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
                 setImageArr([...imageArr, image])
 
                 setNewActiveImage("");
             } else {
-                console.log("NEW IMAGE --------------> : ", newActiveImage)
+                console.log("Active Image : ", newActiveImage)
                 setImageArr([...imageArr, newActiveImage]);
                 setNewActiveImage("");
             }
         }
     }
+
     const removeImage = imageId => {
         if (isUpdating) {
             dispatch(deleteImageThunk(imageId))
             setImageArr(imageArr.filter(image => image.id !== imageId))
         } else {
-            console.log("IMAGE INDEX : ", imageId)
+
             const newImageArr = [];
             imageArr.forEach((image, index) => {
                 if (index !== imageId) newImageArr.push(image);
@@ -178,7 +182,8 @@ const ListingForm = ({ isUpdating }) => {
         return null;
     }
     if (!user) return <Redirect to="/" />
-    // console.log(item)
+
+    console.log(newActiveImage)
 
     return (
         <div id="listing-form-page-container">
@@ -269,11 +274,32 @@ const ListingForm = ({ isUpdating }) => {
                 </div>
                 <div className="input-component">
                     <label>Preview Image</label>
-                    <input
-                        type="text"
-                        value={previewImage}
-                        onChange={e => setpreviewImage(e.target.value)}
-                    ></input>
+                    {!isUpdating ?
+                        (<input
+                            className="file-input"
+                            type="file"
+                            // value={previewImage}
+                            onChange={e => setpreviewImage(e.target.files[0])}
+                            accept=".jpg, .jpeg, .png"
+                        ></input>) :
+                        (!changePreview ?
+                            (<>
+                                <img src={previewImage} style={{ borderRadius: "10px" }} />
+                                <button onClick={() => {
+
+                                    setChangePreview(true);
+                                    setpreviewImage('')
+                                }}
+                                id="remove-preview-btn"
+                                >Change Preview Image</button>
+                            </>) :
+                            (<input
+                                className="file-input"
+                                type="file"
+                                // value={previewImage}
+                                onChange={e => setpreviewImage(e.target.files[0])}
+                                accept=".jpg, .jpeg, .png"
+                            ></input>))}
                     {submittedWithErrors && errors.previewImage &&
                         <p className="errors">{errors.previewImage}</p>
                     }
@@ -285,9 +311,10 @@ const ListingForm = ({ isUpdating }) => {
                             <label>Add Image (Optional)</label>
                             <div id="item-listing-add-image-input-container">
                                 <input
-                                    type="text"
-                                    value={newActiveImage}
-                                    onChange={e => setNewActiveImage(e.target.value)}
+                                    className="file-input"
+                                    type="file"
+                                    accept=".jpg, .jpeg, .png"
+                                    onChange={e => setNewActiveImage(e.target.files[0])}
                                 ></input>
                                 <button
                                     id="item-listing-add-image-button"
@@ -300,7 +327,7 @@ const ListingForm = ({ isUpdating }) => {
                         </div>
                         {imageArr?.map((image, index) => (
                             <div className="item-listing-add-remove-image-container">
-                                <p>{isUpdating ? image.url : image}</p>
+                                <p>{isUpdating ? image.url : image.name}</p>
                                 {/* <img src={isUpdating ? image.url : image}
                                 className="item-listing-remove-image-image"/> */}
                                 <button type="button"
@@ -322,8 +349,6 @@ const ListingForm = ({ isUpdating }) => {
             </form>
         </div>
     )
-
-
 
 }
 export default ListingForm;

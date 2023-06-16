@@ -19,8 +19,10 @@ const loadItemsAction = (items) => {
 }
 
 
-export const fetchAllItemsThunk = () => async dispatch => {
-    const res = await csrfFetch('/api/items');
+export const fetchAllItemsThunk = (name) => async dispatch => {
+
+    const res = await csrfFetch(`/api/items${name ? '?name=' + name : ''}`);
+
 
     if (res.ok) {
         const items = await res.json();
@@ -59,9 +61,19 @@ const createNewItemAction = item => {
     }
 }
 export const postNewItemThunk = item => async dispatch => {
+    const formData = new FormData();
+    formData.append('name', item.name);
+    formData.append('brand', item.brand);
+    formData.append('description', item.description);
+    formData.append('instrumentType', item.instrumentType);
+    formData.append('year', item.year);
+    formData.append('condition', item.condition);
+    formData.append('price', item.price);
+    formData.append('image', item.previewImage);
+
     const res = await csrfFetch('/api/items', {
         method: 'POST',
-        body: JSON.stringify({ ...item })
+        body: formData
     })
     if (res.ok) {
         const item = await res.json();
@@ -75,9 +87,19 @@ export const postNewItemThunk = item => async dispatch => {
 
 // UPDATE NEW ITEM
 export const updateNewItemThunk = (itemId, _item) => async dispatch => {
+    const formData = new FormData();
+    formData.append('name', _item.name);
+    formData.append('brand', _item.brand);
+    formData.append('description', _item.description);
+    formData.append('instrumentType', _item.instrumentType);
+    formData.append('year', _item.year);
+    formData.append('condition', _item.condition);
+    formData.append('price', _item.price);
+    formData.append('image', _item.previewImage);
+
     const res = await csrfFetch(`/api/items/${itemId}`, {
         method: 'PUT',
-        body: JSON.stringify({ ..._item })
+        body: formData
     })
     if (res.ok) {
         const item = await res.json();
@@ -198,9 +220,14 @@ const createNewImageAction = image => {
 }
 
 export const postNewImageThunk = (itemId, image) => async dispatch => {
+
+    const formData = new FormData();
+
+    formData.append("image", image);
+
     const res = await csrfFetch(`/api/items/${itemId}/images`, {
         method: 'POST',
-        body: JSON.stringify({ url: image })
+        body: formData
     })
     if (res.ok) {
         const image = await res.json();

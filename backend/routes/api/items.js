@@ -1,12 +1,36 @@
 const express = require('express');
 const { User, Item, ItemImage, ProductReview, Cart } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
-
+const { multipleFilesUpload, multipleMulterUpload, retrievePrivateFile, singleFileUpload, singleMulterUpload } = require("../../aws");
 const router = express.Router();
+const { Op } = require('sequelize');
+
 
 // Get all items
 router.get('/', async (req, res) => {
+
+    const { name } = req.query;
+    const where = {};
+
+    if (name) {
+        if (process.env.NODE_ENV === 'production') {
+            where[Op.or] = [{ name: { [Op.iLike]: `%${name}%` } },
+            { name: { [Op.iLike]: `%${name}%` } },
+            { brand: { [Op.iLike]: `%${name}%` } },
+            { instrumentType: { [Op.iLike]: `%${name}%` } },
+            { condition: { [Op.iLike]: `%${name}%` } }
+            ]
+        } else {
+            where[Op.or] = [{ name: { [Op.substring]: name } },
+            { name: { [Op.substring]: name } },
+            { brand: { [Op.substring]: name } },
+            { instrumentType: { [Op.substring]: name } },
+            { condition: { [Op.substring]: name } }]
+        }
+    }
+
     const data = await Item.findAll({
+        where,
         include: [{ model: ProductReview }]
     })
 
@@ -19,16 +43,19 @@ router.get('/:itemId', async (req, res) => {
     const data = await Item.findByPk(req.params.itemId, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
     });
+    const item = data.toJSON();
+    console.log("ITEM BACKEND -------------> ", item)
+    // item.ItemImages = item.ItemImages.map(image => retrievePrivateFile(image))
 
-    res.json(data);
+    res.json(item);
 })
 
 // Create Item Listing
-
-
-router.post('/', requireAuth, async (req, res) => {
-    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+router.post('/', singleMulterUpload('image'), requireAuth, async (req, res) => {
+    const { name, brand, price, description, instrumentType, year, condition } = req.body;
     const { user } = req;
+
+    const key = await singleFileUpload({ file: req.file, public: true });
 
     const newItem = await Item.create({
         ownerId: user.id,
@@ -39,7 +66,7 @@ router.post('/', requireAuth, async (req, res) => {
         instrumentType,
         year,
         condition,
-        previewImage
+        previewImage: key
     });
     const data = await Item.findByPk(newItem.id, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
@@ -49,7 +76,7 @@ router.post('/', requireAuth, async (req, res) => {
 })
 
 // Update an Item
-router.put('/:itemId', requireAuth, async (req, res) => {
+router.put('/:itemId', singleMulterUpload('image'), requireAuth, async (req, res) => {
     const item = await Item.findByPk(req.params.itemId);
 
     if (!item) return res.status(404).json({ message: 'Item could not be found' });
@@ -57,15 +84,24 @@ router.put('/:itemId', requireAuth, async (req, res) => {
     const { user } = req;
     if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
 
-    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+    const { name, brand, price, description, instrumentType, year, condition } = req.body;
+
+    const key = await singleFileUpload({ file: req.file, public: true });
 
     const newItem = await item.update({
-        name, brand, price, description, instrumentType, year, condition, previewImage
+        name,
+        brand,
+        price,
+        description,
+        instrumentType,
+        year,
+        condition,
+        previewImage: key
     })
     const data = await Item.findByPk(newItem.id, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
     });
-    
+
     return res.json(data);
 });
 
@@ -109,17 +145,21 @@ router.post('/:itemId/reviews', requireAuth, async (req, res) => {
 // =============================== ITEM IMAGES =============================== //
 
 
-router.post('/:itemId/images', requireAuth, async (req, res) => {
-    const { url } = req.body;
+router.post('/:itemId/images', singleMulterUpload('image'), requireAuth, async (req, res) => {
+
     const item = await Item.findByPk(req.params.itemId);
     if (!item) return res.status(404).json({ message: "Item could not be found" });
     const { user } = req;
 
     if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
 
+    const key = await singleFileUpload({ file: req.file, public: true });
+    console.log("key / FILE ----------------------->", key, req.file)
+
+
     const newImage = await item.createItemImage({
         itemId: item.id,
-        url
+        url: key
     })
 
     res.status(201).json(newImage)

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { deleteItemThunk, fetchSingleItemThunk } from "../../store/item";
+import { fetchSingleItemThunk } from "../../store/item";
 import { useHistory, useParams } from "react-router";
 import "./ItemDetails.css"
 import ItemReviews from "../ItemReviews";
@@ -48,6 +48,7 @@ const ItemDetails = () => {
     const removeFromCart = async (cartItemId) => {
         dispatch(deleteCartItemThunk(cartItemId));
     }
+    console.log("ITEM IMAGES ----------------> ", itemImages)
 
     return (
         <div id="item-details-page-container-wrapper">
@@ -69,7 +70,6 @@ const ItemDetails = () => {
                                         className={imageIndex === index ? "fas fa-circle" : "far fa-circle"}
                                         onClick={() => setImageIndex(index)}
                                     ></i>
-                                    // <i class="far fa-circle"></i>
                                 ))}
                                 <button
                                     className="item-image-change-button"

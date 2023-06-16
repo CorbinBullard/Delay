@@ -10,7 +10,7 @@ const HomePage = () => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(fetchAllItemsThunk());
+        dispatch(fetchAllItemsThunk(null));
         if (user) dispatch(fetchCartItemsThunk());
     }, [dispatch, user])
 
