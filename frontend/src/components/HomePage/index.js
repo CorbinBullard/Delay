@@ -11,12 +11,12 @@ const HomePage = () => {
 
     const {
         name,
-        instrumentType,
         minPrice,
         maxPrice,
         brand,
         condition,
         year,
+        instrumentType,
         setInstrumentType,
         setName,
         setMinPrice,
@@ -38,7 +38,13 @@ const HomePage = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchAllItemsThunk());
+        dispatch(fetchAllItemsThunk(name,
+            minPrice,
+            maxPrice,
+            brand,
+            condition,
+            year,
+            instrumentType,));
         if (user) dispatch(fetchCartItemsThunk());
     }, [dispatch, user, name])
 
@@ -50,7 +56,7 @@ const HomePage = () => {
     //     setItems(Object.values(_items))
     // }
 
-    if (!items.length) return null
+    // if (!items.length) return null
 
     return (
         <div id="home-page-container">
@@ -96,11 +102,20 @@ const HomePage = () => {
                     }}>X</button></div>
                 )} */}
             </div>
-            <div id='home-page-all-items'>
-                {items.map((item) => (
-                    <ItemCard key={item.id} item={item} />
-                ))}
-            </div>
+            {items.length ?
+
+                (<div id='home-page-all-items'>
+                    {items.map((item) => (
+                        <ItemCard key={item.id} item={item} />
+                    ))}
+                </div>)
+                :
+                (<div id="no-results">
+                    <img src="https://media.sweetwater.com/api/i/f-webp__ha-9ced74217ac8a73c__hmac-0476eb5d2ab94209b4b48c78cc2c64555b5fdf9f/cart/case.png"/>
+                    <h2>{`"${name}" does not match any listing...`}</h2>
+                    <p>Please remove your search parameters and try again</p>
+                </div>)
+            }
         </div>
     )
 }

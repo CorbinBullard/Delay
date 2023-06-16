@@ -15,9 +15,24 @@ export function FiltersProvider({ children }) {
     const [instrumentType, setInstrumentType] = useState('');
 
     useEffect(() => {
-        dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
-    }, [minPrice, maxPrice, brand, condition, year, name, instrumentType])
+        // dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
+        fetchItems();
+    }, [minPrice, maxPrice, brand, condition, year, name, instrumentType]);
+    const fetchItems = async () => {
+        const items = await dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
+        
+    }
+    function resetFilters() {
+        setName('')
+        setMinPrice('')
+        setMaxPrice('')
+        setBrand('')
+        setCondition('')
+        setInstrumentType('')
+        setYear('')
+    }
     const values = {
+        resetFilters,
         instrumentType,
         name,
         minPrice,
@@ -35,6 +50,7 @@ export function FiltersProvider({ children }) {
     }
 
 
+
     return (
         <>
             <FiltersContext.Provider value={values}>
@@ -43,4 +59,5 @@ export function FiltersProvider({ children }) {
         </>
     )
 }
+
 export const useFilters = () => useContext(FiltersContext);

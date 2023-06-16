@@ -36,7 +36,8 @@ export const fetchAllItemsThunk = (name, minPrice, maxPrice, brand, condition, y
 
     if (res.ok) {
         const items = await res.json();
-        dispatch(loadItemsAction(items))
+        const result = await dispatch(loadItemsAction(items))
+        return result;
     } else {
         const errors = res.errors;
         return errors;
