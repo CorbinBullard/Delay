@@ -1,3 +1,4 @@
+import { useFilters } from "../context/Filters";
 import { csrfFetch } from "./csrf";
 import { deepCopy } from "./deepCopy";
 const LOAD_ITEMS = 'items/loadItems';
@@ -19,14 +20,24 @@ const loadItemsAction = (items) => {
 }
 
 
-export const fetchAllItemsThunk = (name) => async dispatch => {
+export const fetchAllItemsThunk = (name, minPrice, maxPrice, brand, condition, year, instrumentType) => async dispatch => {
+    let resStr = '';
+    if (name) resStr += `name=${name}&`;
+    if (minPrice) resStr += `minPrice=${minPrice}&`;
+    if (maxPrice) resStr += `maxPrice=${maxPrice}&`;
+    if (brand) resStr += `brand=${brand}&`;
+    if (condition) resStr += `condition=${condition}&`;
+    if (year) resStr += `year=${year}`;
+    if (instrumentType) resStr += `instrumentType=${instrumentType}`;
 
-    const res = await csrfFetch(`/api/items${name ? '?name=' + name : ''}`);
+
+    const res = await csrfFetch(`/api/items?${resStr}`);
 
 
     if (res.ok) {
         const items = await res.json();
-        dispatch(loadItemsAction(items))
+        const result = await dispatch(loadItemsAction(items))
+        return result;
     } else {
         const errors = res.errors;
         return errors;

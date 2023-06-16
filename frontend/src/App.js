@@ -11,6 +11,7 @@ import ManageListings from "./components/ManageListings";
 import Footer from "./components/Footer";
 import Cart from "./components/Cart";
 import { fetchCartItemsThunk, resetCart } from "./store/cart";
+import FiltersNav from "./components/SearchBar/FiltersNav";
 
 function App() {
   const dispatch = useDispatch();
