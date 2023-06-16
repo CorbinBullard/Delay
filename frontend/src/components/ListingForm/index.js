@@ -25,7 +25,8 @@ const ListingForm = ({ isUpdating }) => {
     const [year, setYear] = useState(isUpdating ? item.year : "");
     const [condition, setCondition] = useState(isUpdating ? item.condition : "");
     const [previewImage, setpreviewImage] = useState(isUpdating ? item.previewImage : "");
-
+    const [changePreview, setChangePreview] = useState(false)
+    const lastPreviewImage = useSelector(state => state.items.currentItem.previewImage);
     // NON PREVIEW IMAGES vv
     const [imageArr, setImageArr] = useState(isUpdating ? item.ItemImages : []);
     const [newActiveImage, setNewActiveImage] = useState("");
@@ -74,7 +75,7 @@ const ListingForm = ({ isUpdating }) => {
         if (year && year > currentYear) errorsObj.year = "Year cannot be greater than current year";
         if (year && isNaN(+year)) errorsObj.year = "Year must be a number";
         if (!previewImage) errorsObj.previewImage = "A preview Image of your Item is required";
-        if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
+        // if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
 
         // NON PREVIEW IMAGES
         // if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
@@ -111,11 +112,11 @@ const ListingForm = ({ isUpdating }) => {
             previewImage // This will be the first image uploaded
         }
         if (!isUpdating) {
-            const item = await dispatch(postNewItemThunk(newItem))
-            postImages(item.id)
+            const item = await dispatch(postNewItemThunk(newItem));
+            postImages(item.id);
             return history.push(`/items/${item.id}`);
         } else {
-            const item = await dispatch(updateNewItemThunk(itemId, newItem))
+            const item = await dispatch(updateNewItemThunk(itemId, newItem));
             return history.push(`/items/${itemId}`);
         }
     }
@@ -167,7 +168,7 @@ const ListingForm = ({ isUpdating }) => {
             dispatch(deleteImageThunk(imageId))
             setImageArr(imageArr.filter(image => image.id !== imageId))
         } else {
-            console.log("IMAGE INDEX : ", imageId)
+
             const newImageArr = [];
             imageArr.forEach((image, index) => {
                 if (index !== imageId) newImageArr.push(image);
@@ -273,11 +274,27 @@ const ListingForm = ({ isUpdating }) => {
                 </div>
                 <div className="input-component">
                     <label>Preview Image</label>
-                    <input
-                        type="text"
-                        value={previewImage}
-                        onChange={e => setpreviewImage(e.target.value)}
-                    ></input>
+                    {!isUpdating ?
+                        (<input
+                            type="file"
+                            // value={previewImage}
+                            onChange={e => setpreviewImage(e.target.files[0])}
+                            accept=".jpg, .jpeg, .png"
+                        ></input>) :
+                        (!changePreview ?
+                            (<>
+                                <img src={previewImage} style={{ borderRadius: "10px" }} />
+                                <button onClick={() => {
+                                    setChangePreview(true);
+                                    setpreviewImage('')
+                                }}>Change Preview Image</button>
+                            </>) :
+                            (<input
+                                type="file"
+                                // value={previewImage}
+                                onChange={e => setpreviewImage(e.target.files[0])}
+                                accept=".jpg, .jpeg, .png"
+                            ></input>))}
                     {submittedWithErrors && errors.previewImage &&
                         <p className="errors">{errors.previewImage}</p>
                     }

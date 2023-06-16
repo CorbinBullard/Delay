@@ -51,9 +51,11 @@ router.get('/:itemId', async (req, res) => {
 })
 
 // Create Item Listing
-router.post('/', requireAuth, async (req, res) => {
-    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+router.post('/', singleMulterUpload('image'), requireAuth, async (req, res) => {
+    const { name, brand, price, description, instrumentType, year, condition } = req.body;
     const { user } = req;
+
+    const key = await singleFileUpload({ file: req.file, public: true });
 
     const newItem = await Item.create({
         ownerId: user.id,
@@ -64,7 +66,7 @@ router.post('/', requireAuth, async (req, res) => {
         instrumentType,
         year,
         condition,
-        previewImage
+        previewImage: key
     });
     const data = await Item.findByPk(newItem.id, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
@@ -74,7 +76,7 @@ router.post('/', requireAuth, async (req, res) => {
 })
 
 // Update an Item
-router.put('/:itemId', requireAuth, async (req, res) => {
+router.put('/:itemId', singleMulterUpload('image'), requireAuth, async (req, res) => {
     const item = await Item.findByPk(req.params.itemId);
 
     if (!item) return res.status(404).json({ message: 'Item could not be found' });
@@ -82,10 +84,19 @@ router.put('/:itemId', requireAuth, async (req, res) => {
     const { user } = req;
     if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
 
-    const { name, brand, price, description, instrumentType, year, condition, previewImage } = req.body;
+    const { name, brand, price, description, instrumentType, year, condition } = req.body;
+
+    const key = await singleFileUpload({ file: req.file, public: true });
 
     const newItem = await item.update({
-        name, brand, price, description, instrumentType, year, condition, previewImage
+        name,
+        brand,
+        price,
+        description,
+        instrumentType,
+        year,
+        condition,
+        previewImage: key
     })
     const data = await Item.findByPk(newItem.id, {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
