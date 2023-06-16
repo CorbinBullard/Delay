@@ -12,6 +12,7 @@ import Footer from "./components/Footer";
 import Cart from "./components/Cart";
 import { fetchCartItemsThunk, resetCart } from "./store/cart";
 import FiltersNav from "./components/SearchBar/FiltersNav";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,10 @@ function App() {
 
             <Route path={"/items/:itemId"}>
               <ItemDetails />
+            </Route>
+
+            <Route path='/'>
+              <PageNotFound />
             </Route>
           </Switch>
         </div>
