@@ -15,13 +15,12 @@ export function FiltersProvider({ children }) {
     const [instrumentType, setInstrumentType] = useState('');
 
     useEffect(() => {
-        // dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
-        fetchItems();
+        dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType));
     }, [minPrice, maxPrice, brand, condition, year, name, instrumentType]);
-    const fetchItems = async () => {
-        const items = await dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
-        
-    }
+    // const fetchItems = async () => {
+    //     const items = await dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year, instrumentType))
+
+    // }
     function resetFilters() {
         setName('')
         setMinPrice('')
