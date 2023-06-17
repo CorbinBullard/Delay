@@ -31,11 +31,13 @@
     margin-right: 20px;
     cursor: pointer;
 }
+
 #logged-out-container {
     display: flex;
     gap: 15px;
     margin-right: 20px;
 }
+
 #logged-out-container li {
     font-weight: bold;
     border: 1px solid black;
@@ -105,21 +107,31 @@
     font-size: xx-large;
     color: rgb(20, 108, 148);
     cursor: pointer;
+    display: flex;
+    position: relative;
 }
+
 /* .fa-shopping-cart {
     font-size: xx-large;
 } */
 #cart-length {
     text-align: center;
+    background-color: rgb(25, 167, 206);
+    width: 21px;
+    height: 21px;
 
-    font-size: 22px;
+    font-size: 15px;
     /* width: 25px; */
     /* height: 25px; */
     /* border: 2px solid rgb(0, 0, 0); */
     /* background-color: rgb(25, 167, 206); */
     border-radius: 50px;
-    color:rgb(246, 241, 241);
+    color: rgb(246, 241, 241);
     position: absolute;
-    top: 0px;
-    right: 239px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    top: -2vh;
+    right: .1vh;
 }
