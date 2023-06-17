@@ -18,15 +18,12 @@ router.get('/', async (req, res) => {
             where[Op.or] = [
                 { name: { [Op.iLike]: `%${name}%` } },
                 { brand: { [Op.iLike]: `%${name}%` } },
-                { instrumentType: { [Op.iLike]: `%${name}%` } },
-                { condition: { [Op.iLike]: `%${name}%` } }
             ]
         } else {
             where[Op.or] = [
                 { name: { [Op.substring]: name } },
                 { brand: { [Op.substring]: name } },
-                { instrumentType: { [Op.substring]: name } },
-                { condition: { [Op.substring]: name } }]
+            ]
         }
     }
 
@@ -48,6 +45,8 @@ router.get('/', async (req, res) => {
     if (instrumentType) where.instrumentType = instrumentType;
     if (condition) where.condition = condition
     if (year) where.year = year;
+
+
 
 
     const data = await Item.findAll({
