@@ -109,6 +109,7 @@
     cursor: pointer;
     display: flex;
     position: relative;
+    align-items: center;
 }
 
 /* .fa-shopping-cart {
@@ -132,6 +133,27 @@
     justify-content: center;
     align-items: center;
 
-    top: -2vh;
+    top: -1.5vh;
+    right: .1vh;
+}
+#cart-length-hidden {
+    text-align: center;
+    /* background-color: rgb(25, 167, 206); */
+    width: 21px;
+    height: 21px;
+
+    font-size: 15px;
+    /* width: 25px; */
+    /* height: 25px; */
+    /* border: 2px solid rgb(0, 0, 0); */
+    /* background-color: rgb(25, 167, 206); */
+    border-radius: 50px;
+    color: rgb(246, 241, 241);
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    top: -1.5vh;
     right: .1vh;
 }
