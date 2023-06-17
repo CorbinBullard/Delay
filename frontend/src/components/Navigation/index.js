@@ -42,7 +42,6 @@ function Navigation({ isLoaded }) {
                         {location.pathname === '/' && <li>
                             <SearchBar />
                         </li>}
-
                         <li id='navigation-profile-store'>
                             {sessionUser &&
                                 <>
@@ -65,7 +64,6 @@ function Navigation({ isLoaded }) {
                             <ProfileButton user={sessionUser} />
                         </li>
                     </>
-
                 )}
             </ul>
 

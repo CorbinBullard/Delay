@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchAllItemsThunk } from "../../store/item";
 import "./SearchBar.css"
@@ -9,7 +9,7 @@ import { useFilters } from "../../context/Filters";
 const SearchBar = () => {
     const dispatch = useDispatch();
     const [activeName, setActiveName] = useState('')
-
+    const [selected, setSelected] = useState(false);
     const {
         name,
         minPrice,
@@ -25,6 +25,10 @@ const SearchBar = () => {
         setYear
     } = useFilters();
 
+    const handleKeyDown = e => {
+        if (e.key === 'Enter') submitSearch();
+    }
+
 
     const submitSearch = () => {
         // dispatch(fetchAllItemsThunk(name, minPrice, maxPrice, brand, condition, year));
@@ -37,9 +41,9 @@ const SearchBar = () => {
                 <input type="text"
                     value={activeName}
                     onChange={e => setActiveName(e.target.value)}
-                // onSelect={() => setSelected(true)}
-                // onBlur={() => setSelected(false)}
-                // onKeyDown={handleKeyDown}
+                    // onSelect={() => setSelected(true)}
+                    // onBlur={() => setSelected(false)}
+                    onKeyDown={handleKeyDown}
                 />
                 <i id="search-icon" className="fas fa-search" onClick={submitSearch}></i>
             </div>
