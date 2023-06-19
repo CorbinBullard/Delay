@@ -58,6 +58,8 @@ const HomePage = () => {
 
     // if (!items.length) return null
 
+    console.log("MIN PRICE : ", minPrice)
+
     return (
         <div id="home-page-container">
             <div id="filters-container">
@@ -66,7 +68,7 @@ const HomePage = () => {
                         onClick={() => setName('')}
                     >{name} X</div>
                 )}
-                {minPrice && (
+                {minPrice && minPrice > 0 && (
                     <div className="current-filter-container"
                         onClick={() => setMinPrice('')}
                     >Min Price: {minPrice} X</div>

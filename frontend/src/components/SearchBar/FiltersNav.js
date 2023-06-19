@@ -40,10 +40,10 @@ const FiltersNav = () => {
     }, []);
 
     useEffect(() => {
-        if (_minPrice < 0) _setMinPrice(0);
-        if (_maxPrice < 0) _setMaxPrice(0);
+        if (_minPrice <= 0) _setMinPrice('');
+        if (_maxPrice <= 0) _setMaxPrice('');
         if (_year < 0) _setYear(0);
-    })
+    }, [_minPrice, _maxPrice, _year])
 
 
     const handleSubmit = e => {
