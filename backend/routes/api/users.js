@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User, Item, ProductReview, Cart } = require('../../db/models');
 
 const router = express.Router();
 
@@ -51,4 +51,33 @@ router.post(
         });
     }
 );
+
+router.get('/my-listings', requireAuth, async (req, res) => {
+    const { user } = req;
+
+    if (!user) return res.status(403).json({ message: 'No Logged In User' });
+
+    const data = await Item.findAll({
+        where: { ownerId: user.id },
+        include: [{ model: ProductReview }]
+    });
+
+    res.json(data);
+})
+
+// Cart
+
+router.get('/cart', requireAuth, async (req, res) => {
+    const { user } = req;
+
+    if (!user) return res.status(403).json({ message: 'No Logged In User' });
+
+    const cartItems = await Cart.findAll({
+        where: { userId: user.id },
+        include: [{ model: Item }]
+    });
+    res.json(cartItems);
+})
+
+
 module.exports = router;

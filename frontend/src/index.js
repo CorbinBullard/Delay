@@ -2,7 +2,7 @@ import React from 'react';
 
 import './index.css';
 
-import {createRoot} from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { restoreCSRF, csrfFetch } from './store/csrf.js';
@@ -11,6 +11,7 @@ import configureStore from './store';
 import { ModalProvider, Modal } from './context/Modal';
 
 import * as sessionActions from "./store/session";
+import { FiltersProvider } from './context/Filters';
 
 const store = configureStore();
 
@@ -24,14 +25,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 function Root() {
   return (
-    <ModalProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-          <Modal />
-        </BrowserRouter>
-      </Provider>
-    </ModalProvider>
+    <Provider store={store}>
+      <FiltersProvider>
+        <ModalProvider>
+          <BrowserRouter>
+            <App />
+            <Modal />
+          </BrowserRouter>
+        </ModalProvider>
+      </FiltersProvider>
+    </Provider>
   );
 }
 

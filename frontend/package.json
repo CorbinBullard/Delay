@@ -3,9 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "boto3": "^0.0.1",
+    "dotenv": "^16.0.3",
+    "formik": "^2.2.9",
     "js-cookie": "^3.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -39,5 +46,5 @@
   "devDependencies": {
     "redux-logger": "^3.0.6"
   },
-    "proxy": "http://localhost:8000"
+  "proxy": "http://localhost:8000"
 }

@@ -1,3 +1,4 @@
+import { resetCart } from "./cart";
 import { csrfFetch } from "./csrf";
 
 const SET_USER = "session/setUser";
@@ -49,9 +50,14 @@ export const signup = (user) => async (dispatch) => {
             password,
         }),
     });
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return response;
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(setUser(data.user));
+        return response;
+    } else {
+        const errors = response.errors;
+        return errors;
+    }
 };
 
 export const logout = () => async (dispatch) => {
@@ -59,6 +65,7 @@ export const logout = () => async (dispatch) => {
         method: 'DELETE',
     });
     dispatch(removeUser());
+    dispatch(resetCart())
     return response;
 };
 
