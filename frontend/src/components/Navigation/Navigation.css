@@ -51,20 +51,7 @@
 
 }
 
-.profile-dropdown {
-    position: absolute;
-    right: 30px;
-    top: 120px;
-    border: 1px solid black;
-    width: 1858x;
-    padding: 20px;
-    list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    border-radius: 10px;
-    background-color: rgb(175, 211, 226);
-}
+
 
 #navigation-profile-store {
     display: flex;

@@ -6,6 +6,7 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import SubmitButton from "../FormComponents/SubmitButton";
 
 function ProfileButton({ user }) {
   const location = useLocation();
@@ -13,11 +14,9 @@ function ProfileButton({ user }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
-  const isEditting =
+  const isEditing =
     location.pathname.split("/")[location.pathname.split("/").length - 1] ===
     "edit";
-
-  console.log(isEditting);
 
   const openMenu = () => {
     if (showMenu) return;
@@ -57,34 +56,35 @@ function ProfileButton({ user }) {
       {user ? (
         <>
           <button id="navigation-profile-button" onClick={openMenu}>
-            <i className="fas fa-user-circle" />
+            <i className="fas fa-user-circle text-sky-800 hover:text-sky-900" />
           </button>
-          <ul className={ulClassName} ref={ulRef}>
-            {
-              <>
-                <li>{user.username}</li>
-                <li>
-                  {user.firstName} {user.lastName}
-                </li>
-                <li>{user.email}</li>
-                {!isEditting && (
+          {showMenu && (
+            <ul
+              className="absolute right-5 top-20 border-sky-800 bg-sky-50 flex flex-col gap-2 p-4 rounded-md"
+              ref={ulRef}
+            >
+              {
+                <>
+                  <li>{user.username}</li>
                   <li>
-                    <NavLink
-                      id="navigation-create-new-listing"
-                      to={"/items/new"}
-                    >
-                      Create a New Listing
-                    </NavLink>
+                    {user.firstName} {user.lastName}
                   </li>
-                )}
-                <li>
-                  <button id="navigation-logout-button" onClick={logout}>
-                    Log Out
-                  </button>
-                </li>
-              </>
-            }
-          </ul>
+                  <li>{user.email}</li>
+                  {!isEditing && (
+                    <li>
+                      <NavLink
+                        id="navigation-create-new-listing"
+                        to={"/items/new"}
+                      >
+                        Create a New Listing
+                      </NavLink>
+                    </li>
+                  )}
+                  <SubmitButton buttonText={"Logout"} onClick={logout} />
+                </>
+              }
+            </ul>
+          )}
         </>
       ) : (
         <div id="logged-out-container">
