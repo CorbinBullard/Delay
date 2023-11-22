@@ -48,7 +48,7 @@ function Navigation({ isLoaded }) {
                                     <button
                                         id='navigation-my-cart-button'
                                         onClick={() => history.push('/cart')}>
-                                    <i className={"fas fa-shopping-cart"}><p id={`${cartLength ? 'cart-length' : 'cart-length-hidden'}`} >{cartLength ? cartLength : ""}</p></i>
+                                        <i className={"fas fa-shopping-cart"}><p id={`${cartLength ? 'cart-length' : 'cart-length-hidden'}`} >{cartLength ? cartLength : ""}</p></i>
                                         {/* {cartLength > 0 &&
                                         <p id='cart-length'>{cartLength}</p>
                                     } */}

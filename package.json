@@ -23,5 +23,11 @@
   "bugs": {
     "url": "https://github.com/CorbinBullard/Delay/issues"
   },
-  "homepage": "https://github.com/CorbinBullard/Delay#readme"
+  "homepage": "https://github.com/CorbinBullard/Delay#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "react-icons": "^4.12.0"
+  }
 }
