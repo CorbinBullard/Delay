@@ -46,7 +46,7 @@ const Image = ({ url, index, removeImage }) => {
   return (
     <div
       className={`w-40 h-40 rounded-xl relative cursor-pointer ${
-        index === 0 ? "border-sky-500 border-2" : ""
+        index === 0 ? "border-sky-500 border-4 bg-sky-500 rounded-lg" : ""
       }`}
       onClick={() => removeImage(index)}
     >
@@ -54,6 +54,7 @@ const Image = ({ url, index, removeImage }) => {
       <img
         src={url}
         className="absolute w-full h-full object-cover rounded-xl"
+        alt="user uploaded item"
       />
     </div>
   );
@@ -61,33 +62,31 @@ const Image = ({ url, index, removeImage }) => {
 
 export default function ImageHandling({
   className,
-  itemImages,
-  setItemImages,
-  preview,
-  isUpdating,
+  images,
+  setImages
 }) {
-  const [images, setImages] = useState(isUpdating ? [...itemImages] : []);
 
-  console.log("IMAGES in Handler: ", images);
+    const [imageURLArray, setImageURLArray] = useState([...images])
 
   function addImages(files) {
     const imageFiles = Object.values(files).map((file) =>
       URL.createObjectURL(file)
     );
     // console.log("IMAGE FILES: ", imageFiles);
-    setImages([...images, ...imageFiles]);
+    setImages([...images, ...Object.values(files)]);
+    setImageURLArray([...images, ...imageFiles]);
   }
 
   function removeImage(index) {
-    // console.log("INDEX: ", index);
     const newImages = [...images];
     newImages.splice(index, 1);
+    imageURLArray.splice(index, 1);
     setImages(newImages);
   }
 
   return (
     <div className={`flex gap-4 ${className}`}>
-      {images.map((key, index) => (
+      {imageURLArray.map((key, index) => (
         <Image key={index} url={key} removeImage={removeImage} index={index} />
       ))}
       {images.length < 5 && <AddImage addImages={addImages} />}

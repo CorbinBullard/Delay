@@ -48,13 +48,10 @@ const ListingForm = ({ isUpdating }) => {
     // previewImage: "file",
   };
 
-  const lastPreviewImage = useSelector(
-    (state) => state.items.currentItem.previewImage
-  );
   // NON PREVIEW IMAGES vv
   console.log("Item: ", item);
   const [images, setImages] = useState([]);
-  const [newActiveImage, setNewActiveImage] = useState("");
+
   // NON PREVIEW IMAGES ^^
 
   const [errors, setErrors] = useState({});
@@ -111,28 +108,22 @@ const ListingForm = ({ isUpdating }) => {
       errorsObj.year = "Year cannot be greater than current year";
     if (formData.year && isNaN(+formData.year))
       errorsObj.year = "Year must be a number";
-    if (!formData.previewImage)
-      errorsObj.previewImage = "A preview Image of your Item is required";
-    setErrors(errorsObj);
-  }, [formData]);
+    if (!images.length) errorsObj.previewImage = "A preview Image of your Item is required";
 
-  const isValidUrl = (url) => {
-    const imageFormatTypes = ["jpg", "jpeg", "png"];
-    const urlArr = url.split(".");
-    if (imageFormatTypes.includes(urlArr[urlArr.length - 1])) return true;
-    else {
-      return false;
-    }
-  };
+    setErrors(errorsObj);
+  }, [formData, images]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (Object.values(errors).length) {
+      console.log("Errors: ", errors, images);
       setSubmittedWithErrors(true);
       return;
     }
     const newItem = {
-      ...formData, // This will be the first image uploaded
+      ...formData,
+      previewImage: images[0], // This will be the first image uploaded
     };
     if (!isUpdating) {
       const item = await dispatch(postNewItemThunk(newItem));
@@ -147,7 +138,7 @@ const ListingForm = ({ isUpdating }) => {
   async function postImages(itemId) {
     // Change this to upload first image as preview image
     if (images.length) {
-      for (let i = 0; i < images.length; i++) {
+      for (let i = 1; i < images.length; i++) {
         await dispatch(postNewImageThunk(itemId, images[i]));
       }
     }
@@ -169,40 +160,6 @@ const ListingForm = ({ isUpdating }) => {
     { value: "good", label: "Good" },
     { value: "poor", label: "Poor" },
   ];
-  // NON PREVIEW IMAGES
-
-  // const addImage = async () => {
-  //   if (images?.length >= 5)
-  //     return alert("Item cannot have more than 5 images");
-  //   if (newActiveImage) {
-  //     if (isUpdating) {
-  //       const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
-  //       setImages([...images, image]);
-
-  //       setNewActiveImage("");
-  //     } else {
-  //       // console.log("Active Image : ", newActiveImage);
-  //       setImages([...images, newActiveImage]);
-  //       setNewActiveImage("");
-  //     }
-  //   }
-  // };
-
-  // const removeImage = (imageId) => {
-  //   if (isUpdating) {
-  //     dispatch(deleteImageThunk(imageId));
-  //     setImages(images.filter((image) => image.id !== imageId));
-  //   } else {
-  //     const newImageArr = [];
-  //     images.forEach((image, index) => {
-  //       if (index !== imageId) newImageArr.push(image);
-  //     });
-  //     setImages(newImageArr);
-  //     // setImageArr(imageArr.filter(image => image.id !== imageId));
-  //   }
-  // };
-
-  //   console.log("Form Data: ", formData)
 
   if (isUpdating && !item) {
     return null;
@@ -244,9 +201,11 @@ const ListingForm = ({ isUpdating }) => {
           className="self-center"
           itemImages={images}
           isUpdating={isUpdating}
+          images={images}
+          setImages={setImages}
         />
         <SubmitButton
-          className={"w-[35%] self-center"}
+          className="w-[35%] self-center"
           buttonText={isUpdating ? "Update Listing" : "Create Listing"}
           type={"submit"}
         />
