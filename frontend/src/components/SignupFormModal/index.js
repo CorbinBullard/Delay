@@ -71,7 +71,7 @@ const SignUpFormPage = () => {
     const newUser = await dispatch(sessionActions.signup(formData)).catch(
       async (errors) => {
         const res = await errors.json();
-        console.log(res);
+        // console.log(res);
         if (res.errors.email)
           setDbErrors({ email: "Email is already being used" });
         if (res.errors.username)

@@ -304,12 +304,12 @@ const itemReducer = (state = initialState, action) => {
       newState = deepCopy(state);
       newState.currentItem.ProductReviews =
         state.currentItem.ProductReviews.map((review) => {
-          console.log("REVIEW ID, ACTION ID : ", review.id, action.review.id);
+        //   console.log("REVIEW ID, ACTION ID : ", review.id, action.review.id);
           if (review.id === action.review.id) {
-            console.log("TRUE");
+            // console.log("TRUE");
             return action.review;
           } else {
-            console.log("FALSE");
+            // console.log("FALSE");
             return review;
           }
         });

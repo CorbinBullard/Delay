@@ -48,7 +48,7 @@ const ItemDetails = () => {
     const removeFromCart = async (cartItemId) => {
         dispatch(deleteCartItemThunk(cartItemId));
     }
-    console.log("ITEM IMAGES ----------------> ", itemImages)
+    // console.log("ITEM IMAGES ----------------> ", itemImages)
 
     return (
         <div id="item-details-page-container-wrapper">

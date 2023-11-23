@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 
     const { name, minPrice, maxPrice, brand, condition, instrumentType, year } = req.query;
     const where = {};
-    console.log("BRAND ------------------------------> : ", req.query)
+    // console.log("BRAND ------------------------------> : ", req.query)
 
     if (name) {
         if (process.env.NODE_ENV === 'production') {
@@ -64,7 +64,7 @@ router.get('/:itemId', async (req, res) => {
         include: [{ model: ProductReview, include: { model: User } }, { model: ItemImage }, { model: User }]
     });
     const item = data.toJSON();
-    console.log("ITEM BACKEND -------------> ", item)
+    // console.log("ITEM BACKEND -------------> ", item)
     // item.ItemImages = item.ItemImages.map(image => retrievePrivateFile(image))
 
     res.json(item);
@@ -174,7 +174,7 @@ router.post('/:itemId/images', singleMulterUpload('image'), requireAuth, async (
     if (item.ownerId !== user.id) return res.status(403).json({ message: "Forbidden" });
 
     const key = await singleFileUpload({ file: req.file, public: true });
-    console.log("key / FILE ----------------------->", key, req.file)
+    // console.log("key / FILE ----------------------->", key, req.file)
 
 
     const newImage = await item.createItemImage({

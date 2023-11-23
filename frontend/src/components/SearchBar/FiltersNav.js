@@ -17,7 +17,7 @@ const FiltersNav = () => {
     year:  filters.year,
     instrumentType: filters.instrumentType,
   });
-  console.log(filters);
+//   console.log(filters);
 
   const { closeModal } = useModal();
   // console.log("FORM DA/TA : ", filterData);
@@ -42,7 +42,7 @@ const FiltersNav = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("FORM DATA : ", formData);
+    // console.log("FORM DATA : ", formData);
     setFilters({...formData});
     setValues();
     closeModal();
@@ -65,7 +65,7 @@ const FiltersNav = () => {
     { value: "good", label: "Good" },
     { value: "poor", label: "Poor" },
   ];
-  console.log("FILTERS : ", filters);
+//   console.log("FILTERS : ", filters);
   return (
     <div>
       <form onSubmit={handleSubmit} id="filters-form">

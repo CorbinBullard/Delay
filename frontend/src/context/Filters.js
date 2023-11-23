@@ -18,7 +18,6 @@ export function FiltersProvider({ children }) {
   });
 
   useEffect(() => {
-    console.log("FILTERS THUNK : ", filters)
     dispatch(fetchAllItemsThunk(filters));
   }, [filters]);
 

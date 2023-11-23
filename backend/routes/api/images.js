@@ -12,7 +12,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     const { user } = req;
     if (image.Item.ownerId !== user.id) return res.status(403).json({message: 'Forbidden'});
 
-    console.log(image.toJSON())
+    // console.log(image.toJSON())
     await image.destroy();
 
     res.status(201).json({message: 'Successfully deleted'})

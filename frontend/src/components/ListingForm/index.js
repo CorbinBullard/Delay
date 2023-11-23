@@ -67,7 +67,7 @@ const ListingForm = ({ isUpdating }) => {
 
   async function fetchAndSet() {
     const item = await dispatch(fetchSingleItemThunk(params.itemId));
-    console.log(item);
+    // console.log(item);
     formData.setName(item.name);
     formData.setBrand(item.brand);
     formData.setPrice(item.price);
@@ -176,7 +176,7 @@ const ListingForm = ({ isUpdating }) => {
 
         setNewActiveImage("");
       } else {
-        console.log("Active Image : ", newActiveImage);
+        // console.log("Active Image : ", newActiveImage);
         setImageArr([...imageArr, newActiveImage]);
         setNewActiveImage("");
       }
@@ -197,7 +197,7 @@ const ListingForm = ({ isUpdating }) => {
     }
   };
 
-  console.log("Form Data: ", formData)
+//   console.log("Form Data: ", formData)
 
   if (isUpdating && !item) {
     return null;
