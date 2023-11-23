@@ -13,6 +13,7 @@ import { useHistory, useParams } from "react-router";
 import { fetchSingleItemThunk } from "../../store/item";
 import InputField from "../FormComponents/InputField";
 import Title from "../FormComponents/Title";
+import SubmitButton from "../FormComponents/SubmitButton";
 
 const ListingForm = ({ isUpdating }) => {
   const params = useParams();
@@ -204,9 +205,9 @@ const ListingForm = ({ isUpdating }) => {
   if (!user) return <Redirect to="/" />;
 
   return (
-    <div id="listing-form-page-container" className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 align-middle justify-center">
       <Title title={isUpdating ? "Update Listing" : "Tell us about your instrument"} />
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-3 w-[35%] m-auto" onSubmit={handleSubmit}>
         {Object.keys(formData).map((key) => (
           <InputField
             type={formDataTypes[key]}
@@ -311,9 +312,7 @@ const ListingForm = ({ isUpdating }) => {
             ))}
           </>
         }
-        <button type="submit" id="list-form-submit-button">
-          {isUpdating ? "Update Listing" : "Create Listing"}
-        </button>
+        <SubmitButton buttonText={isUpdating ? "Update Listing" : "Create Listing"} type={"submit"} />
       </form>
     </div>
   );

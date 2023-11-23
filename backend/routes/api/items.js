@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 
     const { name, minPrice, maxPrice, brand, condition, instrumentType, year } = req.query;
     const where = {};
-    console.log("BRAND ------------------------------> : ", brand)
+    console.log("BRAND ------------------------------> : ", req.query)
 
     if (name) {
         if (process.env.NODE_ENV === 'production') {

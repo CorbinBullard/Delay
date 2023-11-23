@@ -3,138 +3,90 @@ import { useFilters } from "../../context/Filters";
 import { useDispatch } from "react-redux";
 import { fetchAllItemsThunk } from "../../store/item";
 import { useModal } from "../../context/Modal";
+import InputField from "../FormComponents/InputField";
+import SubmitButton from "../FormComponents/SubmitButton";
 const FiltersNav = () => {
-    const dispatch = useDispatch();
-    const {
-        name,
-        minPrice,
-        maxPrice,
-        brand,
-        condition,
-        year,
-        setName,
-        instrumentType,
-        setMinPrice,
-        setMaxPrice,
-        setBrand,
-        setCondition,
-        setYear,
-        setInstrumentType
-    } = useFilters();
+  const dispatch = useDispatch();
+  const { setFilters, filters } = useFilters();
+  const [formData, setFormData] = useState({
+    name: filters.name,
+    minPrice: filters.minPrice,
+    maxPrice: filters.maxPrice,
+    brand: filters.brand,
+    condition: filters.condition,
+    year:  filters.year,
+    instrumentType: filters.instrumentType,
+  });
+  console.log(filters);
 
-    const { closeModal } = useModal();
-    const [_minPrice, _setMinPrice] = useState(minPrice);
-    const [_maxPrice, _setMaxPrice] = useState(maxPrice);
-    const [_brand, _setBrand] = useState(brand);
-    const [_condition, _setCondition] = useState(condition);
-    const [_year, _setYear] = useState(year);
-    const [_instrumentType, _setInstrumentType] = useState(instrumentType)
+  const { closeModal } = useModal();
+  // console.log("FORM DA/TA : ", filterData);
 
-    useEffect(() => {
-        _setMinPrice(minPrice);
-        _setMaxPrice(maxPrice);
-        _setBrand(brand);
-        _setCondition(condition);
-        _setYear(year);
-        _setInstrumentType(instrumentType)
-    }, []);
+  const filterTypes = {
+    name: "text",
+    minPrice: "number",
+    maxPrice: "number",
+    brand: "text",
+    condition: "select",
+    year: "number",
+    instrumentType: "select",
+  };
 
-    useEffect(() => {
-        if (_minPrice <= 0) _setMinPrice('');
-        if (_maxPrice <= 0) _setMaxPrice('');
-        if (_year < 0) _setYear(0);
-    }, [_minPrice, _maxPrice, _year])
+  useEffect(() => {}, []);
 
+  //   useEffect(() => {
+  //     if (_minPrice <= 0) _setMinPrice("");
+  //     if (_maxPrice <= 0) _setMaxPrice("");
+  //     if (_year < 0) _setYear(0);
+  //   }, [_minPrice, _maxPrice, _year]);
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        setValues()
-        closeModal()
-    }
-    const setValues = async () => {
-        setMinPrice(_minPrice);
-        setMaxPrice(_maxPrice);
-        setBrand(_brand);
-        setCondition(_condition);
-        setYear(_year)
-        setInstrumentType(_instrumentType)
-    }
-    // console.log(
-    //     minPrice,
-    //     maxPrice,
-    //     brand,
-    //     condition,
-    //     year,
-    //     setMinPrice,
-    //     setMaxPrice,
-    //     setBrand,
-    //     setCondition,
-    //     setYear)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("FORM DATA : ", formData);
+    setFilters({...formData});
+    setValues();
+    closeModal();
+  };
+  const setValues = async () => {};
 
-    const instrumentTypeOptions = [
-        { value: "", label: 'Select an Instrument Type' },
-        { value: 'guitar', label: 'Guitar' },
-        { value: 'bass', label: 'Bass' },
-        { value: 'drum', label: 'Drum' },
-        { value: 'keyboard', label: 'Keyboard' },
-        { value: 'other', label: 'Other' }
-    ]
+  const instrumentTypeOptions = [
+    { value: "", label: "Select an Instrument Type" },
+    { value: "guitar", label: "Guitar" },
+    { value: "bass", label: "Bass" },
+    { value: "drum", label: "Drum" },
+    { value: "keyboard", label: "Keyboard" },
+    { value: "other", label: "Other" },
+  ];
 
-    const conditionOptions = [
-        { value: "", label: 'Select a condition' },
-        { value: 'new', label: 'New' },
-        { value: 'excellent', label: 'Excellent' },
-        { value: 'good', label: 'Good' },
-        { value: 'poor', label: 'Poor' }
-    ]
-
-    return (
-        <div>
-            <form onSubmit={handleSubmit} id="filters-form">
-                <label>Minimum Price</label>
-                <input
-                    type="number"
-                    value={_minPrice}
-                    onChange={e => _setMinPrice(e.target.value)}
-                />
-                <label>Maximum Price</label>
-                <input
-                    type="number"
-                    value={_maxPrice}
-                    onChange={e => _setMaxPrice(e.target.value)}
-                />
-                <label>Instrument Type</label>
-                <select
-                    type="select"
-                    value={_instrumentType}
-                    onChange={e => _setInstrumentType(e.target.value)}>
-                    {instrumentTypeOptions.map(option => (
-                        <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                </select>
-                <label>Brand</label>
-                <input
-                    value={_brand}
-                    onChange={e => _setBrand(e.target.value)}
-                />
-                <label>Condition</label>
-                <select
-                    value={_condition}
-                    onChange={e => _setCondition(e.target.value)}>
-                    {conditionOptions.map(option => (
-                        <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                </select>
-                <label>Year</label>
-                <input
-                    type="number"
-                    value={_year}
-                    onChange={e => _setYear(e.target.value)}
-                />
-
-                <button>Apply</button>
-            </form>
-        </div>
-    )
-}
+  const conditionOptions = [
+    { value: "", label: "Select a condition" },
+    { value: "new", label: "New" },
+    { value: "excellent", label: "Excellent" },
+    { value: "good", label: "Good" },
+    { value: "poor", label: "Poor" },
+  ];
+  console.log("FILTERS : ", filters);
+  return (
+    <div>
+      <form onSubmit={handleSubmit} id="filters-form">
+        {Object.keys(filters).map((key) => (
+          <InputField
+            type={filterTypes[key]}
+            label={key.charAt(0).toUpperCase() + key.slice(1)}
+            value={formData[key]}
+            onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
+            options={
+              filterTypes[key] !== "select"
+                ? null
+                : key === "instrumentType"
+                ? instrumentTypeOptions
+                : conditionOptions
+            }
+          />
+        ))}
+        <SubmitButton buttonText={"Apply Filters"} type={"submit"} />
+      </form>
+    </div>
+  );
+};
 export default FiltersNav;
