@@ -8,12 +8,10 @@ import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 const { useState, useEffect } = require("react");
 const { useDispatch, useSelector } = require("react-redux");
 
-
 const HomePage = () => {
   const user = useSelector((state) => state.session.user);
 
   const { filters, setFilters } = useFilters();
-
 
   const dispatch = useDispatch();
 
@@ -30,7 +28,8 @@ const HomePage = () => {
                   setFilters({ ...filters, [key]: "" });
                 }}
               >
-                {key}: {filters[key]} <MdOutlineRemoveCircleOutline />
+                {key.charAt(0).toUpperCase() + key.slice(1)}: {filters[key].charAt(0).toUpperCase() + filters[key].slice(1)}{" "}
+                <MdOutlineRemoveCircleOutline />
               </span>
             )
         )}
