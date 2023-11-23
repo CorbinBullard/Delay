@@ -21,23 +21,24 @@ const SearchBar = () => {
     setActiveName("");
   };
   return (
-    <div id="search-page-container">
-      <div id="search-name-container">
+    <div className="flex gap-4">
+      <div className="bg-white min-w-[35vw] flex border-gray-700 rounded-md">
         <input
+        className="text-lg border-none w-[100%] rounded-md focus:outline-none pl-3"
           type="text"
           value={activeName}
           onChange={(e) => setActiveName(e.target.value)}
           onKeyDown={handleKeyDown}
         />
         <i
-          id="search-icon"
-          className="fas fa-search"
+          className="fas fa-search text-xl text-gray-700 hover:text-gray-900 cursor-pointer self-center pr-3"
           onClick={submitSearch}
         ></i>
       </div>
       <OpenModalButton
         buttonText={<i class="fas fa-sliders-h"></i>}
         modalComponent={<FiltersNav />}
+        className="bg-sky-500 rounded-md p-1 hover:bg-sky-600 text-zinc-100 shadow-sm w-12 text-xl"
       />
     </div>
   );

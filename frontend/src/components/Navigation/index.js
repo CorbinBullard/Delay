@@ -26,49 +26,72 @@ function Navigation({ isLoaded }) {
     } = useFilters();
 
     return (
-        <div id='navigation-page-container'>
-            <ul>
-                <li >
-                    <NavLink id='navigation-home-button' exact to="/"
-                        onClick={() => dispatch(fetchAllItemsThunk(name, minPrice,
-                            maxPrice,
-                            brand,
-                            condition,
-                            year,
-                            instrumentType))}><i className="fab fa-dyalog"></i>elay</NavLink>
+      <div id="navigation-page-container">
+        <ul>
+          <li>
+            <NavLink
+              className="text-sky-800 pl-5"
+              id="navigation-home-button"
+              exact
+              to="/"
+              onClick={() =>
+                dispatch(
+                  fetchAllItemsThunk(
+                    name,
+                    minPrice,
+                    maxPrice,
+                    brand,
+                    condition,
+                    year,
+                    instrumentType
+                  )
+                )
+              }
+            >
+              <i className="fab fa-dyalog "></i>elay
+            </NavLink>
+          </li>
+          {isLoaded && (
+            <>
+              {location.pathname === "/" && (
+                <li>
+                  <SearchBar />
                 </li>
-                {isLoaded && (
-                    <>
-                        {location.pathname === '/' && <li>
-                            <SearchBar />
-                        </li>}
-                        <li id='navigation-profile-store'>
-                            {sessionUser &&
-                                <>
-                                    <button
-                                        id='navigation-my-cart-button'
-                                        onClick={() => history.push('/cart')}>
-                                        <i className={"fas fa-shopping-cart"}><p id={`${cartLength ? 'cart-length' : 'cart-length-hidden'}`} >{cartLength ? cartLength : ""}</p></i>
-                                        {/* {cartLength > 0 &&
+              )}
+              <li id="navigation-profile-store">
+                {sessionUser && (
+                  <>
+                    <button
+                      id="navigation-my-cart-button"
+                      onClick={() => history.push("/cart")}
+                    >
+                      <i className={"fas fa-shopping-cart"}>
+                        <p
+                          id={`${
+                            cartLength ? "cart-length" : "cart-length-hidden"
+                          }`}
+                        >
+                          {cartLength ? cartLength : ""}
+                        </p>
+                      </i>
+                      {/* {cartLength > 0 &&
                                         <p id='cart-length'>{cartLength}</p>
                                     } */}
-                                    </button>
-                                    <button
-                                        id='navigation-my-store-button'
-                                        onClick={() => history.push('/managelistings')}
-                                    >
-                                        My Store
-                                    </button>
-                                </>
-                            }
-                            <ProfileButton user={sessionUser} />
-                        </li>
-                    </>
+                    </button>
+                    <button
+                      id="navigation-my-store-button"
+                      onClick={() => history.push("/managelistings")}
+                    >
+                      My Store
+                    </button>
+                  </>
                 )}
-            </ul>
-
-
-        </div>
+                <ProfileButton user={sessionUser} />
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
     );
 }
 

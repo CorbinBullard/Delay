@@ -14,6 +14,8 @@ import { fetchSingleItemThunk } from "../../store/item";
 import InputField from "../FormComponents/InputField";
 import Title from "../FormComponents/Title";
 import SubmitButton from "../FormComponents/SubmitButton";
+import ImageHandling from "./ImageHandling";
+import Loader from "../Loader";
 
 const ListingForm = ({ isUpdating }) => {
   const params = useParams();
@@ -23,7 +25,7 @@ const ListingForm = ({ isUpdating }) => {
 
   const item = useSelector((state) => state.items.currentItem);
   const itemId = item?.id;
-  const [changePreview, setChangePreview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -33,7 +35,6 @@ const ListingForm = ({ isUpdating }) => {
     instrumentType: "",
     year: "",
     condition: "",
-    // previewImage: "",
   });
 
   const formDataTypes = {
@@ -51,7 +52,8 @@ const ListingForm = ({ isUpdating }) => {
     (state) => state.items.currentItem.previewImage
   );
   // NON PREVIEW IMAGES vv
-  const [imageArr, setImageArr] = useState(isUpdating ? item.ItemImages : []);
+  console.log("Item: ", item);
+  const [images, setImages] = useState([]);
   const [newActiveImage, setNewActiveImage] = useState("");
   // NON PREVIEW IMAGES ^^
 
@@ -62,23 +64,31 @@ const ListingForm = ({ isUpdating }) => {
 
   // This will repopulate fields on refresh
   useEffect(() => {
-    if (isUpdating) fetchAndSet();
-  }, [dispatch, user]);
+    if (isUpdating) {
+      setIsLoading(true);
+      fetchAndSet().then(() => setIsLoading(false));
+    }
+  }, [dispatch, isUpdating, user]);
 
   async function fetchAndSet() {
     const item = await dispatch(fetchSingleItemThunk(params.itemId));
-    // console.log(item);
-    formData.setName(item.name);
-    formData.setBrand(item.brand);
-    formData.setPrice(item.price);
-    formData.setDescription(item.description);
-    formData.setInstrumentType(item.instrumentType);
-    formData.setYear(item.year);
-    formData.setCondition(item.condition);
-    formData.setpreviewImage(item.previewImage);
-    formData.setImageArr(item.ItemImages);
+    setFormData({
+      ...formData,
+      name: item.name,
+      brand: item.brand,
+      price: item.price,
+      description: item.description,
+      instrumentType: item.instrumentType,
+      year: item.year,
+      condition: item.condition,
+    });
+    // console.log("Item SETTING : ", item);
+    setImages([
+      item.previewImage,
+      ...item.ItemImages.map((image) => image.url),
+    ]);
   }
-
+  console.log("Images: ", images);
   useEffect(() => {
     const errorsObj = {};
     if (!formData.name) errorsObj.name = "Item name is required";
@@ -103,11 +113,6 @@ const ListingForm = ({ isUpdating }) => {
       errorsObj.year = "Year must be a number";
     if (!formData.previewImage)
       errorsObj.previewImage = "A preview Image of your Item is required";
-    // if (previewImage && !isValidUrl(previewImage)) errorsObj.previewImage = "Image URL must end in .png, .jpg or .jpeg";
-
-    // NON PREVIEW IMAGES
-    // if (newActiveImage && !isValidUrl(newActiveImage)) errorsObj.newActiveImage = "Image URL must end in .png, .jpg or .jpeg";
-
     setErrors(errorsObj);
   }, [formData]);
 
@@ -141,9 +146,9 @@ const ListingForm = ({ isUpdating }) => {
 
   async function postImages(itemId) {
     // Change this to upload first image as preview image
-    if (imageArr.length) {
-      for (let i = 0; i < imageArr.length; i++) {
-        await dispatch(postNewImageThunk(itemId, imageArr[i]));
+    if (images.length) {
+      for (let i = 0; i < images.length; i++) {
+        await dispatch(postNewImageThunk(itemId, images[i]));
       }
     }
   }
@@ -166,153 +171,85 @@ const ListingForm = ({ isUpdating }) => {
   ];
   // NON PREVIEW IMAGES
 
-  const addImage = async () => {
-    if (imageArr?.length >= 5)
-      return alert("Item cannot have more than 5 images");
-    if (newActiveImage) {
-      if (isUpdating) {
-        const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
-        setImageArr([...imageArr, image]);
+  // const addImage = async () => {
+  //   if (images?.length >= 5)
+  //     return alert("Item cannot have more than 5 images");
+  //   if (newActiveImage) {
+  //     if (isUpdating) {
+  //       const image = await dispatch(postNewImageThunk(itemId, newActiveImage));
+  //       setImages([...images, image]);
 
-        setNewActiveImage("");
-      } else {
-        // console.log("Active Image : ", newActiveImage);
-        setImageArr([...imageArr, newActiveImage]);
-        setNewActiveImage("");
-      }
-    }
-  };
+  //       setNewActiveImage("");
+  //     } else {
+  //       // console.log("Active Image : ", newActiveImage);
+  //       setImages([...images, newActiveImage]);
+  //       setNewActiveImage("");
+  //     }
+  //   }
+  // };
 
-  const removeImage = (imageId) => {
-    if (isUpdating) {
-      dispatch(deleteImageThunk(imageId));
-      setImageArr(imageArr.filter((image) => image.id !== imageId));
-    } else {
-      const newImageArr = [];
-      imageArr.forEach((image, index) => {
-        if (index !== imageId) newImageArr.push(image);
-      });
-      setImageArr(newImageArr);
-      // setImageArr(imageArr.filter(image => image.id !== imageId));
-    }
-  };
+  // const removeImage = (imageId) => {
+  //   if (isUpdating) {
+  //     dispatch(deleteImageThunk(imageId));
+  //     setImages(images.filter((image) => image.id !== imageId));
+  //   } else {
+  //     const newImageArr = [];
+  //     images.forEach((image, index) => {
+  //       if (index !== imageId) newImageArr.push(image);
+  //     });
+  //     setImages(newImageArr);
+  //     // setImageArr(imageArr.filter(image => image.id !== imageId));
+  //   }
+  // };
 
-//   console.log("Form Data: ", formData)
+  //   console.log("Form Data: ", formData)
 
   if (isUpdating && !item) {
     return null;
   }
+  if (isLoading) return <Loader />;
   if (!user) return <Redirect to="/" />;
-
+  // console.log("Item: ", item);
   return (
     <div className="flex flex-col gap-3 align-middle justify-center">
-      <Title title={isUpdating ? "Update Listing" : "Tell us about your instrument"} />
-      <form className="flex flex-col gap-3 w-[35%] m-auto" onSubmit={handleSubmit}>
-        {Object.keys(formData).map((key) => (
-          <InputField
-            type={formDataTypes[key]}
-            label={key.charAt(0).toUpperCase() + key.slice(1)}
-            value={formData[key]}
-            onChange={(e) =>
-              setFormData({ ...formData, [key]: e.target.value })
-            }
-            required
-            error={submittedWithErrors && errors[key]}
-            options={
-              formDataTypes[key] !== "select"
-                ? null
-                : key === "instrumentType"
-                ? instrumentTypeOptions
-                : conditionOptions
-            }
-          />
-        ))}
-        <div className="input-component">
-          <label>Preview Image</label>
-          {!isUpdating ? (
-            <input
-              className="file-input"
-              type="file"
-              // value={previewImage}
+      <Title
+        title={isUpdating ? "Update Listing" : "Tell us about your instrument"}
+      />
+      <form
+        className="flex flex-col gap-3 align-middle justify-center"
+        onSubmit={handleSubmit}
+      >
+        <div className="w-[35%] self-center flex flex-col gap-3">
+          {Object.keys(formData).map((key) => (
+            <InputField
+              type={formDataTypes[key]}
+              label={key.charAt(0).toUpperCase() + key.slice(1)}
+              value={formData[key]}
               onChange={(e) =>
-                setFormData({ ...formData, previewImage: e.target.files[0] })
+                setFormData({ ...formData, [key]: e.target.value })
               }
-              accept=".jpg, .jpeg, .png"
-            ></input>
-          ) : !changePreview ? (
-            <>
-              <img
-                src={formData.previewImage}
-                style={{ borderRadius: "10px" }}
-              />
-              <button
-                onClick={() => {
-                  setChangePreview(true);
-                  setFormData({ ...formData, previewImage: "" });
-                }}
-                id="remove-preview-btn"
-              >
-                Change Preview Image
-              </button>
-            </>
-          ) : (
-            <input
-              className="file-input"
-              type="file"
-              // value={previewImage}
-              onChange={(e) =>
-                setFormData({ ...formData, previewImage: e.target.files[0] })
+              required
+              error={submittedWithErrors && errors[key]}
+              options={
+                formDataTypes[key] !== "select"
+                  ? null
+                  : key === "instrumentType"
+                  ? instrumentTypeOptions
+                  : conditionOptions
               }
-              accept=".jpg, .jpeg, .png"
-            ></input>
-          )}
-          {submittedWithErrors && errors.previewImage && (
-            <p className="errors">{errors.previewImage}</p>
-          )}
+            />
+          ))}
         </div>
-        {/* NON PREVIEW IMAGES!!!!!!!!!!!! */}
-        {
-          <>
-            <div className="input-component">
-              <label>Add Image (Optional)</label>
-              <div id="item-listing-add-image-input-container">
-                <input
-                  className="file-input"
-                  type="file"
-                  accept=".jpg, .jpeg, .png"
-                  onChange={(e) => setNewActiveImage(e.target.files[0])}
-                ></input>
-                <button
-                  id="item-listing-add-image-button"
-                  type="button"
-                  onClick={addImage}
-                >
-                  Add Image
-                </button>
-              </div>
-              {newActiveImage && errors.newActiveImage && (
-                <p className="errors">{errors.newActiveImage}</p>
-              )}
-            </div>
-            {imageArr?.map((image, index) => (
-              <div className="item-listing-add-remove-image-container">
-                <p>{isUpdating ? image.url : image.name}</p>
-                {/* <img src={isUpdating ? image.url : image}
-                                className="item-listing-remove-image-image"/> */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (isUpdating) removeImage(image.id);
-                    else removeImage(index);
-                  }}
-                >
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            ))}
-          </>
-        }
-        <SubmitButton buttonText={isUpdating ? "Update Listing" : "Create Listing"} type={"submit"} />
+        <ImageHandling
+          className="self-center"
+          itemImages={images}
+          isUpdating={isUpdating}
+        />
+        <SubmitButton
+          className={"w-[35%] self-center"}
+          buttonText={isUpdating ? "Update Listing" : "Create Listing"}
+          type={"submit"}
+        />
       </form>
     </div>
   );

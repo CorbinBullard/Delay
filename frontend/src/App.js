@@ -13,34 +13,35 @@ import Cart from "./components/Cart";
 import { fetchCartItemsThunk, resetCart } from "./store/cart";
 import FiltersNav from "./components/SearchBar/FiltersNav";
 import PageNotFound from "./components/PageNotFound";
+import ImageHandling from "./components/ListingForm/ImageHandling";
+import Loader from "./components/Loader";
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.session.user);
+  const user = useSelector((state) => state.session.user);
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
 
     if (user) dispatch(fetchCartItemsThunk());
     else dispatch(resetCart());
-
   }, [dispatch]);
 
   return (
     <div id="all-pages-container">
       <Navigation isLoaded={isLoaded} />
-      {isLoaded &&
+      {isLoaded && (
         <div id="all-pages-content-container">
           <Switch>
-            <Route exact path='/'>
+            <Route exact path="/">
               <HomePage />
             </Route>
 
-            <Route path={'/managelistings'}>
+            <Route path={"/managelistings"}>
               <ManageListings />
             </Route>
 
-            <Route exact path={'/cart'}>
+            <Route exact path={"/cart"}>
               <Cart />
             </Route>
 
@@ -56,12 +57,12 @@ function App() {
               <ItemDetails />
             </Route>
 
-            <Route path='/'>
+            <Route path="/">
               <PageNotFound />
             </Route>
           </Switch>
         </div>
-      }
+      )}
       <Footer />
     </div>
   );
