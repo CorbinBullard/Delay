@@ -13,8 +13,6 @@ const HomePage = () => {
 
   const { filters, setFilters } = useFilters();
 
-  const dispatch = useDispatch();
-
   const items = Object.values(useSelector((state) => state.items.allItems));
   return (
     <div id="home-page-container">
@@ -28,7 +26,8 @@ const HomePage = () => {
                   setFilters({ ...filters, [key]: "" });
                 }}
               >
-                {key.charAt(0).toUpperCase() + key.slice(1)}: {filters[key].charAt(0).toUpperCase() + filters[key].slice(1)}{" "}
+                {key.charAt(0).toUpperCase() + key.slice(1)}:{" "}
+                {filters[key].charAt(0).toUpperCase() + filters[key].slice(1)}{" "}
                 <MdOutlineRemoveCircleOutline />
               </span>
             )

@@ -99,6 +99,8 @@ export const postNewItemThunk = (item) => async (dispatch) => {
 
 // UPDATE NEW ITEM
 export const updateNewItemThunk = (itemId, _item) => async (dispatch) => {
+  console.log("ITEM: ", _item)
+
   const formData = new FormData();
   formData.append("name", _item.name);
   formData.append("brand", _item.brand);
@@ -214,7 +216,8 @@ export const fetchCurrentUserItemsThunk = () => async (dispatch) => {
 
   if (res.ok) {
     const items = await res.json();
-    dispatch(loadItemsAction(items));
+    await dispatch(loadItemsAction(items));
+    return items;
   } else {
     const errors = res.errors;
     return errors;

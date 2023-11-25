@@ -39,11 +39,7 @@ export function FiltersProvider({ children }) {
   };
 
   return (
-    <>
-      <FiltersContext.Provider value={values}>
-        {children}
-      </FiltersContext.Provider>
-    </>
+    <FiltersContext.Provider value={values}>{children}</FiltersContext.Provider>
   );
 }
 

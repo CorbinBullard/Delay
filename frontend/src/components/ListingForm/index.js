@@ -1,6 +1,6 @@
 import "./ListingForm.css";
 import { Redirect } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,6 +26,7 @@ const ListingForm = ({ isUpdating }) => {
   const item = useSelector((state) => state.items.currentItem);
   const itemId = item?.id;
   const [isLoading, setIsLoading] = useState(false);
+  const deletedImageIds = useRef([]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -49,7 +50,7 @@ const ListingForm = ({ isUpdating }) => {
   };
 
   // NON PREVIEW IMAGES vv
-  console.log("Item: ", item);
+  // console.log("Item: ", item);
   const [images, setImages] = useState([]);
 
   // NON PREVIEW IMAGES ^^
@@ -79,13 +80,10 @@ const ListingForm = ({ isUpdating }) => {
       year: item.year,
       condition: item.condition,
     });
-    // console.log("Item SETTING : ", item);
-    setImages([
-      item.previewImage,
-      ...item.ItemImages.map((image) => image.url),
-    ]);
+
+    setImages([item.previewImage, ...item.ItemImages.map((image) => image)]);
   }
-  console.log("Images: ", images);
+  // console.log("Images: ", images);
   useEffect(() => {
     const errorsObj = {};
     if (!formData.name) errorsObj.name = "Item name is required";
@@ -108,39 +106,54 @@ const ListingForm = ({ isUpdating }) => {
       errorsObj.year = "Year cannot be greater than current year";
     if (formData.year && isNaN(+formData.year))
       errorsObj.year = "Year must be a number";
-    if (!images.length) errorsObj.previewImage = "A preview Image of your Item is required";
+    if (!images.length)
+      errorsObj.previewImage = "A preview Image of your Item is required";
 
     setErrors(errorsObj);
   }, [formData, images]);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (Object.values(errors).length) {
-      console.log("Errors: ", errors, images);
+      // console.log("Errors: ", errors, images);
       setSubmittedWithErrors(true);
       return;
     }
     const newItem = {
       ...formData,
-      previewImage: images[0], // This will be the first image uploaded
     };
+    console.log("Images PREVIEW: ", images[0], item.previewImage)
+    if (images[0] !== item.previewImage) {
+      console.log("Images: ", images);
+      newItem.previewImage = images[0];
+    }
+    console.log("New Item: ", newItem)
     if (!isUpdating) {
       const item = await dispatch(postNewItemThunk(newItem));
       postImages(item.id);
       return history.push(`/items/${item.id}`);
     } else {
-      const item = await dispatch(updateNewItemThunk(itemId, newItem));
+      await dispatch(updateNewItemThunk(itemId, newItem));
+      await deleteImages(deletedImageIds.current);
+      await postImages(itemId);
       return history.push(`/items/${itemId}`);
     }
   };
-
+  console.log("Images: ", images);
   async function postImages(itemId) {
     // Change this to upload first image as preview image
     if (images.length) {
       for (let i = 1; i < images.length; i++) {
-        await dispatch(postNewImageThunk(itemId, images[i]));
+        const image = images[i];
+        console.log("Image: ", image.name)
+        if (!image.name) continue;
+        await dispatch(postNewImageThunk(itemId, image));
       }
+    }
+  }
+  async function deleteImages(imageIdArr) {
+    for (let i = 0; i < imageIdArr.length; i++) {
+      await dispatch(deleteImageThunk(imageIdArr[i]));
     }
   }
 
@@ -166,7 +179,7 @@ const ListingForm = ({ isUpdating }) => {
   }
   if (isLoading) return <Loader />;
   if (!user) return <Redirect to="/" />;
-  // console.log("Item: ", item);
+
   return (
     <div className="flex flex-col gap-3 align-middle justify-center">
       <Title
@@ -203,7 +216,13 @@ const ListingForm = ({ isUpdating }) => {
           isUpdating={isUpdating}
           images={images}
           setImages={setImages}
+          deletedImageIds={deletedImageIds}
         />
+        {submittedWithErrors && errors.previewImage && (
+          <p className="text-red-500 text-sm italic self-center">
+            {errors.previewImage}
+          </p>
+        )}
         <SubmitButton
           className="w-[35%] self-center"
           buttonText={isUpdating ? "Update Listing" : "Create Listing"}

@@ -63,24 +63,26 @@ const Image = ({ url, index, removeImage }) => {
 export default function ImageHandling({
   className,
   images,
-  setImages
+  setImages,
+  deletedImageIds
 }) {
+  const [imageURLArray, setImageURLArray] = useState([...images.map(image => typeof image === 'string' ? image : image.url)])
 
-    const [imageURLArray, setImageURLArray] = useState([...images])
-
+  // console.log(imageURLArray);
   function addImages(files) {
     const imageFiles = Object.values(files).map((file) =>
       URL.createObjectURL(file)
     );
-    // console.log("IMAGE FILES: ", imageFiles);
+
     setImages([...images, ...Object.values(files)]);
-    setImageURLArray([...images, ...imageFiles]);
+    setImageURLArray([...imageURLArray, ...imageFiles]);
   }
 
   function removeImage(index) {
     const newImages = [...images];
     newImages.splice(index, 1);
     imageURLArray.splice(index, 1);
+    if (images[index].id) deletedImageIds.current.push(images[index].id);
     setImages(newImages);
   }
 
@@ -89,7 +91,7 @@ export default function ImageHandling({
       {imageURLArray.map((key, index) => (
         <Image key={index} url={key} removeImage={removeImage} index={index} />
       ))}
-      {images.length < 5 && <AddImage addImages={addImages} />}
+      {images.length < 4 && <AddImage addImages={addImages} />}
     </div>
   );
 }

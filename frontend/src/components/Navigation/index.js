@@ -7,6 +7,7 @@ import SearchBar from '../SearchBar';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchAllItemsThunk } from '../../store/item';
 import { useFilters } from '../../context/Filters';
+import SubmitButton from '../FormComponents/SubmitButton';
 
 function Navigation({ isLoaded }) {
     const history = useHistory();
@@ -78,12 +79,11 @@ function Navigation({ isLoaded }) {
                                         <p id='cart-length'>{cartLength}</p>
                                     } */}
                     </button>
-                    <button
+                    <SubmitButton
                       id="navigation-my-store-button"
                       onClick={() => history.push("/managelistings")}
-                    >
-                      My Store
-                    </button>
+                      buttonText={"My Store"}
+                    />
                   </>
                 )}
                 <ProfileButton user={sessionUser} />
