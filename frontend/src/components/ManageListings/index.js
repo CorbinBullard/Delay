@@ -18,7 +18,7 @@ const ManageListings = () => {
 
   const deleteItem = (id) => {
     dispatch(deleteItemThunk(id)).then(() => closeModal());
-  }
+  };
 
   useEffect(() => {
     if (!user) {
@@ -30,7 +30,6 @@ const ManageListings = () => {
 
   async function fetchUserListings() {
     const items = await dispatch(fetchCurrentUserItemsThunk());
-    // setItemArr(items);
     setIsLoading(false);
   }
 

@@ -16,7 +16,7 @@ export default function ItemCardOwner({ item, handleDelete }) {
   return (
     <div className="flex gap-4 border p-4 rounded-xl">
       <img
-        className="w-40 h-40 object-cover rounded-lg"
+        className="w-[35%] h-[35%] object-cover rounded-lg"
         src={item.previewImage}
       />
       <div className="flex w-full justify-between">
