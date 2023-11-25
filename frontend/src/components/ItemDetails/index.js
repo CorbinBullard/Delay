@@ -98,9 +98,9 @@ const ItemDetails = () => {
                 />
               ))}
           </div>
-          {/* <p>{item.description}</p> */}
+
         </div>
-        <div id="item-reviews-container">
+        <div className="border-t pt-1 flex ml-12 mb-5">
           <ItemReviews
             reviews={item.ProductReviews}
             item={item}

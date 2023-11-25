@@ -1,103 +1,109 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { postNewReviewThunk, updateReviewThunk } from "../../store/item";
 import { useModal } from "../../context/Modal";
+import SubmitButton from "../FormComponents/SubmitButton";
+import Title from "../FormComponents/Title";
+import OpenModalButton from "../OpenModalButton";
+import ConfirmModal from "../FormComponents/ConfirmModal";
 
-const CreateReviewModal = ({ itemId, isUpdating, review }) => {
-    const { closeModal } = useModal();
-    const dispatch = useDispatch();
-    const [stars, setStars] = useState(isUpdating ? review.stars : 1);
-    const [activeRating, setActiveRating] = useState(isUpdating ? review.stars : 1)
-    const [_review, setReview] = useState(isUpdating ? review.review : "");
+const CreateReviewModal = ({ itemId, isUpdating, review, handleDelete }) => {
+  const { closeModal } = useModal();
+  const dispatch = useDispatch();
 
-    const [errors, setErrors] = useState({});
-    const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
+  const [reviewForm, setReviewForm] = useState({
+    stars: isUpdating ? review.stars : 1,
+    activeRating: isUpdating ? review.stars : 1,
+    _review: isUpdating ? review.review : "",
+    errors: {},
+    submittedWithErrors: false,
+  });
 
-    useEffect(() => {
-        const errorsObj = {}
-        if (stars > 5) setStars(5)
-        if (stars < 1) setStars(1)
-        if (_review.length < 10) errorsObj.review = "Review must be a minimum of 10 characters";
-        if (_review.length > 2000) errorsObj.review = "Review can only be up to 2000 characters long";
-        setErrors(errorsObj)
+  useEffect(() => {
+    const errorsObj = {};
+    if (reviewForm.stars > 5) setReviewForm((prev) => ({ ...prev, stars: 5 }));
+    if (reviewForm.stars < 1) setReviewForm((prev) => ({ ...prev, stars: 1 }));
+    if (reviewForm._review.length < 10)
+      errorsObj.review = "Review must be a minimum of 10 characters";
+    if (reviewForm._review.length > 2000)
+      errorsObj.review = "Review can only be up to 2000 characters long";
+    setReviewForm((prev) => ({ ...prev, errors: errorsObj }));
+  }, [reviewForm.stars, reviewForm._review]);
 
-    }, [stars, _review])
+  const handleStarClick = (rating) => {
+    setReviewForm((prev) => ({ ...prev, activeRating: rating, stars: rating }));
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { errors, stars, _review } = reviewForm;
 
-    const handleSubmit = e => {
-        e.preventDefault();
-        if (Object.values(errors).length) {
-            setSubmittedWithErrors(true)
-            return 
-        }
-
-        if (!isUpdating) {
-            dispatch(postNewReviewThunk(itemId, { stars, review: _review }))
-            closeModal()
-        } else {
-            dispatch(updateReviewThunk(review.id, { stars, review: _review }))
-            closeModal()
-        }
-
+    if (Object.values(errors).length) {
+      setReviewForm((prev) => ({ ...prev, submittedWithErrors: true }));
+      return;
     }
 
-    return (
-        <form
-            id="create-review-form"
-            onSubmit={handleSubmit}>
-            <label className="create-review-label">Your Rating</label>
-            <div id="review-feild-stars">
-                <div id="star-input-container">
-                    <div
-                        // `${review.stars >= 1 ? "fas fa-star" : "far fa-star"}`
-                        className={activeRating >= 1 ? "fas fa-star" : "far fa-star"}
-                        onMouseEnter={() => setActiveRating(1)}
-                        onMouseLeave={() => setActiveRating(stars)}
-                        onClick={() => setStars(1)}
-                    >
-                    </div>
-                    <div
-                        className={activeRating >= 2 ? "fas fa-star" : "far fa-star"}
-                        onMouseEnter={() => setActiveRating(2)}
-                        onMouseLeave={() => setActiveRating(stars)}
-                        onClick={() => setStars(2)}
-                    >
-                    </div>
-                    <div
-                        className={activeRating >= 3 ? "fas fa-star" : "far fa-star"}
-                        onMouseEnter={() => setActiveRating(3)}
-                        onMouseLeave={() => setActiveRating(stars)}
-                        onClick={() => setStars(3)}
-                    >
-                    </div>
-                    <div
-                        className={activeRating >= 4 ? "fas fa-star" : "far fa-star"}
-                        onMouseEnter={() => setActiveRating(4)}
-                        onMouseLeave={() => setActiveRating(stars)}
-                        onClick={() => setStars(4)}
-                    >
-                    </div>
-                    <div
-                        className={activeRating >= 5 ? "fas fa-star" : "far fa-star"}
-                        onMouseEnter={() => setActiveRating(5)}
-                        onMouseLeave={() => setActiveRating(stars)}
-                        onClick={() => setStars(5)}
-                    >
-                    </div>
-                </div>
-            </div>
-            <div id="review-field-review">
-                <label className="create-review-label">Review</label>
-                <textarea
-                    type="text"
-                    value={_review}
-                    onChange={e => setReview(e.target.value)}
-                />
-                {submittedWithErrors && errors.review &&
-                    <p className="errors">{errors.review}</p>}
-            </div>
-            <button>Submit</button>
-        </form>
-    )
-}
+    const reviewData = { stars, review: _review };
+
+    if (!isUpdating) {
+      dispatch(postNewReviewThunk(itemId, reviewData));
+    } else {
+      dispatch(updateReviewThunk(review.id, reviewData));
+    }
+
+    closeModal();
+  };
+
+  return (
+    <form className="flex flex-col items-center" onSubmit={handleSubmit}>
+      <Title title={"Your Rating"} className="mb-3" />
+      <div>
+        <div className="text-sky-500 flex gap-1 text-2xl cursor-pointer">
+          {Array.from({ length: 5 }, (_, index) => (
+            <div
+              key={index}
+              className={`${
+                reviewForm.activeRating >= index + 1
+                  ? "fas fa-star"
+                  : "far fa-star"
+              }`}
+              onMouseEnter={() => handleStarClick(index + 1)}
+              onMouseLeave={() => handleStarClick(reviewForm.stars)}
+              onClick={() => handleStarClick(index + 1)}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col items-center">
+        <label className="text-sky-700 font-semibold">Review</label>
+        <textarea
+          className="p-2 rounded-lg h-[15rem] w-96"
+          type="text"
+          value={reviewForm._review}
+          onChange={(e) =>
+            setReviewForm((prev) => ({ ...prev, _review: e.target.value }))
+          }
+        />
+        {reviewForm.submittedWithErrors && reviewForm.errors.review && (
+          <p className="errors">{reviewForm.errors.review}</p>
+        )}
+      </div>
+      <SubmitButton type="submit" buttonText="Submit" className="w-full mt-3" />
+      {isUpdating && (
+        <OpenModalButton
+          type="button"
+          modalComponent={
+            <ConfirmModal
+              action="Review Deletion"
+              confirm={() => handleDelete(review.id)}
+            />
+          }
+          className="mt-2 font-semibold hover:text-red-600"
+          buttonText={"Delete Review"}
+        />
+      )}
+    </form>
+  );
+};
+
 export default CreateReviewModal;
