@@ -42,7 +42,7 @@ const ItemDetails = () => {
         item.ProductReviews?.reduce((acc, curr) => {
           return (acc += curr.stars);
         }, 0) / item.ProductReviews?.length
-      ).toFixed(2)
+      ).toFixed(1)
     : "No Reviews";
 
   const itemImages = [item?.previewImage].concat(
@@ -60,7 +60,7 @@ const ItemDetails = () => {
   return (
     <div>
       <div>
-        <div className="flex gap-12 ml-12 mt-8 justify-center">
+        <div className="flex gap-12 ml-12 mt-8 justify-center mb-4">
           <ImageCarousel itemImages={itemImages} />
           <div className="flex flex-col w-[50rem] gap-3">
             <h2 className="text-3xl font-bold underline">{item.name}</h2>

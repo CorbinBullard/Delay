@@ -15,8 +15,8 @@ const HomePage = () => {
 
   const items = Object.values(useSelector((state) => state.items.allItems));
   return (
-    <div id="home-page-container">
-      <div id="filters-container">
+    <div className="flex justify-center flex-col items-center">
+      <div className="mt-4">
         {Object.keys(filters).map(
           (key) =>
             filters[key] && (
