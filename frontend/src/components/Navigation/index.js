@@ -52,17 +52,17 @@ function Navigation({ isLoaded }) {
                 <SearchBar />
               </li>
             )}
-            <li id="navigation-profile-store">
+            <li className="flex gap-5 ">
               {sessionUser && (
                 <>
                   <button
-                    id="navigation-my-cart-button"
+                    className="bg-none text-3xl text-sky-600 cursor-pointer flex relative items-center"
                     onClick={() => history.push("/cart")}
                   >
                     <div className="relative">
                       <i className="fas fa-shopping-cart">
                         <p
-                        className={`absolute top-1.5 right-2.5 text-white text-lg   rounded-2xl${""}`}
+                        className={`absolute top-0 right-2 text-white text-lg rounded-2xl${""}`}
                         >
                           {cartLength ? cartLength : ""}
                         </p>
@@ -73,7 +73,6 @@ function Navigation({ isLoaded }) {
                                     } */}
                   </button>
                   <SubmitButton
-                    id="navigation-my-store-button"
                     onClick={() => history.push("/managelistings")}
                     buttonText={"My Store"}
                   />

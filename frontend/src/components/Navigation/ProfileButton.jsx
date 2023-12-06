@@ -6,9 +6,10 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { FaGripLines } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 import SubmitButton from "../FormComponents/SubmitButton";
+import OpenModalButton from "../OpenModalButton";
 
 function ProfileButton({ user }) {
   const location = useLocation();
@@ -54,54 +55,62 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      {" "}
-      {user ? (
-        <>
-          <button className="text-3xl mr-12 bg-slate-200 w-20 rounded-3xl flex justify-center items-center gap-2 border-2 border-sky-900 hover:border-sky-500 group shadow-lg" onClick={openMenu}>
-            <FaGripLines className="text-2xl" />
-            <i className="fas fa-user-circle text-sky-800 group-hover:text-sky-500" />
-          </button>
-          {showMenu && (
-            <ul
-              className="absolute right-5 top-20 border-sky-500 bg-sky-50 flex flex-col gap-2 p-4 rounded-md border"
-              ref={ulRef}
-            >
-              {
-                <>
-                  <li className="font-bold underline text-xl">{user.username}</li>
-                  <li>
-                    {user.firstName} {user.lastName}
-                  </li>
-                  <li className="italic">{user.email}</li>
-                  {!isEditing && (
-                    <li>
-                      <NavLink
-                        className="text-sky-800 hover:text-sky-500 font-semibold"
-                        to={"/items/new"}
-                      >
-                        Create a New Listing
-                      </NavLink>
-                    </li>
-                  )}
-                  <SubmitButton buttonText={"Logout"} onClick={logout} />
-                </>
-              }
-            </ul>
+      <button
+        className="text-3xl mr-12 bg-slate-200 w-20 rounded-3xl flex justify-center items-center gap-2 border-2 border-sky-900 hover:border-sky-500 group shadow-lg h-12"
+        onClick={openMenu}
+      >
+        <RxHamburgerMenu className="text-2xl group-hover:text-sky-500" />
+        <i className="fas fa-user-circle text-sky-800 group-hover:text-sky-500" />
+      </button>
+      {showMenu && (
+        <ul
+          className="absolute right-5 top-20 border-sky-500 bg-sky-50 flex flex-col gap-2 p-4 rounded-md border"
+          ref={ulRef}
+        >
+          {user ? (
+            <>
+              <li className="font-bold underline text-xl">{user.username}</li>
+              <li>
+                {user.firstName} {user.lastName}
+              </li>
+              <li className="italic">{user.email}</li>
+              {!isEditing && (
+                <li>
+                  <NavLink
+                    className="text-sky-800 hover:text-sky-500 font-semibold"
+                    to={"/items/new"}
+                  >
+                    Create a New Listing
+                  </NavLink>
+                </li>
+              )}
+              <SubmitButton buttonText={"Logout"} onClick={logout} />
+            </>
+          ) : (
+            <>
+              <li>
+                <OpenModalButton
+                  buttonText={
+                    <SubmitButton buttonText={"Login"} className={"w-full"} />
+                  }
+                  onButtonClick={closeMenu}
+                  modalComponent={<LoginFormModal />}
+                  className={"w-full"}
+                />
+              </li>
+              <li>
+                <OpenModalButton
+                  buttonText={
+                    <SubmitButton buttonText={"Sign Up"} className={"w-full"} />
+                  }
+                  onButtonClick={closeMenu}
+                  modalComponent={<SignupFormModal />}
+                  className={"w-full"}
+                />
+              </li>
+            </>
           )}
-        </>
-      ) : (
-        <div id="logged-out-container">
-          <OpenModalMenuItem
-            itemText="Log In"
-            onItemClick={closeMenu}
-            modalComponent={<LoginFormModal />}
-          />
-          <OpenModalMenuItem
-            itemText="Sign Up"
-            onItemClick={closeMenu}
-            modalComponent={<SignupFormModal />}
-          />
-        </div>
+        </ul>
       )}
     </>
   );
