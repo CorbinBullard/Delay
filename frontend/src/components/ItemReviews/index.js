@@ -28,6 +28,7 @@ const ItemReviews = ({ item, reviews }) => {
     dispatch(deleteReviewThunk(id));
     closeModal();
   };
+  console.log(user, orderedReveiws)
 
   if (!reviews) return null;
 
@@ -54,7 +55,7 @@ const ItemReviews = ({ item, reviews }) => {
             handleDelete={handleDelete}
             key={review.id}
             review={review}
-            isUsers={review.User.id === user.id}
+            isUsers={review.User.id === user?.id}
           />
         ))}
       </div>
